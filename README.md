@@ -3,7 +3,7 @@
 This repository contains the source code for my personal portfolio website.
 The site showcases my work across **computer graphics, technical art, game development, XR, and production-focused engineering**, along with selected academic and personal projects.
 
-🔗 **Live Site:** *(add your deployed URL here)*
+🔗 **Live Site:** *(deployed URL here)*
 🔗 **GitHub:** (https://github.com/AlyBarr/) 
 🔗 **LinkedIn:** *(https://www.linkedin.com/in/alybarr/)*
 
