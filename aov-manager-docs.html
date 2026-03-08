@@ -1,0 +1,1493 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="AOV Manager — Houdini & Unreal Engine 5 render pass tool. Documentation by Alyssa Barrientos." />
+  <title>AOV Manager · AlyArtBar</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,600;0,700;1,300&family=Fira+Code:wght@400;500&family=DM+Sans:ital,wght@0,300;0,400;1,300&display=swap" rel="stylesheet" />
+
+<style>
+/* =============================================================
+   AlyArtBar Design System — Tokens
+   ============================================================= */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+img, svg { display: block; max-width: 100%; }
+
+:root {
+  --c-void:     #020810;
+  --c-abyss:    #060f1e;
+  --c-trench:   #0b1f36;
+  --c-depth:    #0f3050;
+  --c-current:  #1a5c72;
+  --c-thermal:  #1f8a7a;
+  --c-biolume:  #3dffd0;
+  --c-seafoam:  #7eeedd;
+  --c-nebula:   #a78bfa;
+  --c-star:     #e8f4f8;
+  --c-mist:     #8ab0c4;
+  --c-ghost:    #3d5a6a;
+  --c-amber:    #f0a050;
+  --c-scifi:    #bf5fff;
+  --c-paint:    #ffb347;
+
+  --font-display: 'Cormorant Garamond', Georgia, serif;
+  --font-mono:    'Fira Code', 'Courier New', monospace;
+  --font-body:    'DM Sans', system-ui, sans-serif;
+
+  --text-hero:    clamp(3rem, 8vw, 7rem);
+  --text-display: clamp(1.8rem, 4vw, 3rem);
+  --text-title:   clamp(1.1rem, 2vw, 1.5rem);
+  --text-body:    clamp(0.88rem, 1vw, 1rem);
+  --text-label:   0.7rem;
+  --text-micro:   0.62rem;
+
+  --space-xs:  0.5rem;
+  --space-sm:  1rem;
+  --space-md:  2rem;
+  --space-lg:  4rem;
+  --space-xl:  7rem;
+
+  --radius-sm: 3px;
+  --radius-md: 6px;
+
+  --ease-out:   cubic-bezier(0.16, 1, 0.3, 1);
+  --dur-micro:  180ms;
+  --dur-ui:     350ms;
+  --dur-reveal: 700ms;
+}
+
+/* =============================================================
+   BASE
+   ============================================================= */
+body {
+  background: var(--c-void);
+  color: var(--c-star);
+  font-family: var(--font-body);
+  font-weight: 300;
+  font-size: var(--text-body);
+  line-height: 1.75;
+  overflow-x: hidden;
+  cursor: none;
+}
+
+.grain {
+  position: fixed; inset: 0; z-index: 1;
+  pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 200px 200px;
+  opacity: 0.032;
+  mix-blend-mode: overlay;
+}
+
+#stars { position: fixed; inset: 0; z-index: 0; pointer-events: none; }
+
+#cursor-ring, #cursor-dot {
+  position: fixed; z-index: 9999;
+  border-radius: 50%;
+  pointer-events: none;
+  transform: translate(-50%, -50%);
+  transition: width var(--dur-micro), height var(--dur-micro);
+}
+#cursor-ring { width: 28px; height: 28px; border: 1px solid rgba(61,255,208,0.4); }
+#cursor-dot  { width: 6px; height: 6px; background: var(--c-biolume); box-shadow: 0 0 8px rgba(61,255,208,0.6); }
+#cursor-ring.hover { width: 44px; height: 44px; border-color: rgba(61,255,208,0.6); }
+
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: var(--c-abyss); }
+::-webkit-scrollbar-thumb { background: var(--c-depth); border-radius: 2px; }
+::-webkit-scrollbar-thumb:hover { background: var(--c-current); }
+::selection { background: rgba(61,255,208,0.2); color: var(--c-biolume); }
+
+/* =============================================================
+   NAV
+   ============================================================= */
+#site-nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  padding: 1.2rem 3rem;
+  transition: background var(--dur-ui), backdrop-filter var(--dur-ui);
+}
+#site-nav.scrolled {
+  background: rgba(2,8,16,0.88);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--c-depth);
+}
+.nav-inner { display: flex; align-items: center; justify-content: space-between; max-width: 1200px; margin: 0 auto; }
+.nav-brand { display: flex; align-items: baseline; gap: 0.6rem; text-decoration: none; }
+.brand-initials { font-family: var(--font-display); font-size: 1.4rem; font-weight: 700; color: var(--c-biolume); line-height: 1; }
+.brand-name { font-family: var(--font-mono); font-size: var(--text-label); letter-spacing: 0.25em; color: var(--c-mist); text-transform: uppercase; }
+.nav-links { display: flex; align-items: center; gap: 2.5rem; list-style: none; }
+.nav-links a {
+  font-family: var(--font-mono); font-size: var(--text-label);
+  letter-spacing: 0.15em; text-transform: uppercase;
+  color: var(--c-mist); text-decoration: none; position: relative;
+  transition: color var(--dur-micro); padding-bottom: 2px;
+}
+.nav-links a::after {
+  content: ''; position: absolute; bottom: -2px; left: 0; right: 0; height: 1px;
+  background: var(--c-biolume); transform: scaleX(0); transform-origin: left;
+  transition: transform var(--dur-ui) var(--ease-out);
+}
+.nav-links a:hover { color: var(--c-seafoam); }
+.nav-links a:hover::after { transform: scaleX(1); }
+.nav-back {
+  display: flex; align-items: center; gap: 0.5rem;
+  font-family: var(--font-mono); font-size: var(--text-label);
+  letter-spacing: 0.15em; text-transform: uppercase;
+  color: var(--c-ghost); text-decoration: none;
+  transition: color var(--dur-micro);
+}
+.nav-back:hover { color: var(--c-biolume); }
+.nav-back::before { content: '←'; }
+
+/* =============================================================
+   LAYOUT
+   ============================================================= */
+main { position: relative; z-index: 2; max-width: 1200px; margin: 0 auto; padding: 0 3rem; }
+.container { max-width: 900px; }
+.section { padding: var(--space-xl) 0; }
+
+.zone-div {
+  position: relative; height: 1px;
+  background: linear-gradient(to right, transparent, var(--c-depth), transparent);
+  margin: 0; z-index: 2;
+}
+.zone-div::after {
+  content: attr(data-depth);
+  position: absolute; right: 0; top: 50%; transform: translateY(-50%);
+  font-family: var(--font-mono); font-size: var(--text-micro);
+  letter-spacing: 0.2em; color: var(--c-ghost);
+  background: var(--c-void); padding-left: 1rem; text-transform: uppercase;
+}
+
+.reveal {
+  opacity: 0; clip-path: inset(0 0 30px 0);
+  transition: opacity var(--dur-reveal) var(--ease-out), clip-path var(--dur-reveal) var(--ease-out);
+}
+.reveal.visible { opacity: 1; clip-path: inset(0 0 0 0); }
+
+.eyebrow {
+  font-family: var(--font-mono); font-size: var(--text-label);
+  letter-spacing: 0.25em; text-transform: uppercase;
+  color: var(--c-biolume); margin-bottom: var(--space-xs);
+}
+.section-title {
+  font-family: var(--font-display); font-size: var(--text-display);
+  font-weight: 600; color: var(--c-star); line-height: 1.15; margin-bottom: var(--space-sm);
+}
+.section-rule { width: 60px; height: 1px; background: linear-gradient(to right, var(--c-biolume), transparent); margin-bottom: var(--space-md); }
+
+.tool-tag {
+  font-family: var(--font-mono); font-size: var(--text-micro);
+  letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--c-ghost); border: 1px solid var(--c-depth);
+  border-radius: var(--radius-sm); padding: 0.2rem 0.6rem; white-space: nowrap;
+  transition: border-color var(--dur-micro), color var(--dur-micro);
+}
+.tool-tag:hover { border-color: var(--c-current); color: var(--c-mist); }
+
+.btn {
+  display: inline-flex; align-items: center; justify-content: center;
+  padding: 0.75rem 2rem; font-family: var(--font-mono); font-size: var(--text-label);
+  letter-spacing: 0.15em; text-transform: uppercase;
+  text-decoration: none; border-radius: var(--radius-sm);
+  transition: all var(--dur-ui) var(--ease-out);
+  cursor: none; border: none; position: relative; overflow: hidden;
+}
+.btn-primary { background: linear-gradient(135deg, var(--c-current), var(--c-thermal)); color: var(--c-void); box-shadow: 0 0 20px rgba(31,138,122,0.25); }
+.btn-primary:hover { box-shadow: 0 0 30px rgba(61,255,208,0.35); transform: translateY(-2px); }
+.btn-ghost { background: transparent; color: var(--c-seafoam); border: 1px solid var(--c-depth); }
+.btn-ghost:hover { border-color: var(--c-biolume); color: var(--c-biolume); box-shadow: 0 0 16px rgba(61,255,208,0.12); transform: translateY(-2px); }
+
+/* =============================================================
+   HERO
+   ============================================================= */
+.project-hero { padding: 10rem 0 var(--space-lg); position: relative; }
+.project-hero .orb { position: absolute; border-radius: 50%; filter: blur(80px); pointer-events: none; opacity: 0.12; }
+.project-hero .orb-1 {
+  width: 500px; height: 300px;
+  background: radial-gradient(ellipse, var(--c-thermal), transparent 70%);
+  top: 60px; left: -100px;
+  animation: orb-drift 18s ease-in-out infinite alternate;
+}
+.project-hero .orb-2 {
+  width: 300px; height: 300px;
+  background: radial-gradient(ellipse, var(--c-nebula), transparent 70%);
+  top: 0; right: -80px; opacity: 0.08;
+  animation: orb-drift 24s ease-in-out infinite alternate-reverse;
+}
+.project-hero .orb-3 {
+  width: 260px; height: 260px;
+  background: radial-gradient(ellipse, #00d4ff, transparent 70%);
+  bottom: 0; left: 40%; opacity: 0.05;
+  animation: orb-drift 20s ease-in-out infinite alternate;
+}
+@keyframes orb-drift {
+  from { transform: translateY(0) translateX(0); }
+  to   { transform: translateY(30px) translateX(20px); }
+}
+.project-hero-meta { display: flex; align-items: center; gap: 1rem; margin-bottom: var(--space-sm); }
+.project-category { font-family: var(--font-mono); font-size: var(--text-micro); letter-spacing: 0.2em; text-transform: uppercase; color: var(--c-ghost); }
+.project-category::before { content: '// '; color: var(--c-current); }
+.meta-sep { color: var(--c-ghost); font-family: var(--font-mono); font-size: var(--text-micro); }
+.project-hero-title { font-family: var(--font-display); font-size: clamp(2.8rem, 7vw, 6rem); font-weight: 700; line-height: 1.05; letter-spacing: -0.01em; color: var(--c-star); margin-bottom: var(--space-sm); }
+.project-hero-title span { color: var(--c-biolume); }
+.project-hero-oneliner { font-family: var(--font-body); font-weight: 300; font-size: clamp(1rem, 1.5vw, 1.2rem); color: var(--c-mist); max-width: 600px; line-height: 1.7; margin-bottom: var(--space-md); }
+.project-hero-tools { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: var(--space-md); }
+.project-hero-links { display: flex; align-items: center; gap: 1.2rem; flex-wrap: wrap; }
+
+.stat-row { display: grid; grid-template-columns: repeat(5, 1fr); border: 1px solid var(--c-depth); border-radius: var(--radius-md); overflow: hidden; margin-top: var(--space-lg); }
+.stat-cell { padding: 1.6rem; text-align: center; border-right: 1px solid var(--c-depth); background: var(--c-abyss); transition: background var(--dur-ui); }
+.stat-cell:last-child { border-right: none; }
+.stat-cell:hover { background: var(--c-trench); }
+.stat-num { font-family: var(--font-display); font-size: 2.5rem; font-weight: 700; color: var(--c-biolume); line-height: 1; margin-bottom: 0.3rem; }
+.stat-label { font-family: var(--font-mono); font-size: var(--text-micro); letter-spacing: 0.18em; text-transform: uppercase; color: var(--c-ghost); }
+
+/* =============================================================
+   OVERVIEW — 3-column preset cards
+   ============================================================= */
+.overview-grid { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-md); margin-top: var(--space-md); }
+.preset-grid   { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: var(--space-md); margin-top: var(--space-md); }
+
+.tool-doc-card {
+  background: var(--c-abyss); border: 1px solid var(--c-depth);
+  border-radius: var(--radius-md); padding: var(--space-md);
+  position: relative; overflow: hidden;
+  transition: border-color var(--dur-ui), transform var(--dur-ui), box-shadow var(--dur-ui);
+  cursor: none;
+}
+.tool-doc-card::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1.5px;
+  opacity: 0; transition: opacity var(--dur-ui);
+}
+.tool-doc-card.ocean::before   { background: linear-gradient(to right, transparent, #00d4ff, transparent); }
+.tool-doc-card.scifi::before   { background: linear-gradient(to right, transparent, var(--c-scifi), transparent); }
+.tool-doc-card.painterly::before { background: linear-gradient(to right, transparent, var(--c-paint), transparent); }
+.tool-doc-card.shared::before  { background: linear-gradient(to right, transparent, var(--c-biolume), transparent); }
+.tool-doc-card.houdini::before { background: linear-gradient(to right, transparent, var(--c-seafoam), transparent); }
+.tool-doc-card.ue5::before     { background: linear-gradient(to right, transparent, var(--c-nebula), transparent); }
+
+.tool-doc-card:hover { border-color: var(--c-current); transform: translateY(-3px); box-shadow: 0 8px 32px rgba(15,48,80,0.5); }
+.tool-doc-card:hover::before { opacity: 1; }
+
+.tool-doc-card .card-glyph { font-size: 1.4rem; margin-bottom: 0.8rem; display: block; }
+.tool-doc-card .card-title { font-family: var(--font-display); font-size: 1.4rem; font-weight: 600; color: var(--c-star); margin-bottom: 0.2rem; }
+.tool-doc-card .card-accent { font-family: var(--font-mono); font-size: var(--text-micro); letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 1rem; display: block; }
+.tool-doc-card .card-accent.ocean   { color: #00d4ff; }
+.tool-doc-card .card-accent.scifi   { color: var(--c-scifi); }
+.tool-doc-card .card-accent.painterly { color: var(--c-paint); }
+.tool-doc-card p { color: var(--c-mist); font-size: 0.9rem; margin-bottom: 1.2rem; }
+
+.feature-list { list-style: none; display: flex; flex-direction: column; gap: 0.5rem; }
+.feature-list li {
+  font-family: var(--font-mono); font-size: var(--text-micro);
+  letter-spacing: 0.05em; color: var(--c-mist);
+  display: flex; gap: 0.6rem; align-items: flex-start;
+}
+.feature-list li::before { content: '→'; color: var(--c-current); flex-shrink: 0; margin-top: 0.05em; }
+.tool-doc-card.scifi    .feature-list li::before { color: var(--c-scifi); }
+.tool-doc-card.painterly .feature-list li::before { color: var(--c-paint); }
+.tool-doc-card.ue5      .feature-list li::before { color: var(--c-nebula); }
+
+/* =============================================================
+   PASS REFERENCE TABLE
+   ============================================================= */
+.check-table { width: 100%; border-collapse: collapse; margin-top: var(--space-md); }
+.check-table thead tr { border-bottom: 1px solid var(--c-depth); }
+.check-table th { font-family: var(--font-mono); font-size: var(--text-micro); letter-spacing: 0.18em; text-transform: uppercase; color: var(--c-ghost); padding: 0.7rem 1rem; text-align: left; }
+.check-table td { padding: 1.1rem 1rem; color: var(--c-mist); border-bottom: 1px solid rgba(15,48,80,0.5); font-size: 0.88rem; vertical-align: top; }
+.check-table td:first-child { font-family: var(--font-display); font-weight: 600; font-size: 1rem; color: var(--c-star); white-space: nowrap; }
+.check-table tr { transition: background var(--dur-micro); }
+.check-table tr:hover td { background: rgba(11,31,54,0.4); }
+.check-table tr:last-child td { border-bottom: none; }
+
+.badge-on   { color: var(--c-biolume); font-family: var(--font-mono); font-size: var(--text-micro); letter-spacing: 0.12em; }
+.badge-off  { color: var(--c-ghost); font-family: var(--font-mono); font-size: var(--text-micro); }
+.badge-mantra  { color: var(--c-seafoam); font-family: var(--font-mono); font-size: var(--text-micro); letter-spacing: 0.1em; }
+.badge-karma   { color: var(--c-nebula); font-family: var(--font-mono); font-size: var(--text-micro); letter-spacing: 0.1em; }
+.badge-ue5     { color: var(--c-amber); font-family: var(--font-mono); font-size: var(--text-micro); letter-spacing: 0.1em; }
+.badge-custom  { color: #e05c6e; font-family: var(--font-mono); font-size: var(--text-micro); letter-spacing: 0.1em; }
+
+/* =============================================================
+   CODE BLOCKS
+   ============================================================= */
+.code-block-wrap { margin-top: var(--space-md); }
+.code-block-wrap + .code-block-wrap { margin-top: var(--space-sm); }
+.code-header {
+  display: flex; align-items: center; justify-content: space-between;
+  background: var(--c-trench); border: 1px solid var(--c-depth);
+  border-bottom: none; border-radius: var(--radius-md) var(--radius-md) 0 0;
+  padding: 0.6rem 1.2rem;
+}
+.code-lang { font-family: var(--font-mono); font-size: var(--text-micro); letter-spacing: 0.15em; text-transform: uppercase; color: var(--c-biolume); }
+.code-filename { font-family: var(--font-mono); font-size: var(--text-micro); letter-spacing: 0.06em; color: var(--c-ghost); }
+pre {
+  background: var(--c-abyss); border: 1px solid var(--c-depth);
+  border-radius: 0 0 var(--radius-md) var(--radius-md);
+  padding: 1.6rem 1.8rem; overflow-x: auto;
+  font-family: var(--font-mono); font-size: 0.82rem; line-height: 1.85;
+  color: var(--c-mist); tab-size: 4;
+}
+.kw  { color: #7eb8ff; }
+.fn  { color: #c9a0ff; }
+.str { color: #7ee8a2; }
+.cm  { color: var(--c-ghost); font-style: italic; }
+.num { color: var(--c-amber); }
+.hl  { color: var(--c-biolume); }
+
+.folder-tree {
+  background: var(--c-abyss); border: 1px solid var(--c-depth);
+  border-radius: var(--radius-md); padding: 1.6rem 1.8rem;
+  font-family: var(--font-mono); font-size: 0.82rem; line-height: 2; color: var(--c-mist);
+}
+.tree-dir  { color: var(--c-seafoam); font-weight: 500; }
+.tree-new  { color: var(--c-biolume); }
+.tree-note { color: var(--c-ghost); font-style: italic; }
+code {
+  font-family: var(--font-mono); font-size: 0.82rem;
+  background: var(--c-trench); border: 1px solid var(--c-depth);
+  border-radius: 3px; padding: 0.1em 0.4em; color: var(--c-seafoam);
+}
+
+/* =============================================================
+   INSTALL STEPS
+   ============================================================= */
+.install-list { display: flex; flex-direction: column; gap: var(--space-md); margin-top: var(--space-md); }
+.install-step { display: grid; grid-template-columns: 44px 1fr; gap: 1.4rem; align-items: start; }
+.step-num {
+  width: 44px; height: 44px; border-radius: 50%;
+  background: var(--c-abyss); border: 1px solid var(--c-depth);
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--font-mono); font-size: var(--text-label);
+  color: var(--c-biolume); flex-shrink: 0;
+  transition: border-color var(--dur-ui);
+}
+.install-step:hover .step-num { border-color: var(--c-current); }
+.step-body h4 { font-family: var(--font-display); font-size: 1.1rem; font-weight: 600; color: var(--c-star); margin-bottom: 0.3rem; }
+.step-body p  { color: var(--c-mist); font-size: 0.88rem; margin-bottom: 0.8rem; }
+
+/* =============================================================
+   NAMING TOKEN TABLE
+   ============================================================= */
+.token-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  gap: 0.8rem; margin-top: var(--space-md);
+}
+.token-card {
+  background: var(--c-abyss); border: 1px solid var(--c-depth);
+  border-radius: var(--radius-md); padding: 1rem 1.2rem;
+  transition: border-color var(--dur-ui);
+}
+.token-card:hover { border-color: var(--c-current); }
+.token-key { font-family: var(--font-mono); font-size: 0.82rem; color: var(--c-biolume); margin-bottom: 0.3rem; }
+.token-val { font-family: var(--font-mono); font-size: var(--text-micro); color: var(--c-ghost); }
+
+/* =============================================================
+   SKILLS / ARCHITECTURE
+   ============================================================= */
+.skills-doc-list { display: flex; flex-direction: column; gap: 0; margin-top: var(--space-md); }
+.skill-doc-row {
+  display: grid; grid-template-columns: 200px 1fr;
+  gap: var(--space-md); padding: 1.5rem 0;
+  border-bottom: 1px solid var(--c-depth);
+  transition: background var(--dur-ui); align-items: start;
+}
+.skill-doc-row:first-child { border-top: 1px solid var(--c-depth); }
+.skill-doc-row:hover { background: rgba(11,31,54,0.4); margin: 0 -1.5rem; padding-left: 1.5rem; padding-right: 1.5rem; }
+.skill-name  { font-family: var(--font-display); font-size: 1.05rem; font-weight: 600; color: var(--c-star); }
+.skill-where { font-family: var(--font-mono); font-size: var(--text-micro); letter-spacing: 0.1em; color: var(--c-ghost); margin-top: 0.25rem; }
+.skill-desc  { color: var(--c-mist); font-size: 0.9rem; line-height: 1.65; }
+
+/* =============================================================
+   FOOTER
+   ============================================================= */
+.site-footer {
+  position: relative; z-index: 2; padding: 2rem 3rem;
+  border-top: 1px solid var(--c-depth); text-align: center; margin-top: var(--space-xl);
+}
+.footer-text { font-family: var(--font-mono); font-size: var(--text-micro); letter-spacing: 0.2em; color: var(--c-ghost); text-transform: lowercase; }
+.footer-accent { color: var(--c-current); }
+
+/* =============================================================
+   RESPONSIVE
+   ============================================================= */
+@media (max-width: 900px) {
+  main { padding: 0 1.5rem; }
+  #site-nav { padding: 1rem 1.5rem; }
+  .overview-grid { grid-template-columns: 1fr; }
+  .preset-grid   { grid-template-columns: 1fr; }
+  .stat-row { grid-template-columns: 1fr 1fr 1fr; }
+  .skill-doc-row { grid-template-columns: 150px 1fr; }
+  .token-grid { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 600px) {
+  .stat-row { grid-template-columns: 1fr 1fr; }
+  .stat-cell { padding: 1rem; }
+  .skill-doc-row { grid-template-columns: 1fr; gap: 0.3rem; }
+  .token-grid { grid-template-columns: 1fr; }
+  body { cursor: auto; }
+  #cursor-ring, #cursor-dot { display: none; }
+  .nav-links { display: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+  .reveal { opacity: 1; clip-path: none; }
+}
+</style>
+</head>
+<body>
+
+<div class="grain" aria-hidden="true"></div>
+<canvas id="stars" aria-hidden="true"></canvas>
+<div id="cursor-ring" aria-hidden="true"></div>
+<div id="cursor-dot"  aria-hidden="true"></div>
+
+<!-- ══════════════════════════════════════════
+     NAV
+═════════════════════════════════════════════ -->
+<header id="site-nav">
+  <nav class="nav-inner" aria-label="Primary navigation">
+    <a class="nav-brand" href="index.html" aria-label="Back to AlyArtBar home">
+      <span class="brand-initials">AB</span>
+      <span class="brand-name">AlyArtBar</span>
+    </a>
+    <ul class="nav-links" role="list">
+      <li><a href="index.html#projects">Projects</a></li>
+      <li><a href="index.html#rnd">R&amp;D</a></li>
+      <li><a href="index.html#contact">Contact</a></li>
+      <li><a href="assets/resume.pdf" target="_blank" rel="noopener">Resume ↗</a></li>
+    </ul>
+    <a class="nav-back" href="index.html#projects">Back to Projects</a>
+  </nav>
+</header>
+
+<main>
+
+  <!-- ══════════════════════════════════════════
+       HERO
+  ═════════════════════════════════════════════ -->
+  <section class="project-hero">
+    <div class="orb orb-1" aria-hidden="true"></div>
+    <div class="orb orb-2" aria-hidden="true"></div>
+    <div class="orb orb-3" aria-hidden="true"></div>
+
+    <div class="project-hero-meta reveal">
+      <span class="project-category">render tools · td work</span>
+      <span class="meta-sep">·</span>
+      <span class="project-category" style="color:var(--c-biolume); font-family:var(--font-mono); font-size:var(--text-micro); letter-spacing:0.2em; text-transform:uppercase;">
+        <span style="display:inline-block; width:6px; height:6px; border-radius:50%; background:var(--c-biolume); vertical-align:middle; margin-right:0.5rem; animation: pulse 2.5s ease-in-out infinite;"></span>
+        WIP / Live
+      </span>
+    </div>
+
+    <h1 class="project-hero-title reveal" style="animation-delay:0.1s">
+      AOV<br><span>Manager</span>
+    </h1>
+
+    <p class="project-hero-oneliner reveal" style="animation-delay:0.18s">
+      A shared-config render pass manager for Houdini (Mantra &amp; Karma XPU) and Unreal Engine 5 —
+      one file drives both a standalone PySide6 desktop app and a native Houdini shelf tool,
+      generating production-correct AOV scripts and MRQ configs per preset.
+    </p>
+
+    <div class="project-hero-tools reveal" style="animation-delay:0.24s">
+      <span class="tool-tag">Python 3.9+</span>
+      <span class="tool-tag">PySide6 / PySide2</span>
+      <span class="tool-tag">Houdini Mantra</span>
+      <span class="tool-tag">Houdini Karma XPU</span>
+      <span class="tool-tag">Unreal Engine 5</span>
+      <span class="tool-tag">Movie Render Queue</span>
+      <span class="tool-tag">LPE Strings</span>
+      <span class="tool-tag">EXR / ACES</span>
+    </div>
+
+    <div class="project-hero-links reveal" style="animation-delay:0.3s">
+      <a href="https://github.com/AlyBarr" class="btn btn-primary" target="_blank" rel="noopener">View on GitHub ↗</a>
+      <a href="#overview" class="btn btn-ghost">Documentation ↓</a>
+    </div>
+
+    <div class="stat-row reveal" style="animation-delay:0.38s">
+      <div class="stat-cell">
+        <div class="stat-num">3</div>
+        <div class="stat-label">Renderers</div>
+      </div>
+      <div class="stat-cell">
+        <div class="stat-num">3</div>
+        <div class="stat-label">Style Presets</div>
+      </div>
+      <div class="stat-cell">
+        <div class="stat-num">10</div>
+        <div class="stat-label">Standard Passes</div>
+      </div>
+      <div class="stat-cell">
+        <div class="stat-num">2</div>
+        <div class="stat-label">App Targets</div>
+      </div>
+      <div class="stat-cell">
+        <div class="stat-num">1</div>
+        <div class="stat-label">Config File*</div>
+      </div>
+    </div>
+    <p style="font-family:var(--font-mono); font-size:var(--text-micro); color:var(--c-ghost); margin-top:0.6rem;">
+      * Edit <code>aov_config.py</code> only — both the desktop app and the Houdini shelf update automatically.
+    </p>
+  </section>
+
+  <div class="zone-div" data-depth="// 01 overview"></div>
+
+  <!-- ══════════════════════════════════════════
+       OVERVIEW
+  ═════════════════════════════════════════════ -->
+  <section id="overview" class="section">
+    <div class="container">
+      <div class="reveal">
+        <p class="eyebrow">// 01 — Overview</p>
+        <h2 class="section-title">One config.<br>Two apps. Three renderers.</h2>
+        <div class="section-rule" aria-hidden="true"></div>
+        <p style="color:var(--c-mist); max-width:640px; margin-bottom: var(--space-md);">
+          AOV Manager uses a shared-config architecture — <code>aov_config.py</code> is the single source of truth
+          for every pass definition, naming token, folder template, and renderer-specific technical parameter.
+          Both app targets read from it at runtime, so a change in one place propagates everywhere.
+        </p>
+      </div>
+
+      <div class="overview-grid">
+        <div class="tool-doc-card shared reveal">
+          <span class="card-glyph">🖥</span>
+          <h3 class="card-title">Standalone App</h3>
+          <p class="card-file" style="font-family:var(--font-mono); font-size:var(--text-micro); color:var(--c-ghost); margin-bottom:1rem;">standalone_app.py — pip install PySide6</p>
+          <p>
+            Full desktop UI built in PySide6. Runs without Houdini installed — useful for
+            pre-production pass planning, config review, and generating scripts to hand off.
+          </p>
+          <ul class="feature-list">
+            <li>Pipeline selector — Mantra, Karma XPU, or UE5</li>
+            <li>Style preset toggle with live accent colour theming</li>
+            <li>Pass cards — click to enable / disable per AOV</li>
+            <li>Naming tab with live token preview</li>
+            <li>Generate, copy, or save script to file</li>
+            <li>Film / Stylized mode toggle (ACES vs sRGB)</li>
+          </ul>
+        </div>
+
+        <div class="tool-doc-card ue5 reveal" data-delay="100">
+          <span class="card-glyph">⬡</span>
+          <h3 class="card-title">Houdini Shelf Tool</h3>
+          <p class="card-file" style="font-family:var(--font-mono); font-size:var(--text-micro); color:var(--c-ghost); margin-bottom:1rem;">houdini_shelf.py — paste into shelf Script tab</p>
+          <p>
+            Identical UI rebuilt in PySide2 (Houdini's built-in Qt). Adds a
+            <em>Build in Houdini</em> button that executes the generated script directly
+            in the live session — creating the ROP node and output folders on the spot.
+          </p>
+          <ul class="feature-list">
+            <li>All standalone features, inside Houdini's own Qt context</li>
+            <li>Build in Houdini ⬡ — exec's script into live session</li>
+            <li>Creates Mantra / Karma ROP with correct AOV nodes</li>
+            <li>Auto-creates all output directories via os.makedirs</li>
+            <li>Dialog stored at hou.session to prevent GC</li>
+            <li>Searches for aov_config.py in $HOUDINI_USER_PREF_DIR then $HIP</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="zone-div" data-depth="// 01b config loading"></div>
+
+  <!-- CONFIG LOADING -->
+  <section class="section">
+    <div class="container">
+      <div class="reveal">
+        <p class="eyebrow">// 01b — Config Loading</p>
+        <h2 class="section-title">How the apps<br>find the config</h2>
+        <div class="section-rule" aria-hidden="true"></div>
+        <p style="color:var(--c-mist); max-width:620px; margin-bottom: var(--space-md);">
+          The standalone app imports <code>aov_config</code> directly as a sibling module — keep all three files in the same folder.
+          The Houdini shelf tool searches two locations in priority order so it works as both a studio-wide shared install and a per-shot local override.
+        </p>
+      </div>
+
+      <div class="code-block-wrap reveal">
+        <div class="code-header">
+          <span class="code-lang">Python</span>
+          <span class="code-filename">standalone_app.py — direct sibling import</span>
+        </div>
+<pre><span class="cm"># All three files sit in the same folder — import is always local.</span>
+<span class="kw">import</span> aov_config <span class="kw">as</span> cfg
+
+<span class="cm"># Presets, pass lists, and generator functions all come from cfg.</span>
+preset    = cfg.PRESETS[<span class="str">"ocean"</span>]
+pipelines = cfg.PIPELINES     <span class="cm"># ["Houdini / Mantra", "Houdini / Karma", "Unreal Engine 5"]</span>
+script    = cfg.generate_houdini_script(
+    pipeline_idx    = <span class="num">0</span>,        <span class="cm"># 0 = Mantra, 1 = Karma</span>
+    preset_key      = <span class="str">"ocean"</span>,
+    project         = <span class="str">"HERO"</span>,
+    layer           = <span class="str">"hero_layer"</span>,
+    version         = <span class="num">1</span>,
+    root            = <span class="str">"/renders"</span>,
+    film_mode       = <span class="kw">True</span>,
+    standard_states = {<span class="str">"beauty"</span>: <span class="kw">True</span>, <span class="str">"zdepth"</span>: <span class="kw">True</span>},
+    custom_states   = {<span class="str">"caustics"</span>: <span class="kw">True</span>, <span class="str">"fog_vol"</span>: <span class="kw">True</span>},
+)</pre>
+      </div>
+
+      <div class="code-block-wrap reveal" data-delay="60">
+        <div class="code-header">
+          <span class="code-lang">Python</span>
+          <span class="code-filename">houdini_shelf.py — dynamic path search</span>
+        </div>
+<pre><span class="cm"># The shelf searches two locations — shared install first, then $HIP fallback.</span>
+<span class="kw">import</span> sys, os, importlib
+
+search_paths = [
+    os.path.join(hou.getenv(<span class="str">"HOUDINI_USER_PREF_DIR"</span>), <span class="str">"scripts"</span>, <span class="str">"python"</span>),
+    hou.getenv(<span class="str">"HIP"</span>),    <span class="cm"># per-shot override: drop aov_config.py next to your .hip</span>
+]
+
+cfg = <span class="kw">None</span>
+<span class="kw">for</span> path <span class="kw">in</span> search_paths:
+    candidate = os.path.join(path <span class="kw">or</span> <span class="str">""</span>, <span class="str">"aov_config.py"</span>)
+    <span class="kw">if</span> os.path.exists(candidate):
+        <span class="kw">if</span> path <span class="kw">not in</span> sys.path:
+            sys.path.insert(<span class="num">0</span>, path)
+        cfg = importlib.import_module(<span class="str">"aov_config"</span>)
+        <span class="kw">break</span>
+
+<span class="kw">if</span> cfg <span class="kw">is None</span>:
+    hou.ui.displayMessage(
+        <span class="str">"aov_config.py not found.\n"</span>
+        <span class="str">"Place it in $HOUDINI_USER_PREF_DIR/scripts/python/ or next to your .hip file."</span>
+    )</pre>
+      </div>
+    </div>
+  </section>
+
+  <div class="zone-div" data-depth="// 02 presets"></div>
+
+  <!-- ══════════════════════════════════════════
+       PRESETS
+  ═════════════════════════════════════════════ -->
+  <section class="section">
+    <div class="container">
+      <div class="reveal">
+        <p class="eyebrow">// 02 — Presets</p>
+        <h2 class="section-title">Style presets &amp;<br>custom AOV passes</h2>
+        <div class="section-rule" aria-hidden="true"></div>
+        <p style="color:var(--c-mist); max-width:620px; margin-bottom: var(--space-md);">
+          Each preset defines its own naming convention, folder structure, accent colour, and a set
+          of custom passes stacked on top of the 10 standard passes. All passes carry full renderer
+          metadata — Mantra VEX variables, Karma LPEs, and UE5 MRQ class names.
+        </p>
+      </div>
+
+      <div class="preset-grid">
+
+        <div class="tool-doc-card ocean reveal">
+          <span class="card-glyph">🌊</span>
+          <h3 class="card-title">Ocean Mode</h3>
+          <span class="card-accent ocean">accent #00d4ff</span>
+          <p>Underwater and bioluminescence renders. Caustics, volumetric fog, emissive isolation, and particle scatter.</p>
+          <ul class="feature-list">
+            <li>Caustics Pass — <code>vm_usecaustics=1</code>, transmitted diffuse LPE</li>
+            <li>Fog Volume — <code>vm_volumesteprate</code>, Karma <code>CV.*</code> LPE</li>
+            <li>Biolum Emission — custom <code>biolum</code> VEX export, emissive LPE</li>
+            <li>Scatter Volume — <code>CV&lt;RS&gt;.*</code> scattered volume LPE</li>
+          </ul>
+        </div>
+
+        <div class="tool-doc-card scifi reveal" data-delay="80">
+          <span class="card-glyph">🌌</span>
+          <h3 class="card-title">Sci-Fi Mode</h3>
+          <span class="card-accent scifi">accent #bf5fff</span>
+          <p>Neon, holographic, and tech-noir aesthetics. Bloom isolation, rim separation, gradient mattes, and holo overlays.</p>
+          <ul class="feature-list">
+            <li>Glow Mask — emissive <code>Ce</code> channel, <code>C[ES].*</code> LPE</li>
+            <li>Rim Light Pass — custom shader export, specular LPE</li>
+            <li>Gradient Mask — custom float export, world-space Y driven</li>
+            <li>Hologram Pass — custom export, ObjectID stencil in UE5</li>
+          </ul>
+        </div>
+
+        <div class="tool-doc-card painterly reveal" data-delay="160">
+          <span class="card-glyph">🎨</span>
+          <h3 class="card-title">Painterly Mode</h3>
+          <span class="card-accent painterly">accent #ffb347</span>
+          <p>Toon, cel, and stylised renders. Ramp gradients, edge linework, shadow isolation, and flat colour mattes.</p>
+          <ul class="feature-list">
+            <li>Toon Ramp Pass — custom float 0–1 shading gradient export</li>
+            <li>Linework Pass — normal discontinuity, <code>vm_edgesamples=4</code></li>
+            <li>Shadow Isolation — <code>vm_shadowtype=1</code>, shadow LPE</li>
+            <li>Color ID Flat — <code>Op</code> object identifier, Cryptomatte</li>
+          </ul>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <div class="zone-div" data-depth="// 03 passes"></div>
+
+  <!-- ══════════════════════════════════════════
+       STANDARD PASS REFERENCE
+  ═════════════════════════════════════════════ -->
+  <section class="section">
+    <div class="container">
+      <div class="reveal">
+        <p class="eyebrow">// 03 — Passes</p>
+        <h2 class="section-title">Standard pass<br>reference</h2>
+        <div class="section-rule" aria-hidden="true"></div>
+        <p style="color:var(--c-mist);">All 10 standard passes are available in every preset. Each carries correct renderer parameters — no placeholder values.</p>
+      </div>
+
+      <table class="check-table reveal" data-delay="80">
+        <thead>
+          <tr>
+            <th>Pass</th>
+            <th>Mantra — vm_variable / filter</th>
+            <th>Karma — LPE / variable</th>
+            <th>UE5 — MRQ Class</th>
+            <th>Default</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Beauty</td>
+            <td><code>Cf+Af</code> · gaussian · float16</td>
+            <td><span class="badge-karma">C.*</span></td>
+            <td><span class="badge-ue5">DeferredPassBase</span></td>
+            <td><span class="badge-on">✦ on</span></td>
+          </tr>
+          <tr>
+            <td>Diffuse</td>
+            <td><code>diffuse</code> · gaussian · float16</td>
+            <td><span class="badge-karma">C&lt;RD&gt;.*</span></td>
+            <td><span class="badge-ue5">ImagePassBase ⚠ deferred</span></td>
+            <td><span class="badge-on">✦ on</span></td>
+          </tr>
+          <tr>
+            <td>Specular</td>
+            <td><code>specular</code> · gaussian · float16</td>
+            <td><span class="badge-karma">C&lt;RS&gt;.*</span></td>
+            <td><span class="badge-ue5">ImagePassBase ⚠ deferred</span></td>
+            <td><span class="badge-off">— off</span></td>
+          </tr>
+          <tr>
+            <td>SSS</td>
+            <td><code>sss</code> · gaussian · <code>vm_useshading=1</code></td>
+            <td><span class="badge-karma">C&lt;TD&gt;.*</span></td>
+            <td><span class="badge-ue5">ImagePassBase ⚠ deferred</span></td>
+            <td><span class="badge-off">— off</span></td>
+          </tr>
+          <tr>
+            <td>Z-Depth</td>
+            <td><code>Pz</code> · minmax min · float32</td>
+            <td><span class="badge-karma">variable: z</span></td>
+            <td><span class="badge-ue5">ImagePassBase ⚠ deferred</span></td>
+            <td><span class="badge-on">✦ on</span></td>
+          </tr>
+          <tr>
+            <td>ID / Mask</td>
+            <td><code>Op</code> · box · <code>vm_cryptolayers=6</code></td>
+            <td><span class="badge-karma">variable: cryptomatte</span></td>
+            <td><span class="badge-ue5">ObjectIdRenderPass</span></td>
+            <td><span class="badge-off">— off</span></td>
+          </tr>
+          <tr>
+            <td>Emission</td>
+            <td><code>Ce</code> · gaussian · float16</td>
+            <td><span class="badge-karma">C[ES].*</span></td>
+            <td><span class="badge-ue5">ImagePassBase ⚠ deferred</span></td>
+            <td><span class="badge-off">— off</span></td>
+          </tr>
+          <tr>
+            <td>World Normal</td>
+            <td><code>N</code> · gaussian · float16</td>
+            <td><span class="badge-karma">variable: N</span></td>
+            <td><span class="badge-ue5">ImagePassBase ⚠ deferred</span></td>
+            <td><span class="badge-off">— off</span></td>
+          </tr>
+          <tr>
+            <td>Ambient Occ.</td>
+            <td><code>occlusion</code> · gaussian · <code>vm_occlusionsamples=16</code></td>
+            <td><span class="badge-karma">C&lt;AO&gt;</span></td>
+            <td><span class="badge-ue5">ImagePassBase ⚠ deferred</span></td>
+            <td><span class="badge-off">— off</span></td>
+          </tr>
+          <tr>
+            <td>Shadow Matte</td>
+            <td><code>shadow</code> · gaussian · <code>vm_shadowtype=1</code></td>
+            <td><span class="badge-karma">C.*&lt;L.&gt;</span></td>
+            <td><span class="badge-ue5">ImagePassBase ⚠ deferred</span></td>
+            <td><span class="badge-off">— off</span></td>
+          </tr>
+        </tbody>
+      </table>
+      <p style="font-family:var(--font-mono); font-size:var(--text-micro); color:var(--c-ghost); margin-top:0.8rem;">⚠ deferred = requires Deferred Rendering mode in UE5 MRQ. The config output flags this automatically.</p>
+    </div>
+  </section>
+
+  <div class="zone-div" data-depth="// 04 code"></div>
+
+  <!-- ══════════════════════════════════════════
+       CODE
+  ═════════════════════════════════════════════ -->
+  <section class="section">
+    <div class="container">
+      <div class="reveal">
+        <p class="eyebrow">// 04 — Code</p>
+        <h2 class="section-title">Key implementation<br>patterns</h2>
+        <div class="section-rule" aria-hidden="true"></div>
+      </div>
+
+      <!-- Snippet 1 — pass dict format -->
+      <div class="code-block-wrap reveal">
+        <div class="code-header">
+          <span class="code-lang">Python</span>
+          <span class="code-filename">aov_config.py — renderer metadata per pass</span>
+        </div>
+<pre><span class="cm"># Every pass is a dict with renderer-specific technical data.</span>
+<span class="cm"># One source of truth — both apps read from this at runtime.</span>
+
+{
+    <span class="str">"id"</span>:         <span class="str">"zdepth"</span>,
+    <span class="str">"label"</span>:      <span class="str">"Z-Depth"</span>,
+    <span class="str">"default_on"</span>: <span class="kw">True</span>,
+    <span class="str">"mantra"</span>: {
+        <span class="str">"vm_variable"</span>: <span class="str">"Pz"</span>,          <span class="cm"># VEX export to sample</span>
+        <span class="str">"vm_channel"</span>:  <span class="str">"zdepth"</span>,      <span class="cm"># AOV output channel name</span>
+        <span class="str">"vm_vextype"</span>:  <span class="str">"float"</span>,
+        <span class="str">"vm_pfilter"</span>:  <span class="str">"minmax min"</span>, <span class="cm"># never blur depth</span>
+        <span class="str">"vm_quantize"</span>: <span class="str">"float32"</span>,    <span class="cm"># full precision for depth</span>
+        <span class="str">"extra"</span>:       {},
+        <span class="str">"custom_var"</span>:  <span class="kw">False</span>,
+    },
+    <span class="str">"karma"</span>: {
+        <span class="str">"lpe"</span>:        <span class="str">""</span>,             <span class="cm"># no LPE — shader variable export</span>
+        <span class="str">"variable"</span>:   <span class="str">"z"</span>,
+        <span class="str">"type"</span>:       <span class="str">"float"</span>,
+        <span class="str">"light_group"</span>:<span class="str">""</span>,             <span class="cm"># set to e.g. "rim" once lights named</span>
+        <span class="str">"custom_var"</span>: <span class="kw">False</span>,
+    },
+    <span class="str">"ue5"</span>: {
+        <span class="str">"pass_class"</span>:    <span class="str">"MoviePipelineImagePassBase"</span>,
+        <span class="str">"deferred_only"</span>: <span class="kw">True</span>,
+        <span class="str">"notes"</span>:         <span class="str">"Enable SceneDepth in Buffer Visualization."</span>,
+    },
+}</pre>
+      </div>
+
+      <!-- Snippet 2 — generator output -->
+      <div class="code-block-wrap reveal" data-delay="60">
+        <div class="code-header">
+          <span class="code-lang">Python — Generated Output</span>
+          <span class="code-filename">aov_config.py → generate_houdini_script() · Mantra example</span>
+        </div>
+<pre><span class="cm"># ── Z-Depth ──────────────────────────────────</span>
+<span class="hl">aov_zdepth</span> = rop.createNode(<span class="str">'aov'</span>)
+aov_zdepth.parm(<span class="str">'vm_variable'</span>).set(<span class="str">'Pz'</span>)
+aov_zdepth.parm(<span class="str">'vm_channel'</span>).set(<span class="str">'zdepth'</span>)
+aov_zdepth.parm(<span class="str">'vm_vextype'</span>).set(<span class="str">'float'</span>)
+aov_zdepth.parm(<span class="str">'vm_pfilter'</span>).set(<span class="str">'minmax min'</span>)
+aov_zdepth.parm(<span class="str">'vm_quantize'</span>).set(<span class="str">'float32'</span>)
+aov_zdepth.parm(<span class="str">'vm_filename'</span>).set(r<span class="str">'/renders/HERO/ocean/hero_layer/zdepth/HERO_hero_layer_ocean_zdepth_v001.$F4.exr'</span>)
+
+<span class="cm"># ── Caustics Pass ──────────────────────────────────</span>
+<span class="cm"># ⚠ CUSTOM SHADER EXPORT: vm_variable='caustics' — replace with your actual VEX export name if different</span>
+<span class="hl">aov_caustics</span> = rop.createNode(<span class="str">'aov'</span>)
+aov_caustics.parm(<span class="str">'vm_variable'</span>).set(<span class="str">'caustics'</span>)
+aov_caustics.parm(<span class="str">'vm_channel'</span>).set(<span class="str">'caustics'</span>)
+aov_caustics.parm(<span class="str">'vm_vextype'</span>).set(<span class="str">'vector'</span>)
+aov_caustics.parm(<span class="str">'vm_pfilter'</span>).set(<span class="str">'minmax median'</span>)
+aov_caustics.parm(<span class="str">'vm_quantize'</span>).set(<span class="str">'float16'</span>)
+aov_caustics.parm(<span class="str">'vm_usecaustics'</span>).set(<span class="num">1</span>)
+aov_caustics.parm(<span class="str">'vm_filename'</span>).set(r<span class="str">'/renders/HERO/ocean/hero_layer/caustics/HERO_hero_layer_ocean_caustics_v001.$F4.exr'</span>)</pre>
+      </div>
+
+      <!-- Snippet 3 — UE5 config output -->
+      <div class="code-block-wrap reveal" data-delay="120">
+        <div class="code-header">
+          <span class="code-lang">INI — Generated Output</span>
+          <span class="code-filename">aov_config.py → generate_ue5_config() · UE5 MRQ example</span>
+        </div>
+<pre><span class="cm">; ══ AOV Manager — UE5 Movie Render Queue ═════════════</span>
+<span class="cm">; Preset    : 🌊 Ocean Mode</span>
+<span class="cm">; Colorspace: ACES_ACEScg</span>
+
+[RenderPasses]
+<span class="cm">; Format: PassID=True  |  MRQ Class  |  Rendering mode</span>
+<span class="hl">EnablePass_BEAUTY=True</span>             <span class="cm">; MoviePipelineDeferredPassBase    |  ✓ Any mode</span>
+<span class="hl">EnablePass_ZDEPTH=True</span>             <span class="cm">; MoviePipelineImagePassBase       |  ⚠ Deferred only</span>
+<span class="hl">EnablePass_CAUSTICS=True</span>           <span class="cm">; MoviePipelineImagePassBase       |  ⚠ Deferred only</span>
+<span class="hl">EnablePass_EMISSION2=True</span>          <span class="cm">; MoviePipelineImagePassBase       |  ⚠ Deferred only</span>
+
+[PassSetupNotes]
+<span class="cm">; CAUSTICS:   No native caustics pass in UE5 MRQ. Use CustomDepthStencil on caustics decal actors.</span>
+<span class="cm">; EMISSION2:  Enable Emissive in Buffer Visualization. Separate biolum actors onto a stencil layer.</span>
+
+<span class="cm">; ⚠ DEFERRED RENDERING REQUIRED for some passes above.</span>
+<span class="cm">; In MRQ: Add a 'Deferred Rendering' setting block.</span></pre>
+      </div>
+
+      <!-- Folder tree -->
+      <div class="reveal" data-delay="80" style="margin-top: var(--space-md);">
+        <h3 style="font-family:var(--font-display); font-size:1.2rem; font-weight:600; color:var(--c-star); margin-bottom:1rem;">Output Folder Structure</h3>
+        <div class="folder-tree">
+<span class="tree-dir">/renders/</span>
+  <span class="tree-dir">HERO_PROJECT/</span>
+    <span class="tree-dir">ocean/</span>
+      <span class="tree-dir">hero_layer/</span>
+        <span class="tree-dir">beauty/</span>
+          <span class="tree-new">HERO_PROJECT_hero_layer_ocean_beauty_v001.$F4.exr</span>
+        <span class="tree-dir">zdepth/</span>
+          <span class="tree-new">HERO_PROJECT_hero_layer_ocean_zdepth_v001.$F4.exr</span>
+        <span class="tree-dir">caustics/</span>
+          <span class="tree-new">HERO_PROJECT_hero_layer_ocean_caustics_v001.$F4.exr</span>
+        <span class="tree-dir">fog_vol/</span>
+          <span class="tree-new">HERO_PROJECT_hero_layer_ocean_fog_vol_v001.$F4.exr</span>   <span class="tree-note">← all dirs created automatically</span>
+        <span class="tree-dir">emission2/</span>
+          <span class="tree-new">HERO_PROJECT_hero_layer_ocean_emission2_v001.$F4.exr</span>
+        <span class="tree-dir">scatter/ ...</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="zone-div" data-depth="// 04b generator internals"></div>
+
+  <!-- GENERATOR INTERNALS -->
+  <section class="section">
+    <div class="container">
+      <div class="reveal">
+        <p class="eyebrow">// 04b — Generator Internals</p>
+        <h2 class="section-title">How the script<br>generator works</h2>
+        <div class="section-rule" aria-hidden="true"></div>
+        <p style="color:var(--c-mist); max-width:620px; margin-bottom: var(--space-md);">
+          Both generators follow the same pattern: collect active passes, resolve paths, then write renderer-specific
+          code line by line into a list that's joined at the end. Private helper functions
+          (<code>_gen_mantra_aov</code> and <code>_gen_karma_aov</code>) handle the per-pass block so the
+          main generator stays readable.
+        </p>
+      </div>
+
+      <div class="code-block-wrap reveal">
+        <div class="code-header">
+          <span class="code-lang">Python</span>
+          <span class="code-filename">aov_config.py — build_active_passes()</span>
+        </div>
+<pre><span class="cm"># Collects all enabled pass dicts in order: standard first, then preset custom passes.</span>
+<span class="cm"># standard_states / custom_states are {pass_id: bool} dicts from the UI card state.</span>
+<span class="kw">def</span> <span class="fn">build_active_passes</span>(preset_key, standard_states, custom_states):
+    active = []
+    <span class="kw">for</span> p <span class="kw">in</span> STANDARD_PASSES:
+        <span class="kw">if</span> standard_states.get(p[<span class="str">"id"</span>], <span class="kw">False</span>):
+            active.append(p)
+    <span class="kw">for</span> p <span class="kw">in</span> PRESETS[preset_key][<span class="str">"passes"</span>]:
+        <span class="kw">if</span> custom_states.get(p[<span class="str">"id"</span>], <span class="kw">True</span>):
+            active.append(p)
+    <span class="kw">return</span> active   <span class="cm"># list of full pass dicts — each has mantra / karma / ue5 blocks</span></pre>
+      </div>
+
+      <div class="code-block-wrap reveal" data-delay="60">
+        <div class="code-header">
+          <span class="code-lang">Python</span>
+          <span class="code-filename">aov_config.py — _gen_mantra_aov() helper</span>
+        </div>
+<pre><span class="cm"># Called once per active pass. Returns a list of lines to append to the script.</span>
+<span class="cm"># The custom_var flag adds a visible warning comment so the artist knows</span>
+<span class="cm"># which vm_variable to swap for their own shader export.</span>
+<span class="kw">def</span> <span class="fn">_gen_mantra_aov</span>(p, folder, filename):
+    m         = p[<span class="str">"mantra"</span>]
+    pid       = p[<span class="str">"id"</span>]
+    full_path = <span class="str">"{}/{}.$F4.exr"</span>.format(folder, filename)
+    lines     = [<span class="str">""</span>, <span class="str">"# -- {} --"</span>.format(p[<span class="str">"label"</span>])]
+
+    <span class="kw">if</span> m[<span class="str">"custom_var"</span>]:
+        lines.append(
+            <span class="str">"# ⚠ CUSTOM SHADER EXPORT: vm_variable='{}' — replace with your actual VEX export"</span>
+            .format(m[<span class="str">"vm_variable"</span>])
+        )
+
+    lines += [
+        <span class="str">"aov_{0} = rop.createNode('aov')"</span>.format(pid),
+        <span class="str">"aov_{0}.parm('vm_variable').set('{1}')"</span>.format(pid, m[<span class="str">"vm_variable"</span>]),
+        <span class="str">"aov_{0}.parm('vm_channel').set('{1}')"</span> .format(pid, m[<span class="str">"vm_channel"</span>]),
+        <span class="str">"aov_{0}.parm('vm_vextype').set('{1}')"</span> .format(pid, m[<span class="str">"vm_vextype"</span>]),
+        <span class="str">"aov_{0}.parm('vm_pfilter').set('{1}')"</span> .format(pid, m[<span class="str">"vm_pfilter"</span>]),
+        <span class="str">"aov_{0}.parm('vm_quantize').set('{1}')"</span>.format(pid, m[<span class="str">"vm_quantize"</span>]),
+        <span class="str">"aov_{0}.parm('vm_filename').set(r'{1}')"</span>.format(pid, full_path),
+    ]
+    <span class="kw">for</span> parm, val <span class="kw">in</span> m[<span class="str">"extra"</span>].items():   <span class="cm"># e.g. vm_usecaustics=1, vm_occlusionsamples=16</span>
+        lines.append(<span class="str">"aov_{0}.parm('{1}').set({2})"</span>.format(pid, parm, val))
+    <span class="kw">return</span> lines</pre>
+      </div>
+
+      <div class="code-block-wrap reveal" data-delay="120">
+        <div class="code-header">
+          <span class="code-lang">Python</span>
+          <span class="code-filename">aov_config.py — resolve_name() and resolve_folder()</span>
+        </div>
+<pre><span class="cm"># Tokens are resolved by simple string replacement — no regex, no templating engine.</span>
+<span class="cm"># {frame} is the only token that varies by renderer.</span>
+<span class="kw">def</span> <span class="fn">resolve_name</span>(template, project, layer, pass_id, version, pipeline_idx=<span class="num">0</span>):
+    frame_token = <span class="str">"$F4"</span> <span class="kw">if</span> pipeline_idx &lt; <span class="num">2</span> <span class="kw">else</span> <span class="str">"{frame_number}"</span>
+    <span class="kw">return</span> (template
+        .replace(<span class="str">"{project}"</span>, project)
+        .replace(<span class="str">"{layer}"</span>,   layer)
+        .replace(<span class="str">"{pass}"</span>,    pass_id)
+        .replace(<span class="str">"{version}"</span>, str(version).zfill(<span class="num">3</span>))
+        .replace(<span class="str">"{date}"</span>,    datetime.date.today().strftime(<span class="str">"%Y_%m_%d"</span>))
+        .replace(<span class="str">"{frame}"</span>,   frame_token))
+
+<span class="cm"># Example resolution — Ocean preset, Mantra pipeline:</span>
+<span class="cm"># "{project}_{layer}_ocean_{pass}_v{version}"</span>
+<span class="cm"># → "HERO_hero_layer_ocean_caustics_v001"   (then appended with .$F4.exr)</span></pre>
+      </div>
+    </div>
+  </section>
+
+  <div class="zone-div" data-depth="// 05 naming"></div>
+
+  <!-- ══════════════════════════════════════════
+       NAMING TOKENS
+  ═════════════════════════════════════════════ -->
+  <section class="section">
+    <div class="container">
+      <div class="reveal">
+        <p class="eyebrow">// 05 — Naming</p>
+        <h2 class="section-title">Naming convention<br>tokens</h2>
+        <div class="section-rule" aria-hidden="true"></div>
+        <p style="color:var(--c-mist); max-width:600px; margin-bottom: var(--space-md);">
+          Templates are fully configurable per preset in <code>aov_config.py</code>.
+          Tokens are resolved at generation time — frame tokens output renderer-native syntax automatically.
+        </p>
+      </div>
+
+      <div class="token-grid reveal">
+        <div class="token-card">
+          <div class="token-key">{project}</div>
+          <div class="token-val">Project name field → e.g. HERO_PROJECT</div>
+        </div>
+        <div class="token-card">
+          <div class="token-key">{layer}</div>
+          <div class="token-val">Layer name field → e.g. hero_layer</div>
+        </div>
+        <div class="token-card">
+          <div class="token-key">{pass}</div>
+          <div class="token-val">Pass identifier → e.g. caustics, zdepth</div>
+        </div>
+        <div class="token-card">
+          <div class="token-key">{version}</div>
+          <div class="token-val">Zero-padded version → e.g. 001, 012</div>
+        </div>
+        <div class="token-card">
+          <div class="token-key">{date}</div>
+          <div class="token-val">Resolved at generation → YYYY_MM_DD</div>
+        </div>
+        <div class="token-card">
+          <div class="token-key">{frame}</div>
+          <div class="token-val">Renderer-native → $F4 (Houdini) · {frame_number} (UE5)</div>
+        </div>
+      </div>
+
+      <div class="code-block-wrap reveal" style="margin-top: var(--space-md);">
+        <div class="code-header">
+          <span class="code-lang">Template</span>
+          <span class="code-filename">Ocean Mode default — naming_template</span>
+        </div>
+        <pre>{project}_{layer}_ocean_{pass}_v{version}
+<span class="cm">→ HERO_PROJECT_hero_layer_ocean_caustics_v001</span></pre>
+      </div>
+    </div>
+  </section>
+
+  <div class="zone-div" data-depth="// 06 install"></div>
+
+  <!-- ══════════════════════════════════════════
+       INSTALL
+  ═════════════════════════════════════════════ -->
+  <section class="section">
+    <div class="container">
+      <div class="reveal">
+        <p class="eyebrow">// 06 — Install</p>
+        <h2 class="section-title">Getting started</h2>
+        <div class="section-rule" aria-hidden="true"></div>
+      </div>
+
+      <div class="install-list">
+
+        <div class="install-step reveal">
+          <div class="step-num">01</div>
+          <div class="step-body">
+            <h4>Unzip or clone</h4>
+            <p>Download the zip or clone the repo. The three files are self-contained — no build step required.</p>
+            <div class="folder-tree" style="margin-top:0.5rem;">
+aov_manager/
+  <span class="tree-new">aov_config.py</span>       <span class="tree-note">← only file you ever need to edit</span>
+  standalone_app.py    <span class="tree-note">← double-click or python standalone_app.py</span>
+  houdini_shelf.py     <span class="tree-note">← paste into Houdini shelf Script tab</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="install-step reveal" data-delay="80">
+          <div class="step-num">02</div>
+          <div class="step-body">
+            <h4>Standalone app — install PySide6</h4>
+            <p>PySide6 is the only dependency for the desktop app. Double-click or run from terminal after install.</p>
+            <div class="code-header" style="margin-top:0.5rem;">
+              <span class="code-lang">Bash</span>
+            </div>
+            <pre>pip install PySide6
+python standalone_app.py</pre>
+          </div>
+        </div>
+
+        <div class="install-step reveal" data-delay="140">
+          <div class="step-num">03</div>
+          <div class="step-body">
+            <h4>Houdini shelf — paste and run once</h4>
+            <p>In Houdini, right-click the shelf → New Tool → Script tab. Paste the entire contents of <code>houdini_shelf.py</code> and click Accept. The tool will appear on your shelf.</p>
+            <div class="code-header" style="margin-top:0.5rem;">
+              <span class="code-lang">Path — where to put aov_config.py</span>
+            </div>
+            <pre>$HOUDINI_USER_PREF_DIR/scripts/python/aov_config.py   <span class="cm"># recommended</span>
+$HIP/aov_config.py                                    <span class="cm"># per-project fallback</span></pre>
+          </div>
+        </div>
+
+        <div class="install-step reveal" data-delay="200">
+          <div class="step-num">04</div>
+          <div class="step-body">
+            <h4>Configure — edit aov_config.py</h4>
+            <p>
+              Set your <code>DEFAULT_PROJECT</code>, <code>DEFAULT_ROOT</code>, and <code>DEFAULT_PIPELINE</code> at the top of <code>aov_config.py</code>.
+              For custom shader passes flagged <span class="badge-custom">⚠ CUSTOM</span> in the generated output,
+              swap <code>vm_variable</code> to match your actual VEX export name.
+              For Karma light groups, fill in <code>light_group</code> once you've named your lights.
+            </p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <div class="zone-div" data-depth="// 07 architecture"></div>
+
+  <!-- ══════════════════════════════════════════
+       ARCHITECTURE / SKILLS
+  ═════════════════════════════════════════════ -->
+  <section class="section">
+    <div class="container">
+      <div class="reveal">
+        <p class="eyebrow">// 07 — Architecture</p>
+        <h2 class="section-title">Design decisions &amp;<br>technical patterns</h2>
+        <div class="section-rule" aria-hidden="true"></div>
+      </div>
+
+      <div class="skills-doc-list">
+
+        <div class="skill-doc-row reveal">
+          <div>
+            <div class="skill-name">Shared Config</div>
+            <div class="skill-where">aov_config.py</div>
+          </div>
+          <div class="skill-desc">
+            Single source of truth — all presets, passes, naming templates, and renderer parameters live in one file.
+            Both apps import it at runtime. Adding a pass or changing a template propagates to both interfaces instantly,
+            with no duplication to maintain.
+          </div>
+        </div>
+
+        <div class="skill-doc-row reveal" data-delay="50">
+          <div>
+            <div class="skill-name">Renderer Metadata</div>
+            <div class="skill-where">aov_config.py — pass dicts</div>
+          </div>
+          <div class="skill-desc">
+            Each pass carries a <code>mantra</code>, <code>karma</code>, and <code>ue5</code> block with correct technical parameters —
+            actual VEX export variable names, proper pixel filters (e.g. <code>minmax min</code> for depth),
+            Karma LPE strings, UE5 MRQ C++ class names, and deferred-only flags. No placeholder strings or
+            free-form pass names that a renderer wouldn't understand.
+          </div>
+        </div>
+
+        <div class="skill-doc-row reveal" data-delay="100">
+          <div>
+            <div class="skill-name">Custom Var Flagging</div>
+            <div class="skill-where">generate_houdini_script()</div>
+          </div>
+          <div class="skill-desc">
+            Passes that require a custom shader export — like <code>biolum</code>, <code>rimlight</code>, or <code>toon_ramp</code> —
+            set <code>"custom_var": True</code>. The generator writes a <code># ⚠ CUSTOM SHADER EXPORT</code> comment directly
+            above the relevant <code>vm_variable</code> line so the artist knows exactly which line to swap without
+            reading any documentation.
+          </div>
+        </div>
+
+        <div class="skill-doc-row reveal" data-delay="150">
+          <div>
+            <div class="skill-name">LPE Light Groups</div>
+            <div class="skill-where">aov_config.py — karma block</div>
+          </div>
+          <div class="skill-desc">
+            Karma LPEs default to generic syntax with no light group dependency so the tool works before lights are named.
+            A <code>light_group</code> field is present on every pass — set it to e.g. <code>"rim"</code> and the generator
+            injects the group into the LPE string automatically. A comment in the generated output reminds the artist to do this.
+          </div>
+        </div>
+
+        <div class="skill-doc-row reveal" data-delay="200">
+          <div>
+            <div class="skill-name">PySide2 / PySide6</div>
+            <div class="skill-where">both app files</div>
+          </div>
+          <div class="skill-desc">
+            The standalone app uses PySide6. The shelf tool uses PySide2 — Houdini's bundled Qt — to avoid
+            version conflicts with Houdini's own UI thread. Both share the same widget structure and stylesheet
+            patterns, with accent colours and card states driven from <code>aov_config.py</code> preset data at runtime.
+          </div>
+        </div>
+
+        <div class="skill-doc-row reveal" data-delay="250">
+          <div>
+            <div class="skill-name">UE5 Deferred Warning</div>
+            <div class="skill-where">generate_ue5_config()</div>
+          </div>
+          <div class="skill-desc">
+            The UE5 generator checks every active pass's <code>deferred_only</code> flag. If any enabled pass requires
+            Deferred Rendering mode, a warning block is automatically appended to the config with MRQ setup
+            instructions — the artist doesn't need to remember which passes need it.
+          </div>
+        </div>
+
+        <div class="skill-doc-row reveal" data-delay="300">
+          <div>
+            <div class="skill-name">Live Session Build</div>
+            <div class="skill-where">houdini_shelf.py — Build in Houdini</div>
+          </div>
+          <div class="skill-desc">
+            The shelf tool's <em>Build in Houdini</em> button calls <code>exec()</code> on the generated script
+            directly inside the running Houdini Python session. This creates the ROP node tree, sets all AOV
+            parameters, and calls <code>os.makedirs</code> on every output folder — turning the UI into a one-click
+            production setup rather than a script generator requiring a separate paste step.
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+</main>
+
+  <div class="zone-div" data-depth="// 08 extending"></div>
+
+  <!-- EXTENDING -->
+  <section class="section">
+    <div style="position: relative; z-index: 2; max-width: 1200px; margin: 0 auto; padding: 0 3rem;">
+      <div class="container">
+        <div class="reveal">
+          <p class="eyebrow">// 08 — Extending</p>
+          <h2 class="section-title">Adding passes<br>&amp; custom presets</h2>
+          <div class="section-rule" aria-hidden="true"></div>
+          <p style="color:var(--c-mist); max-width:640px; margin-bottom: var(--space-md);">
+            Everything lives in <code>aov_config.py</code>. Adding a new standard pass, a new custom preset pass,
+            or an entirely new style preset requires only editing that one file — no UI code to touch.
+          </p>
+        </div>
+
+        <div class="code-block-wrap reveal">
+          <div class="code-header">
+            <span class="code-lang">Python</span>
+            <span class="code-filename">aov_config.py — adding a new standard pass</span>
+          </div>
+<pre><span class="cm"># Append to STANDARD_PASSES. The UI will show it as a new card automatically.</span>
+{
+    <span class="str">"id"</span>:         <span class="str">"velocity"</span>,
+    <span class="str">"label"</span>:      <span class="str">"Motion Vector"</span>,
+    <span class="str">"desc"</span>:       <span class="str">"Per-pixel velocity for motion blur in comp"</span>,
+    <span class="str">"default_on"</span>: <span class="kw">False</span>,
+    <span class="str">"mantra"</span>: {
+        <span class="str">"vm_variable"</span>: <span class="str">"vel"</span>,        <span class="cm"># VEX export — must exist in your shader</span>
+        <span class="str">"vm_channel"</span>:  <span class="str">"velocity"</span>,
+        <span class="str">"vm_vextype"</span>:  <span class="str">"vector"</span>,
+        <span class="str">"vm_pfilter"</span>:  <span class="str">"box"</span>,        <span class="cm"># never filter velocity with gaussian</span>
+        <span class="str">"vm_quantize"</span>: <span class="str">"float16"</span>,
+        <span class="str">"extra"</span>:       {},
+        <span class="str">"custom_var"</span>:  <span class="kw">False</span>,
+    },
+    <span class="str">"karma"</span>: {
+        <span class="str">"lpe"</span>:        <span class="str">""</span>,
+        <span class="str">"variable"</span>:   <span class="str">"velocity"</span>,
+        <span class="str">"type"</span>:       <span class="str">"vector"</span>,
+        <span class="str">"light_group"</span>:<span class="str">""</span>,
+        <span class="str">"custom_var"</span>: <span class="kw">False</span>,
+    },
+    <span class="str">"ue5"</span>: {
+        <span class="str">"pass_class"</span>:    <span class="str">"MoviePipelineImagePassBase"</span>,
+        <span class="str">"deferred_only"</span>: <span class="kw">True</span>,
+        <span class="str">"notes"</span>:         <span class="str">"Enable MotionBlur / Velocity in Buffer Visualization."</span>,
+    },
+},</pre>
+        </div>
+
+        <div class="code-block-wrap reveal" data-delay="60">
+          <div class="code-header">
+            <span class="code-lang">Python</span>
+            <span class="code-filename">aov_config.py — adding a new style preset</span>
+          </div>
+<pre><span class="cm"># Add a new key to PRESETS. The UI preset buttons rebuild from this dict at startup.</span>
+PRESETS[<span class="str">"horror"</span>] = {
+    <span class="str">"label"</span>:           <span class="str">"🩸 Horror Mode"</span>,
+    <span class="str">"color_hex"</span>:       <span class="str">"#e05c6e"</span>,
+    <span class="str">"naming_template"</span>: <span class="str">"{project}_{layer}_horror_{pass}_v{version}"</span>,
+    <span class="str">"folder_template"</span>: <span class="str">"{root}/{project}/horror/{layer}/{pass}/"</span>,
+    <span class="str">"passes"</span>: [
+        {
+            <span class="str">"id"</span>: <span class="str">"blood_mask"</span>, <span class="str">"label"</span>: <span class="str">"Blood Mask"</span>,
+            <span class="str">"desc"</span>: <span class="str">"Fluid / blood isolation matte"</span>, <span class="str">"default_on"</span>: <span class="kw">True</span>,
+            <span class="str">"mantra"</span>: {
+                <span class="str">"vm_variable"</span>: <span class="str">"blood_mask"</span>, <span class="str">"vm_channel"</span>: <span class="str">"blood_mask"</span>,
+                <span class="str">"vm_vextype"</span>: <span class="str">"float"</span>, <span class="str">"vm_pfilter"</span>: <span class="str">"gaussian"</span>,
+                <span class="str">"vm_quantize"</span>: <span class="str">"float16"</span>, <span class="str">"extra"</span>: {}, <span class="str">"custom_var"</span>: <span class="kw">True</span>,
+            },
+            <span class="str">"karma"</span>:  {<span class="str">"lpe"</span>: <span class="str">""</span>, <span class="str">"variable"</span>: <span class="str">"blood_mask"</span>, <span class="str">"type"</span>: <span class="str">"float"</span>, <span class="str">"light_group"</span>: <span class="str">""</span>, <span class="str">"custom_var"</span>: <span class="kw">True</span>},
+            <span class="str">"ue5"</span>:    {<span class="str">"pass_class"</span>: <span class="str">"MoviePipelineObjectIdRenderPass"</span>, <span class="str">"deferred_only"</span>: <span class="kw">False</span>, <span class="str">"notes"</span>: <span class="str">"Stencil-isolate fluid actors."</span>},
+        },
+    ],
+}
+
+<span class="cm"># Also add to PRESET_COLORS so the UI accent colour resolves correctly:</span>
+PRESET_COLORS[<span class="str">"horror"</span>] = <span class="str">"#e05c6e"</span></pre>
+        </div>
+
+        <div class="code-block-wrap reveal" data-delay="120">
+          <div class="code-header">
+            <span class="code-lang">Python</span>
+            <span class="code-filename">aov_config.py — changing default project settings</span>
+          </div>
+<pre><span class="cm"># These values pre-fill the UI on launch. Change once per project.</span>
+DEFAULT_PROJECT  = <span class="str">"ABYSS_SQ010"</span>    <span class="cm"># project name field</span>
+DEFAULT_LAYER    = <span class="str">"ocean_hero"</span>      <span class="cm"># layer name field</span>
+DEFAULT_VERSION  = <span class="num">1</span>                 <span class="cm"># version spinner starting value</span>
+DEFAULT_ROOT     = <span class="str">"/mnt/renders"</span>   <span class="cm"># root path field</span>
+DEFAULT_PRESET   = <span class="str">"ocean"</span>           <span class="cm"># which preset is selected on open</span>
+DEFAULT_PIPELINE = <span class="num">0</span>                 <span class="cm"># 0 = Mantra · 1 = Karma · 2 = UE5</span>
+
+<span class="cm"># Output format — applies to all renderers:</span>
+OUTPUT_FORMAT    = <span class="str">"EXR"</span>
+OUTPUT_BITDEPTH  = <span class="str">"16"</span>
+FILM_COLORSPACE  = <span class="str">"ACES_ACEScg"</span>
+STYL_COLORSPACE  = <span class="str">"sRGB"</span></pre>
+        </div>
+      </div>
+    </div>
+  </section>
+
+<footer class="site-footer">
+  <p class="footer-text">
+    designed &amp; built by
+    <span class="footer-accent">alyssa barrientos</span>
+    · alyartbar ·
+    <span id="footer-year"></span>
+  </p>
+</footer>
+
+<script>
+'use strict';
+
+document.getElementById('footer-year').textContent = new Date().getFullYear();
+
+// ── Starfield ──────────────────────────────────────────────
+(function() {
+  const canvas = document.getElementById('stars');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  let W, H, stars = [];
+
+  function resize() { W = canvas.width = window.innerWidth; H = canvas.height = window.innerHeight; }
+  function mkStar() {
+    return { x: Math.random()*W, y: Math.random()*H, r: Math.random()*1.1+0.2,
+             a: Math.random()*0.45+0.08, speed: Math.random()*0.12+0.02,
+             drift: (Math.random()-0.5)*0.025, phase: Math.random()*Math.PI*2 };
+  }
+  resize();
+  stars = Array.from({ length: 130 }, mkStar);
+  window.addEventListener('resize', resize);
+  let t = 0;
+  (function draw() {
+    ctx.clearRect(0, 0, W, H);
+    t += 0.007;
+    for (const s of stars) {
+      s.y -= s.speed; s.x += s.drift;
+      if (s.y < -2) { s.y = H+2; s.x = Math.random()*W; }
+      if (s.x < -2) s.x = W+2;
+      if (s.x > W+2) s.x = -2;
+      const tw = s.a * (0.7 + 0.3*Math.sin(t*1.4+s.phase));
+      ctx.beginPath();
+      ctx.arc(s.x, s.y, s.r, 0, Math.PI*2);
+      ctx.fillStyle = `rgba(232,244,248,${tw})`;
+      ctx.fill();
+    }
+    requestAnimationFrame(draw);
+  })();
+})();
+
+// ── Custom cursor ─────────────────────────────────────────
+(function() {
+  if (window.innerWidth < 600) return;
+  const ring = document.getElementById('cursor-ring');
+  const dot  = document.getElementById('cursor-dot');
+  if (!ring || !dot) return;
+  let mx = -200, my = -200, rx = -200, ry = -200;
+  document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
+  (function tick() {
+    dot.style.left  = mx + 'px'; dot.style.top   = my + 'px';
+    rx += (mx - rx) * 0.14;      ry += (my - ry) * 0.14;
+    ring.style.left = rx + 'px'; ring.style.top  = ry + 'px';
+    requestAnimationFrame(tick);
+  })();
+  const hoverSel = 'a, button, .tool-doc-card, .btn, .skill-doc-row, .check-table tr, .token-card, .install-step';
+  document.addEventListener('mouseover', e => { if (e.target.closest(hoverSel)) ring.classList.add('hover'); });
+  document.addEventListener('mouseout',  e => { if (e.target.closest(hoverSel)) ring.classList.remove('hover'); });
+})();
+
+// ── Nav scroll ───────────────────────────────────────────
+(function() {
+  const nav = document.getElementById('site-nav');
+  if (!nav) return;
+  const update = () => nav.classList.toggle('scrolled', window.scrollY > 40);
+  window.addEventListener('scroll', update, { passive: true });
+  update();
+})();
+
+// ── Scroll reveal ─────────────────────────────────────────
+(function() {
+  const els = document.querySelectorAll('.reveal');
+  if (!els.length) return;
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const delay = entry.target.dataset.delay ? parseInt(entry.target.dataset.delay) : 0;
+        setTimeout(() => entry.target.classList.add('visible'), delay);
+        obs.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.08 });
+  els.forEach(el => obs.observe(el));
+})();
+</script>
+
+<style>
+@keyframes pulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(61,255,208,0.5); }
+  50%       { box-shadow: 0 0 0 5px rgba(61,255,208,0); }
+}
+</style>
+
+</body>
+</html>
