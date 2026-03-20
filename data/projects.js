@@ -106,7 +106,7 @@ const PROJECTS = [
      imageAlt: "Shifting Interface - AI-driven visual state system with layered atmospheric composition",
      links: [
        { label: "Live",  url: "https://alybarr.github.io/shifting_interface/" },
-       { label: "Docs",  url: "shifting-interface.html" }
+       { label: "Docs",  url: "Shifting-interface-docs.html" }
      ]
    },
   /* ═══════════════════════════════════════════════════════
