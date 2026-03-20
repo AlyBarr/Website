@@ -90,7 +90,25 @@ const PROJECTS = [
         { label: "Docs",   url: "raytracer.html" }
       ]
     },
-  
+   {
+     id: "shifting-interface",
+     featured: true,
+     category: "Creative Technology · AI Systems",
+     title: "Shifting Interface — AI-Driven Visual State System",
+     oneliner: "An interactive visual system where structured AI state data shapes atmosphere, motion, composition, and interaction in real time — treating the model as a behavioral engine rather than a text generator.",
+     bullets: [
+       "State machine pattern translates AI JSON output into live CSS custom properties — two variables cascade simultaneously through eight composited visual layers via color-mix(), screen blend mode, and radial gradients",
+       "Parallax depth system with per-fragment data-depth coefficients and AI-governed energy scaling; GPU-composited translate3d transforms keep motion off the main thread entirely",
+       "Echo transition layer spawns ghost clones of outgoing fragment geometry on each state shift, with animationend cleanup and CSS keyframe after-image fade"
+     ],
+     tools: ["HTML5", "CSS Custom Properties", "Vanilla JS", "State Machine", "mix-blend-mode", "IntersectionObserver"],
+     //image: "",
+     imageAlt: "Shifting Interface - AI-driven visual state system with layered atmospheric composition",
+     links: [
+       { label: "Live",  url: "https://alybarr.github.io/shifting_interface/" },
+       { label: "Docs",  url: "Shifting-interface-docs.html" }
+     ]
+   },
   /* ═══════════════════════════════════════════════════════
   {
     id: "proc-terrain",
