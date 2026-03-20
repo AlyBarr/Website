@@ -16,7 +16,7 @@
 const PROJECTS = [
   {
     id: "maya-pipeline-tools",
-    featured: true,
+    //featured: true,
     category: "Pipeline & Tools",
     title: "Maya Pipeline Tools",
     oneliner: "Production-grade Scene Validator and Asset Publisher for Maya - built to mirror studio TD conventions.",
@@ -35,7 +35,7 @@ const PROJECTS = [
   },
     {
       id: "ml-rig-predictor",
-      featured: true,
+      //featured: true,
       category: "Machine Learning · Virtual Production",
       title: "Virtual Prod ML Rig Predictor",
       oneliner: "Two-model Random Forest system that classifies 18 human motion actions from 3D skeletal joint data - built for virtual production rigs.",
@@ -54,7 +54,7 @@ const PROJECTS = [
     },
     {
       id: "aoi-xr",
-      featured: false,
+      //featured: false,
       category: "Augmented Reality · Unity · AI",
       title: "Augmented Object Intelligence XR",
       oneliner: "Mobile AR capstone that anchors AI-generated context directly onto physical objects in 3D space — point your camera at anything and an LLM explains it back to you.",
@@ -73,7 +73,7 @@ const PROJECTS = [
     },
     {
       id: "raytracer-dev",
-      featured: false,
+      //featured: false,
       category: "Graphics Programming · C++",
       title: "Raytracer Dev — OpenGL Graphics Engine",
       oneliner: "A C++ graphics pipeline built from scratch across six assignments — Phong shading, OBJ import, parametric curves, skeletal animation, and real-time cloth physics with four interchangeable ODE integrators.",
@@ -92,7 +92,7 @@ const PROJECTS = [
     },
    {
      id: "shifting-interface",
-     featured: true,
+     //featured: true,
      category: "Creative Technology · AI Systems",
      title: "Shifting Interface — AI-Driven Visual State System",
      oneliner: "An interactive visual system where structured AI state data shapes atmosphere, motion, composition, and interaction in real time — treating the model as a behavioral engine rather than a text generator.",
