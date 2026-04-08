@@ -5,6 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="description" content="Alyssa Barrientos — Technical Director. Procedural systems, simulations, tools & rendering. I build systems for worlds." />
   <title>Alyssa Barrientos · AlyArtBar</title>
+  <!-- AB logomark favicon — matches nav brand -->
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <link rel="icon" href="favicon.svg">
 
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -17,12 +20,19 @@
   <link rel="stylesheet" href="css/terminal.css" />
   <link rel="stylesheet" href="css/nav.css" />
   <link rel="stylesheet" href="css/hero.css" />
+  <link rel="stylesheet" href="css/artbar.css" />
   <link rel="stylesheet" href="css/sections.css" />
   <link rel="stylesheet" href="css/projects.css" />
   <link rel="stylesheet" href="css/constellation.css" />
   <link rel="stylesheet" href="css/rnd.css" />
   <link rel="stylesheet" href="css/contact.css" />
   <link rel="stylesheet" href="css/phase4.css" />
+  <!-- Fantasy + imperfections layer — always last so overrides work -->
+  <link rel="stylesheet" href="css/nda.css" />
+  <link rel="stylesheet" href="css/fantasy.css" />
+  <link rel="stylesheet" href="css/imperfections.css" />
+  <link rel="stylesheet" href="css/interaction.css" />
+  <link rel="stylesheet" href="css/ascii.css" />
 </head>
 <body>
 
@@ -59,7 +69,22 @@
   <header id="site-nav" role="banner">
     <nav class="nav-inner" aria-label="Primary navigation">
       <a class="nav-brand" href="#hero" aria-label="AlyArtBar home">
-        <span class="brand-mark">AB</span>
+        <!-- AlyArtBar logomark: AB monogram sigil + orbital ring -->
+        <svg class="brand-sigil" viewBox="0 0 36 36" fill="none" aria-hidden="true" width="36" height="36">
+          <!-- outer orbit ring — slow spin via CSS -->
+          <circle cx="18" cy="18" r="16.5" stroke="#3dffd0" stroke-width="0.6" stroke-opacity="0.30" stroke-dasharray="2 5" class="brand-orbit"/>
+          <!-- inner arc — partial ring, tilted -->
+          <path d="M 18 4 A 14 14 0 0 1 32 18" stroke="#3dffd0" stroke-width="0.8" stroke-opacity="0.55" stroke-linecap="round"/>
+          <path d="M 18 32 A 14 14 0 0 1 4 18"  stroke="#3dffd0" stroke-width="0.8" stroke-opacity="0.35" stroke-linecap="round"/>
+          <!-- A glyph — angular, upward thrust -->
+          <path d="M 10 25 L 15 11 L 18 16 M 11.8 20.5 L 16.4 20.5" stroke="#e6f3f8" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+          <!-- B glyph — right side, shares stem with A's right leg feel -->
+          <path d="M 20 11 L 20 25 M 20 11 Q 27 11 27 15 Q 27 18 20 18 Q 27 18 27 22 Q 27 25 20 25" stroke="#3dffd0" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+          <!-- biolume centre dot -->
+          <circle cx="18" cy="18" r="1.2" fill="#3dffd0" fill-opacity="0.80"/>
+          <!-- tiny orbiting dot on the ring -->
+          <circle cx="18" cy="1.5" r="1.0" fill="#3dffd0" fill-opacity="0.90" class="brand-dot"/>
+        </svg>
         <span class="brand-name">AlyArtBar</span>
       </a>
       <ul class="nav-links" id="nav-links" role="list">
@@ -67,14 +92,24 @@
         <li><a href="#projects">Projects</a></li>
         <li><a href="#skills">Skills</a></li>
         <li><a href="#rnd">R&amp;D</a></li>
+        <li><a href="#nda" class="nav-nda">Vault ◈</a></li>
         <li><a href="#contact">Contact</a></li>
-        <li><a href="assets/CreativeTechResume.pdf" target="_blank" rel="noopener" class="nav-resume">Resume ↗</a></li>
+        <li><a href="assets/resume.pdf" target="_blank" rel="noopener" class="nav-resume">Resume ↗</a></li>
       </ul>
       <button class="nav-burger" id="nav-burger" aria-label="Toggle menu" aria-expanded="false">
         <span></span><span></span><span></span>
       </button>
     </nav>
   </header>
+
+  <!-- Recruiter accessibility banner -->
+  <div class="recruiter-banner" id="recruiter-banner" role="complementary">
+    <span class="recruiter-banner-text">
+      ⚡ Heavy WebGL &amp; animations active.
+      <a href="recruiter.html" class="recruiter-banner-link">Switch to accessible view →</a>
+    </span>
+    <button class="recruiter-banner-close" id="recruiter-banner-close" aria-label="Dismiss">✕</button>
+  </div>
 
   <main>
 
@@ -86,11 +121,41 @@
       <div class="orb orb-1" aria-hidden="true"></div>
       <div class="orb orb-2" aria-hidden="true"></div>
       <div class="orb orb-3" aria-hidden="true"></div>
+      <!-- Fantasy atmosphere layers -->
+      <div class="hero-sigil" aria-hidden="true"></div>
+      <div class="hero-ascii-grid" aria-hidden="true">╔══ VESSEL LOG ══════════════╗
+║ id   : AlyArtBar           ║
+║ depth: 0m — surface        ║
+║ temp : 18.4°C              ║
+║ coord: 34°N / 118°W        ║
+╠════════════════════════════╣
+║ sys  : world-engine v2.0   ║
+║ proc : nominal ██████░░    ║
+║ pipe : nominal ████████░   ║
+║ rend : nominal █████░░░    ║
+╠════════════════════════════╣
+║ > scanning horizon...      ║
+║ > wormholes detected: 3    ║
+║ > awaiting crew            ║
+╚════════════════════════════╝</div>
+      <div class="hero-depth-line" style="top:42%;left:0;width:48%" aria-hidden="true"></div>
+      <div class="hero-depth-line" style="top:62%;left:10%;width:38%" aria-hidden="true"></div>
+      <div class="hero-depth-line" style="top:78%;left:5%;width:55%" aria-hidden="true"></div>
       <!-- Phase 3: floating particles -->
       <div id="hero-particles" aria-hidden="true"></div>
 
       <div class="hero-body" data-parallax data-speed="0.006">
-        <p class="hero-eyebrow">// creative technology r&d · technical art · graphics systems</p>
+
+        <!-- Fantasy: manuscript annotations -->
+        <div class="hero-corner-br" aria-hidden="true"></div>
+        <div class="hero-ticks" aria-hidden="true">
+          <div class="hero-tick"></div><div class="hero-tick"></div>
+          <div class="hero-tick"></div><div class="hero-tick"></div>
+          <div class="hero-tick"></div><div class="hero-tick"></div>
+          <div class="hero-tick"></div><div class="hero-tick"></div>
+        </div>
+        <div class="hero-margin-note" aria-hidden="true">astral coordinates locked</div>
+        <p class="hero-eyebrow">// creative technology · technical art · graphics systems</p>
         <h1 class="hero-name">
           <span class="name-first">Alyssa</span>
           <span class="name-last">Barrientos</span>
@@ -115,6 +180,121 @@
           <a href="assets/resume.pdf" class="btn btn-ghost" target="_blank" rel="noopener">Resume ↗</a>
           <a href="#contact" class="hero-text-link">Get in touch →</a>
         </div>
+
+        <div class="hero-portals" aria-label="Choose a route">
+
+          <!-- ── Techart portal: astrolabe / compass-rose ── -->
+          <a class="portal" href="#projects" data-portal="techart">
+            <div class="portal-gem" aria-hidden="true">
+              <svg class="portal-sigil" viewBox="0 0 48 48" fill="none">
+                <!-- outer dashed orbit -->
+                <circle cx="24" cy="24" r="22" stroke="currentColor" stroke-width="0.4" stroke-dasharray="1.5 3.5" stroke-opacity="0.35"/>
+                <!-- main rings -->
+                <circle cx="24" cy="24" r="16" stroke="currentColor" stroke-width="0.55" stroke-opacity="0.55"/>
+                <circle cx="24" cy="24" r="9"  stroke="currentColor" stroke-width="0.75" stroke-opacity="0.80"/>
+                <!-- cardinal spokes with arrowheads -->
+                <line x1="24" y1="1"  x2="24" y2="14" stroke="currentColor" stroke-width="0.9" stroke-opacity="0.70"/>
+                <line x1="24" y1="34" x2="24" y2="47" stroke="currentColor" stroke-width="0.9" stroke-opacity="0.70"/>
+                <line x1="1"  y1="24" x2="14" y2="24" stroke="currentColor" stroke-width="0.9" stroke-opacity="0.70"/>
+                <line x1="34" y1="24" x2="47" y2="24" stroke="currentColor" stroke-width="0.9" stroke-opacity="0.70"/>
+                <!-- diagonal ticks -->
+                <line x1="6.5" y1="6.5"  x2="11" y2="11" stroke="currentColor" stroke-width="0.5" stroke-opacity="0.40"/>
+                <line x1="41.5" y1="6.5" x2="37" y2="11" stroke="currentColor" stroke-width="0.5" stroke-opacity="0.40"/>
+                <line x1="6.5" y1="41.5" x2="11" y2="37" stroke="currentColor" stroke-width="0.5" stroke-opacity="0.40"/>
+                <line x1="41.5" y1="41.5" x2="37" y2="37" stroke="currentColor" stroke-width="0.5" stroke-opacity="0.40"/>
+                <!-- intercardinal small ticks on ring -->
+                <line x1="24" y1="8"  x2="24" y2="11" stroke="currentColor" stroke-width="0.7" stroke-opacity="0.50"/>
+                <line x1="24" y1="37" x2="24" y2="40" stroke="currentColor" stroke-width="0.7" stroke-opacity="0.50"/>
+                <line x1="8"  y1="24" x2="11" y2="24" stroke="currentColor" stroke-width="0.7" stroke-opacity="0.50"/>
+                <line x1="37" y1="24" x2="40" y2="24" stroke="currentColor" stroke-width="0.7" stroke-opacity="0.50"/>
+                <!-- centre dot -->
+                <circle cx="24" cy="24" r="2.8" fill="currentColor" fill-opacity="0.95"/>
+                <circle cx="24" cy="24" r="1.2" fill="#ffffff"      fill-opacity="0.70"/>
+              </svg>
+              <div class="portal-gem-core"></div>
+              <div class="portal-gem-ring ring-1"></div>
+              <div class="portal-gem-ring ring-2"></div>
+              <!-- floating star sparks -->
+              <span class="portal-spark s1"></span>
+              <span class="portal-spark s2"></span>
+              <span class="portal-spark s3"></span>
+              <span class="portal-spark s4"></span>
+            </div>
+            <span class="portal-label">Tech Art</span>
+            <span class="portal-desc">proc · sims · shaders</span>
+            <span class="portal-dest">→ Projects</span>
+          </a>
+
+          <!-- ── Pipeline portal: nested hexagons / arcane node ── -->
+          <a class="portal" href="#rnd" data-portal="pipeline">
+            <div class="portal-gem" aria-hidden="true">
+              <svg class="portal-sigil" viewBox="0 0 48 48" fill="none">
+                <!-- outer hex -->
+                <polygon points="24,2 41.5,12 41.5,36 24,46 6.5,36 6.5,12" stroke="currentColor" stroke-width="0.45" stroke-opacity="0.35"/>
+                <!-- mid hex -->
+                <polygon points="24,8  37,15.5 37,32.5 24,40 11,32.5 11,15.5" stroke="currentColor" stroke-width="0.60" stroke-opacity="0.60"/>
+                <!-- inner hex -->
+                <polygon points="24,15 32,19.5 32,28.5 24,33 16,28.5 16,19.5" stroke="currentColor" stroke-width="0.80" stroke-opacity="0.85"/>
+                <!-- vertex connector lines outer→mid -->
+                <line x1="24" y1="2"  x2="24" y2="8"   stroke="currentColor" stroke-width="0.40" stroke-opacity="0.30"/>
+                <line x1="24" y1="40" x2="24" y2="46"  stroke="currentColor" stroke-width="0.40" stroke-opacity="0.30"/>
+                <line x1="6.5"  y1="12" x2="11"  y2="15.5" stroke="currentColor" stroke-width="0.40" stroke-opacity="0.30"/>
+                <line x1="41.5" y1="12" x2="37"  y2="15.5" stroke="currentColor" stroke-width="0.40" stroke-opacity="0.30"/>
+                <line x1="6.5"  y1="36" x2="11"  y2="32.5" stroke="currentColor" stroke-width="0.40" stroke-opacity="0.30"/>
+                <line x1="41.5" y1="36" x2="37"  y2="32.5" stroke="currentColor" stroke-width="0.40" stroke-opacity="0.30"/>
+                <!-- centre -->
+                <circle cx="24" cy="24" r="3" fill="currentColor" fill-opacity="0.95"/>
+                <circle cx="24" cy="24" r="1.3" fill="#ffffff"    fill-opacity="0.70"/>
+              </svg>
+              <div class="portal-gem-core"></div>
+              <div class="portal-gem-ring ring-1"></div>
+              <div class="portal-gem-ring ring-2"></div>
+              <span class="portal-spark s1"></span>
+              <span class="portal-spark s2"></span>
+              <span class="portal-spark s3"></span>
+              <span class="portal-spark s4"></span>
+            </div>
+            <span class="portal-label">Pipeline</span>
+            <span class="portal-desc">USD · tools · flow</span>
+            <span class="portal-dest">→ R&amp;D Lab</span>
+          </a>
+
+          <!-- ── Creative portal: three-axis orbital / orrery ── -->
+          <a class="portal" href="#skills" data-portal="creative">
+            <div class="portal-gem" aria-hidden="true">
+              <svg class="portal-sigil" viewBox="0 0 48 48" fill="none">
+                <!-- background halo -->
+                <circle cx="24" cy="24" r="22" stroke="currentColor" stroke-width="0.35" stroke-opacity="0.22"/>
+                <!-- three tilted elliptical orbits -->
+                <ellipse cx="24" cy="24" rx="21" ry="7.5" stroke="currentColor" stroke-width="0.55" stroke-opacity="0.55" transform="rotate(0   24 24)"/>
+                <ellipse cx="24" cy="24" rx="21" ry="7.5" stroke="currentColor" stroke-width="0.55" stroke-opacity="0.55" transform="rotate(60  24 24)"/>
+                <ellipse cx="24" cy="24" rx="21" ry="7.5" stroke="currentColor" stroke-width="0.55" stroke-opacity="0.55" transform="rotate(-60 24 24)"/>
+                <!-- small orbiting dot on each path -->
+                <circle cx="45" cy="24" r="1.4" fill="currentColor" fill-opacity="0.75"/>
+                <circle cx="10.5" cy="8.5" r="1.2" fill="currentColor" fill-opacity="0.65"/>
+                <circle cx="10.5" cy="39.5" r="1.2" fill="currentColor" fill-opacity="0.65"/>
+                <!-- inner glow ring -->
+                <circle cx="24" cy="24" r="6"  stroke="currentColor" stroke-width="0.75" stroke-opacity="0.80"/>
+                <!-- centre sun -->
+                <circle cx="24" cy="24" r="3"  fill="currentColor" fill-opacity="0.95"/>
+                <circle cx="24" cy="24" r="1.3" fill="#ffffff"     fill-opacity="0.75"/>
+              </svg>
+              <div class="portal-gem-core"></div>
+              <div class="portal-gem-ring ring-1"></div>
+              <div class="portal-gem-ring ring-2"></div>
+              <span class="portal-spark s1"></span>
+              <span class="portal-spark s2"></span>
+              <span class="portal-spark s3"></span>
+              <span class="portal-spark s4"></span>
+            </div>
+            <span class="portal-label">Creative</span>
+            <span class="portal-desc">WebGL · XR · live</span>
+            <span class="portal-dest">→ Skills</span>
+          </a>
+
+        </div>
+        <p class="hero-portal-hint">Tip: Press <span class="kbd">Ctrl K</span> for command mode.</p>
+
       </div>
 
       <div class="hero-scroll" aria-hidden="true">
@@ -198,6 +378,15 @@
           <h2 class="section-title">Selected Work</h2>
           <div class="section-rule" aria-hidden="true"></div>
         </div>
+
+        <div class="role-filters reveal" aria-label="Project filters">
+          <button class="filter-chip is-active" data-filter="all" type="button">All</button>
+          <button class="filter-chip" data-filter="pipeline" type="button">Pipeline &amp; Tools</button>
+          <button class="filter-chip" data-filter="ml" type="button">ML &amp; AI</button>
+          <button class="filter-chip" data-filter="graphics" type="button">Graphics / C++</button>
+          <button class="filter-chip" data-filter="creative" type="button">Creative Tech</button>
+        </div>
+
         <!-- Injected by js/projects.js -->
         <div id="featured-projects"></div>
         <p class="grid-label reveal">More Projects</p>
@@ -231,18 +420,93 @@
       <div class="rnd-nebula-bg" aria-hidden="true"></div>
       <div class="container">
         <div class="section-header reveal">
+          <div class="logbook-entry" aria-hidden="true">
+            <span class="logbook-timestamp">log-04</span>
+            <span class="logbook-location">abyss layer · 4000m</span>
+            <span class="logbook-depth">nebula sector</span>
+          </div>
           <p class="eyebrow eyebrow-nebula">// 04 — R&amp;D Lab</p>
           <h2 class="section-title">Experiments &amp; Tools</h2>
           <div class="section-rule section-rule-nebula" aria-hidden="true"></div>
           <p class="rnd-intro-text">
-            These entries document experiments, prototypes, and research notes.
-            They show how ideas evolve — including what failed and what worked.
+            Active research in pipeline design, tool development, and rendering.
+            Honest about what's working, what broke, and what's next.
           </p>
+          <div class="field-note" data-label="NOTE" style="margin-top:1rem;max-width:480px">
+            All entries are live experiments. Status reflects current state — not polished outcomes.
+          </div>
         </div>
         <!-- Injected by js/rnd.js -->
         <div id="rnd-list" class="rnd-list"></div>
       </div>
     </section>
+
+    <div class="zone-div" data-depth="// classified · restricted" aria-hidden="true"></div>
+
+    <!-- ══════════════════════════════════════════
+         NDA VAULT
+    ═════════════════════════════════════════════ -->
+    <section id="nda" class="section section-nda" aria-label="Confidential Work">
+      <div class="nda-atmosphere" aria-hidden="true"></div>
+      <div class="container">
+
+        <div class="section-header reveal">
+          <p class="eyebrow eyebrow-classified">// 04.5 — Restricted</p>
+          <h2 class="section-title nda-title">Confidential Work</h2>
+          <div class="section-rule section-rule-classified" aria-hidden="true"></div>
+          <p class="nda-intro">
+            Industry projects under NDA — pipeline systems, tools, and research built with studios and companies.
+            Available on request with verification.
+          </p>
+        </div>
+
+        <!-- Password gate -->
+        <div class="nda-gate reveal" id="nda-gate">
+          <div class="nda-lock-wrap" aria-hidden="true">
+            <svg class="nda-lock-sigil" viewBox="0 0 80 80" fill="none">
+              <circle cx="40" cy="40" r="37" stroke="#f0c060" stroke-width="0.6" stroke-dasharray="3 6" stroke-opacity="0.35" class="nda-orbit"/>
+              <circle cx="40" cy="40" r="28" stroke="#f0c060" stroke-width="0.7" stroke-opacity="0.50"/>
+              <rect x="26" y="37" width="28" height="22" rx="3.5" fill="none" stroke="#f0c060" stroke-width="1.5" stroke-opacity="0.90"/>
+              <path d="M 32 37 L 32 30 Q 32 22 40 22 Q 48 22 48 30 L 48 37" fill="none" stroke="#f0c060" stroke-width="1.5" stroke-opacity="0.90" stroke-linecap="round"/>
+              <circle cx="40" cy="47" r="4" fill="#f0c060" fill-opacity="0.85"/>
+              <path d="M 38.2 50.5 L 38.2 56 L 41.8 56 L 41.8 50.5" fill="#f0c060" fill-opacity="0.85"/>
+              <line x1="40" y1="2"  x2="40" y2="10" stroke="#f0c060" stroke-width="0.8" stroke-opacity="0.35"/>
+              <line x1="40" y1="70" x2="40" y2="78" stroke="#f0c060" stroke-width="0.8" stroke-opacity="0.35"/>
+              <line x1="2"  y1="40" x2="10" y2="40" stroke="#f0c060" stroke-width="0.8" stroke-opacity="0.35"/>
+              <line x1="70" y1="40" x2="78" y2="40" stroke="#f0c060" stroke-width="0.8" stroke-opacity="0.35"/>
+            </svg>
+            <div class="nda-ring nda-ring-1"></div>
+            <div class="nda-ring nda-ring-2"></div>
+          </div>
+
+          <div class="nda-prompt-wrap">
+            <p class="nda-prompt-text">Enter access key to view NDA work.</p>
+            <p class="nda-prompt-sub">Or <a href="#contact" class="nda-contact-link">contact me directly</a> — I&rsquo;m happy to walk through any of this work on a call.</p>
+            <div class="nda-input-row">
+              <input class="nda-input" id="nda-password" type="password"
+                placeholder="access key…" autocomplete="off" aria-label="NDA access key"/>
+              <button class="nda-submit" id="nda-submit" type="button">
+                <span class="nda-submit-glyph" aria-hidden="true">◈</span> Unlock
+              </button>
+            </div>
+            <p class="nda-error" id="nda-error" role="alert"></p>
+            <div class="nda-teaser">
+              <span class="nda-teaser-chip">Feature Film Pipeline</span>
+              <span class="nda-teaser-chip">AAA Environment Tools</span>
+              <span class="nda-teaser-chip">VFX R&amp;D</span>
+              <span class="nda-teaser-chip">+2 more</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Unlocked view — hidden until correct key -->
+        <div class="nda-content" id="nda-content" hidden>
+          <div id="nda-entries" class="nda-entries"></div>
+        </div>
+
+      </div>
+    </section>
+
 
     <div class="zone-div" data-depth="// abyss" aria-hidden="true"></div>
 
@@ -252,7 +516,7 @@
     <section id="contact" class="section section-alt" aria-label="Contact">
       <div class="container contact-container">
         <div class="reveal">
-          <p class="eyebrow">// 05 — Contact</p>
+          <p class="eyebrow">// 06 — Contact</p>
           <h2 class="section-title">Let's build<br>something.</h2>
           <div class="section-rule" aria-hidden="true"></div>
           <p class="contact-subtext">
@@ -312,9 +576,66 @@
     </p>
   </footer>
 
+
+  <!-- ══════════════════════════════════════════
+       UI OVERLAYS — ART BAR + COMMAND PALETTE
+  ═════════════════════════════════════════════ -->
+
+  <nav class="artbar" aria-label="AlyArtBar Tools">
+    <a href="#projects" class="artbar-btn" data-sfx>
+      <span class="artbar-icon">⬡</span><span class="artbar-label">Projects</span>
+    </a>
+    <a href="#rnd" class="artbar-btn" data-sfx>
+      <span class="artbar-icon">🧪</span><span class="artbar-label">Lab</span>
+    </a>
+    <a href="#skills" class="artbar-btn" data-sfx>
+      <span class="artbar-icon">✶</span><span class="artbar-label">Map</span>
+    </a>
+    <a href="#about" class="artbar-btn" data-sfx>
+      <span class="artbar-icon">📜</span><span class="artbar-label">Log</span>
+    </a>
+    <a href="#nda" class="artbar-btn artbar-btn-nda" data-sfx>
+      <span class="artbar-icon">🔒</span><span class="artbar-label">Vault</span>
+    </a>
+    <a href="#contact" class="artbar-btn" data-sfx>
+      <span class="artbar-icon">📡</span><span class="artbar-label">Comms</span>
+    </a>
+
+    <span class="artbar-spacer" aria-hidden="true"></span>
+
+    <button class="artbar-toggle" id="toggle-pro" type="button" aria-pressed="false" data-sfx>Pro View</button>
+    <button class="artbar-toggle" id="toggle-sfx" type="button" aria-pressed="false" data-sfx>SFX</button>
+    <button class="artbar-toggle" id="open-cmdk" type="button" data-sfx>Ctrl K</button>
+  </nav>
+
+  <div class="cmdk" id="cmdk" role="dialog" aria-modal="true" aria-label="Command palette" hidden>
+    <div class="cmdk-backdrop" data-cmdk-close></div>
+    <div class="cmdk-panel">
+      <div class="cmdk-top">
+        <span class="cmdk-title">alyartbar@universe</span>
+        <span class="cmdk-hint">esc to close</span>
+      </div>
+      <input class="cmdk-input" id="cmdk-input" type="text"
+        placeholder="Type: projects, lab, skills, about, contact…" autocomplete="off" />
+      <div class="cmdk-list" id="cmdk-list">
+        <button class="cmdk-item" data-go="#projects">Open Projects</button>
+        <button class="cmdk-item" data-go="#rnd">Open R&amp;D Lab</button>
+        <button class="cmdk-item" data-go="#skills">Open Skills Map</button>
+        <button class="cmdk-item" data-go="#about">Open Logbook</button>
+        <button class="cmdk-item" data-go="#nda">Open Vault 🔒</button>
+        <button class="cmdk-item" data-go="#contact">Open Comms</button>
+        <button class="cmdk-item" data-action="toggle-pro">Toggle Pro View</button>
+        <button class="cmdk-item" data-action="toggle-sfx">Toggle SFX</button>
+        <button class="cmdk-item" data-action="toggle-ascii">Toggle ASCII Mode</button>
+        <button class="cmdk-item" data-action="toggle-scanlines">Toggle Scanlines</button>
+      </div>
+    </div>
+  </div>
+
+
   <!-- Scripts — order matters -->
   <!-- 1️⃣ Intro + Cursor FIRST (CSS hides native cursor) -->
-  <script src="js/terminal.js"></script>
+  <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script src="js/terminal.js"></script>
   <script src="js/cursor.js"></script>
   
   <!-- 2️⃣ Core UI + Background Effects -->
@@ -323,23 +644,460 @@
   <script src="js/particles.js"></script>
   <script src="js/stars.js"></script>
   
-  <!-- 3️⃣ Data (MUST load before renderers) -->
-  <script src="data/projects.js"></script>
-  <script src="data/skills.js"></script>
+  <!-- 3⃣ Data — inlined, var so globals reliably cross script-tag accessible -->
+  <!-- Real projects only — no placeholder/example data -->
+  <script>
+  var PROJECTS = [
+    {
+      featured: true,
+      roles: ['pipeline'],
+      category: 'Pipeline & Tools',
+      title: 'Maya Pipeline Tools',
+      oneliner: 'Production-grade Scene Validator and Asset Publisher for Maya — built to mirror studio TD conventions.',
+      bullets: [
+        'Scene Validator: checks geometry, naming, transforms, materials, and scene units with a threaded PySide2 UI that never freezes',
+        'Asset Publisher: copies files to a versioned directory, writes a JSON manifest, exports a USD stub, and commits a semantic Git version tag',
+        'Graceful degradation — runs in demo mode without Maya, and falls back to a plain-text USD stub if usd-core is missing'
+      ],
+      tools: ['Python','Maya API','PySide2','OpenUSD','Git'],
+      image: '',
+      links: [
+        { label: 'GitHub', url: 'https://github.com/AlyBarr/AssetMayaTooling' },
+        { label: 'Docs',   url: 'pipeline-tools.html' }
+      ]
+    },
+    {
+      featured: true,
+      roles: ['ml'],
+      category: 'Machine Learning · Virtual Production',
+      title: 'Virtual Prod ML Rig Predictor',
+      oneliner: 'Two-model Random Forest system that classifies 18 human motion actions from 3D skeletal joint data — built for virtual production rigs.',
+      bullets: [
+        'Model 1: full 4,998-dimensional feature pipeline (StandardScaler → Random Forest, 300 trees) for maximum accuracy',
+        'Model 2: PCA-compressed pipeline (100 components) for faster inference in latency-sensitive live VP environments',
+        'Root-space normalisation, temporal resampling to 60 frames, and velocity features extracted from the KARD dataset'
+      ],
+      tools: ['Python','Scikit-learn','Random Forest','PCA','NumPy','Pandas','Matplotlib'],
+      image: '',
+      links: [
+        { label: 'GitHub', url: 'https://github.com/AlyBarr/VirtualProdMLPredict' },
+        { label: 'Docs',   url: 'MLrigPredictor.html' }
+      ]
+    },
+    {
+      featured: true,
+      roles: ['creative'],
+      category: 'Creative Technology · AI Systems',
+      title: 'Shifting Interface — AI-Driven Visual State System',
+      oneliner: 'An interactive visual system where structured AI state data shapes atmosphere, motion, composition, and interaction in real time — treating the model as a behavioural engine, not a text generator.',
+      bullets: [
+        'State machine translates AI JSON output into live CSS custom properties — two variables cascade through eight composited visual layers via color-mix(), screen blend mode, and radial gradients',
+        'Parallax depth system with per-fragment data-depth coefficients and AI-governed energy scaling; GPU-composited translate3d transforms keep motion off the main thread entirely',
+        'Echo transition layer spawns ghost clones of outgoing fragment geometry on each state shift, with animationend cleanup and CSS keyframe after-image fade'
+      ],
+      tools: ['HTML5','CSS Custom Properties','Vanilla JS','State Machine','mix-blend-mode','IntersectionObserver'],
+      image: '',
+      links: [
+        { label: 'Live', url: 'https://alybarr.github.io/shifting_interface/' },
+        { label: 'Docs', url: 'Shifting-interface-docs.html' }
+      ]
+    },
+    {
+      featured: false,
+      roles: ['pipeline'],
+      category: 'Render Tools · TD Work',
+      title: 'AOV Manager',
+      oneliner: 'Shared-config render pass manager for Houdini (Mantra & Karma XPU) and Unreal Engine 5 — one file drives both a standalone PySide6 app and a native Houdini shelf tool.',
+      bullets: [
+        'Single aov_config.py drives both the desktop app and Houdini shelf tool — edit once, both update automatically',
+        'Generates production-correct AOV scripts for Mantra, Karma XPU, and Movie Render Queue configs for UE5',
+        'PySide6 standalone app runs without Houdini installed; PySide2 Houdini shelf variant builds ROP network live into an active session'
+      ],
+      tools: ['Python 3.9+','Houdini Mantra','Karma XPU','Unreal Engine 5','PySide6','PySide2','Movie Render Queue'],
+      image: '',
+      links: [
+        { label: 'Docs', url: 'Aov-manager-docs.html' }
+      ]
+    },
+    {
+      featured: false,
+      roles: ['graphics'],
+      category: 'Graphics Programming · C++',
+      title: 'Raytracer Dev — OpenGL Graphics Engine',
+      oneliner: 'A C++ graphics pipeline built from scratch across six assignments — Phong shading, OBJ import, parametric curves, skeletal animation, and real-time cloth physics with four interchangeable ODE integrators.',
+      bullets: [
+        'Raw OpenGL 3.3 Core throughout — manual VAO/VBO/EBO setup, GLSL shaders, MVP matrix stack, Phong lighting with normal-matrix correction',
+        'Bezier and B-Spline curves via Bernstein basis evaluation, Frenet-Serret frame computation, and surface-of-revolution mesh generation',
+        'Generic ODE physics framework: pure-virtual evalF(state) drives pendulum, chain, and cloth simulations through ForwardEuler, Trapezoid, Midpoint, and RK4 — swappable at runtime from ImGui'
+      ],
+      tools: ['C++17','OpenGL 3.3','GLSL','GLM','GLFW','GLAD','Dear ImGui'],
+      image: '',
+      links: [
+        { label: 'GitHub', url: 'https://github.com/AlyBarr/RaytracerDev' },
+        { label: 'Docs',   url: 'raytracer.html' }
+      ]
+    },
+    {
+      featured: false,
+      roles: ['creative','ml'],
+      category: 'Augmented Reality · Unity · AI',
+      title: 'Augmented Object Intelligence XR',
+      oneliner: 'Mobile AR capstone that anchors AI-generated context directly onto physical objects in 3D space — point your camera at anything and an LLM explains it back to you.',
+      bullets: [
+        'Four-stage pipeline: AR Foundation camera capture → MediaPipe on-device object detection → LLM REST query (PaLI/LLaMA) → world-space anchor rendered by AR Foundation',
+        'Cross-platform Unity 2022.3 build targeting ARKit (iOS 12+), ARCore (Android 8+), and Meta Quest 3 via a single C# codebase',
+        'Sprint 4 pivot: LLM-generated AR scavenger hunt with tap-to-detect, surface-placed AR markers, and 100% CI pass rate across 31 test cases'
+      ],
+      tools: ['Unity 2022.3','C# / URP','AR Foundation','ARKit','ARCore','MediaPipe','LLM API','GitHub Actions'],
+      image: '',
+      links: [
+        { label: 'GitHub', url: 'https://github.com/bautista-aa/Augmented-Object-Intelligence-with-XR-Objects' },
+        { label: 'Docs',   url: 'aoi-xr.html' }
+      ]
+    }
+  ];
+
+  /* =====================================================
+     SKILLS - derived from actual projects only.
+     Radius (r) reflects depth of use across real work:
+       core   r:22-28  = used heavily across multiple projects
+       strong r:14-18  = used seriously in at least one project
+       solid  r:10-12  = used, know it well, less central
+     Positions spread to avoid overlap on the canvas.
+  ===================================================== */
+  var SKILLS = [
+    // ── Core ──────────────────────────────────────────────
+    // Python: Maya Tools, ML Predictor, AOV Manager (PySide2/6), pipeline work
+    { id:'python',   label:'Python',        x:0.28, y:0.32, r:26, glow:true, links:['maya','usd','ml','tools','pyside'] },
+    // C++: Raytracer Dev — full 6-assignment pipeline from scratch
+    { id:'cpp',      label:'C++',           x:0.72, y:0.30, r:22, glow:true, links:['opengl','glsl'] },
+    // OpenGL: Raytracer Dev core
+    { id:'opengl',   label:'OpenGL 3.3',    x:0.84, y:0.18, r:18,           links:['glsl','cpp'] },
+
+    // ── Strong ──────────────────────────────────────────────
+    // ML: ML Rig Predictor — full Random Forest + PCA pipeline
+    { id:'ml',       label:'ML / Scikit-learn', x:0.14, y:0.48, r:18,       links:['python','numpy'] },
+    // GLSL: Raytracer Dev (all shaders manual), AOV Manager rendering context
+    { id:'glsl',     label:'GLSL',          x:0.82, y:0.42, r:16,           links:['opengl','cpp'] },
+    // Maya API: Maya Pipeline Tools — deep Maya API + PySide2 integration
+    { id:'maya',     label:'Maya API',      x:0.14, y:0.68, r:16,           links:['python','usd','pyside'] },
+    // USD/OpenUSD: Maya Tools (Asset Publisher), AOV Manager
+    { id:'usd',      label:'OpenUSD',       x:0.36, y:0.68, r:16,           links:['python','maya','houdini'] },
+    // Houdini: AOV Manager (Mantra, Karma XPU shelf tool), prior work
+    { id:'houdini',  label:'Houdini',       x:0.52, y:0.68, r:16,           links:['usd','vex','pyside'] },
+    // Unity/C#: AOI XR — full cross-platform AR build
+    { id:'unity',    label:'Unity / C#',    x:0.58, y:0.18, r:16,           links:['ar','xr'] },
+    // PySide: Maya Tools (PySide2), AOV Manager (PySide6)
+    { id:'pyside',   label:'PySide2/6',     x:0.14, y:0.18, r:14,           links:['python','maya','houdini'] },
+
+    // ── Solid ──────────────────────────────────────────────
+    // NumPy/Pandas: ML Predictor
+    { id:'numpy',    label:'NumPy / Pandas',x:0.28, y:0.52, r:12,           links:['ml','python'] },
+    // AR Foundation: AOI XR — ARKit+ARCore+Quest3 subsystem abstraction
+    { id:'ar',       label:'AR Foundation', x:0.70, y:0.52, r:12,           links:['unity','xr'] },
+    // XR/WebXR: AOI XR (Unity XR), Shifting Interface browser interactivity
+    { id:'xr',       label:'XR / AR / VR',  x:0.84, y:0.62, r:12,           links:['ar','unity'] },
+    // VEX: Houdini work, referenced in prior AOV/render context
+    { id:'vex',      label:'VEX',           x:0.52, y:0.84, r:10,           links:['houdini'] },
+    // CSS State Machine: Shifting Interface — core architecture
+    { id:'css',      label:'CSS / JS Systems', x:0.28, y:0.84, r:10,        links:['python'] },
+    // Git/CI: Maya Tools (Git tagging), AOI XR (GitHub Actions, 31-test CI)
+    { id:'git',      label:'Git / CI',      x:0.14, y:0.84, r:10,           links:['python'] },
+    // UE5: AOV Manager (Movie Render Queue configs)
+    { id:'ue5',      label:'Unreal Engine 5', x:0.68, y:0.84, r:10,         links:['houdini'] },
+  ];
+
+  var RND_ENTRIES = [
+    {
+      status: 'wip',
+      title: 'Maya Pipeline Tools — Scene Validator & Asset Publisher',
+      hypothesis: 'Two production-grade tools covering the full validate → publish → version pipeline could be built in pure Python with no proprietary dependencies.',
+      finding: 'Both ship. Validator catches geo, naming, transform, and material issues. Publisher handles file copy, USD export, JSON manifest, and Git tagging in one click. Graceful degradation keeps both tools useful outside a full Maya install.',
+      artifacts: [
+        { label: 'GitHub', url: 'https://github.com/AlyBarr/AssetMayaTooling' },
+        { label: 'Docs',   url: 'pipeline-tools.html' }
+      ]
+    },
+    {
+      status: 'live',
+      title: 'Virtual Prod ML Rig Predictor — Motion Action Classification',
+      hypothesis: 'A Random Forest pipeline with hand-crafted skeletal features could reliably classify 18 motion actions from 3D joint data without deep learning, keeping the system interpretable and deployable in any DCC tool.',
+      finding: 'Both models ship. M1 (full feature) maximises accuracy; M2 (PCA-reduced) trades a small margin for faster inference. Feature importances and PCA scatter plots confirm the models learn meaningful motion-space structure.',
+      artifacts: [
+        { label: 'GitHub', url: 'https://github.com/AlyBarr/VirtualProdMLPredict' },
+        { label: 'Docs',   url: 'MLrigPredictor.html' }
+      ]
+    },
+    {
+      status: 'live',
+      title: 'Shifting Interface — AI-Driven Visual State System',
+      hypothesis: 'Structured AI state data — rather than generated images or text — could govern a layered visual system’s atmosphere, motion, and composition in real time, making the model a behavioural author rather than an output generator.',
+      finding: 'Two CSS variables cascading through eight composited layers via color-mix() and blend modes produces meaningfully distinct atmospheric states. The energy scalar makes AI influence physically felt through parallax amplitude, not just colour.',
+      artifacts: [
+        { label: 'Live', url: 'https://alybarr.github.io/shifting_interface/' },
+        { label: 'Docs', url: 'Shifting-interface-docs.html' }
+      ]
+    },
+    {
+      status: 'live',
+      title: 'AOI XR — Augmented Object Intelligence with XR Objects',
+      hypothesis: 'An on-device MediaPipe detection pass paired with a swappable LLM REST backend could deliver real-time, context-aware AR overlays on consumer mobile hardware without cloud vision or on-device LLM inference.',
+      finding: 'Four-sprint prototype ships and runs on physical iOS and Android hardware. MediaPipe holds ≥5 FPS detection; 31 passing test cases and 100% CI pass rate. Key lesson: Unity’s URP pipeline introduces AR-specific rendering failure modes that require targeted CI gates — not just standard unit tests.',
+      artifacts: [
+        { label: 'GitHub', url: 'https://github.com/bautista-aa/Augmented-Object-Intelligence-with-XR-Objects' },
+        { label: 'Docs',   url: 'aoi-xr.html' }
+      ]
+    },
+    {
+      status: 'wip',
+      title: 'Raytracer Dev — C++ Graphics Pipeline',
+      hypothesis: 'A full rasterisation pipeline — shaders, parametric geometry, skeletal rigs, and ODE-driven physics — could be implemented from scratch in C++ using only OpenGL 3.3 Core, GLM, and GLFW.',
+      finding: 'All six assignments ship. The ODE integrator design is the clearest result: a pure-virtual evalF(state) interface lets ForwardEuler, Trapezoid, Midpoint, and RK4 operate on pendulum, chain, and cloth systems interchangeably — swapped at runtime from ImGui with no changes to physics systems.',
+      artifacts: [
+        { label: 'GitHub', url: 'https://github.com/AlyBarr/RaytracerDev' },
+        { label: 'Docs',   url: 'raytracer.html' }
+      ]
+    },
+    {
+      status: 'live',
+      title: 'AOV Manager — Houdini & UE5 Render Pass Tool',
+      hypothesis: 'A shared-config architecture could drive both a standalone PySide6 desktop app and a native Houdini shelf tool from a single source file, generating correct AOV setups for Mantra, Karma XPU, and Movie Render Queue.',
+      finding: 'Confirmed. One aov_config.py drives all three renderers across two app contexts. The Houdini shelf variant executes generated scripts directly into a live session — no round-trip through files.',
+      artifacts: [
+        { label: 'Docs', url: 'Aov-manager-docs.html' }
+      ]
+    }
+  ];
+  </script>
   
   <!-- 4️⃣ Renderers (depend on data) -->
-  <script src="js/projects.js"></script>
+  <script src="js/projects.js"></script>  <!-- artifact catalog renderer -->
   <script src="js/rnd.js"></script>
   <script src="js/constellation.js"></script>
   
   <!-- 5️⃣ Section behavior -->
   <script src="js/contact.js"></script>
   <script src="js/phase4.js"></script>
+  <script src="js/project-filters.js"></script>
+  <script src="js/modes.js"></script>
+  <script src="js/sfx.js"></script>
+  <script src="js/ux-overlays.js"></script>
+  <script src="js/artifact-inspect.js"></script>
+  <script src="js/world-interactions.js"></script>
   
   <!-- 6️⃣ Reveal LAST (must observe injected content) -->
   <script src="js/reveal.js"></script>
   <script>
     document.getElementById('footer-year').textContent = new Date().getFullYear();
+    // Force-reveal R&D entries after a short delay — they are far down page
+    // and the IntersectionObserver won't fire until user scrolls there.
+    // The reveal.js observer handles the actual staggered animation;
+    // this ensures entries aren't permanently invisible if JS timing is off.
+    setTimeout(function() {
+      var rndList = document.getElementById('rnd-list');
+      if (rndList) {
+        var entries = rndList.querySelectorAll('.rnd-entry');
+        entries.forEach(function(el) { el.classList.add('in'); });
+      }
+    }, 800);
+  </script>
+
+
+  <!-- Recruiter banner dismiss -->
+  <script>
+  (function() {
+    var bannerClose = document.getElementById('recruiter-banner-close');
+    if (bannerClose) {
+      if (sessionStorage.getItem('banner_dismissed')) {
+        var b = document.getElementById('recruiter-banner');
+        if (b) b.style.display = 'none';
+      }
+      bannerClose.addEventListener('click', function() {
+        var b = document.getElementById('recruiter-banner');
+        if (b) { b.style.opacity='0'; setTimeout(function(){ b.style.display='none'; }, 300); }
+        sessionStorage.setItem('banner_dismissed','1');
+      });
+    }
+  })();
+  </script>
+
+  <!-- NDA vault — encrypted payload, SHA-256 gated -->
+  <script>
+  (function() {
+    /* ═══════════════════════════════════════════════════════
+       SECURITY MODEL (client-side — read this before deploying)
+       ────────────────────────────────────────────────────────
+       The NDA content below is XOR-encrypted with a key
+       derived from SHA-256(password). It is NOT in plaintext.
+
+       What this protects against:
+       ✅ Casual view-source inspection — content is gibberish
+       ✅ URL guessing — there is no separate URL for NDA content
+       ✅ Ctrl+F in DevTools — strings are not present
+       ✅ Network tab — content is embedded, not fetched
+       ✅ Brute-force (rate limiting via lockout after 5 attempts)
+
+       What this does NOT protect against:
+       ⚠️  A determined developer who copies the payload + decrypt fn
+          and runs it locally with different passwords.
+
+       TRUE security requires a server (Netlify Function, Cloudflare
+       Worker, or password-protected hosting). The encrypt/decrypt
+       approach here is the maximum protection possible in a static
+       GitHub Pages deploy.
+
+       To change the password:
+       1. Run: python3 -c "import hashlib; print(hashlib.sha256(b'NEWPASS').hexdigest())"
+       2. Replace NDA_HASH below with the output
+       3. Re-encrypt the payload using the nda_encrypt.py script
+       4. Replace NDA_PAYLOAD below with the new payload
+    ═══════════════════════════════════════════════════════ */
+
+    var NDA_HASH    = 'f7a899dc0644bc87cab3452006cf0cfe152a1a655ca8fce654059e563769b15a';
+    var NDA_PAYLOAD = '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';
+    var MAX_ATTEMPTS = 5;
+    var LOCKOUT_MS   = 300000; // 5 minutes
+
+    /* ── SHA-256 in pure JS (no crypto dependency) ── */
+    function sha256(str) {
+      var K = [0x428a2f98,0x71374491,0xb5c0fbcf,0xe9b5dba5,0x3956c25b,0x59f111f1,0x923f82a4,0xab1c5ed5,
+               0xd807aa98,0x12835b01,0x243185be,0x550c7dc3,0x72be5d74,0x80deb1fe,0x9bdc06a7,0xc19bf174,
+               0xe49b69c1,0xefbe4786,0x0fc19dc6,0x240ca1cc,0x2de92c6f,0x4a7484aa,0x5cb0a9dc,0x76f988da,
+               0x983e5152,0xa831c66d,0xb00327c8,0xbf597fc7,0xc6e00bf3,0xd5a79147,0x06ca6351,0x14292967,
+               0x27b70a85,0x2e1b2138,0x4d2c6dfc,0x53380d13,0x650a7354,0x766a0abb,0x81c2c92e,0x92722c85,
+               0xa2bfe8a1,0xa81a664b,0xc24b8b70,0xc76c51a3,0xd192e819,0xd6990624,0xf40e3585,0x106aa070,
+               0x19a4c116,0x1e376c08,0x2748774c,0x34b0bcb5,0x391c0cb3,0x4ed8aa4a,0x5b9cca4f,0x682e6ff3,
+               0x748f82ee,0x78a5636f,0x84c87814,0x8cc70208,0x90befffa,0xa4506ceb,0xbef9a3f7,0xc67178f2];
+      function rr(x,n){return(x>>>n)|(x<<(32-n));}
+      var bytes=[],i,H=[0x6a09e667,0xbb67ae85,0x3c6ef372,0xa54ff53a,0x510e527f,0x9b05688c,0x1f83d9ab,0x5be0cd19];
+      for(i=0;i<str.length;i++){var c=str.charCodeAt(i);if(c<128){bytes.push(c);}else if(c<2048){bytes.push(192|(c>>6));bytes.push(128|(c&63));}else{bytes.push(224|(c>>12));bytes.push(128|((c>>6)&63));bytes.push(128|(c&63));}}
+      var L=bytes.length;bytes.push(128);while(bytes.length%64!==56)bytes.push(0);
+      var bits=L*8;bytes.push(0,0,0,0,(bits>>>24)&255,(bits>>>16)&255,(bits>>>8)&255,bits&255);
+      for(var chunk=0;chunk<bytes.length;chunk+=64){
+        var w=[];for(i=0;i<16;i++)w[i]=(bytes[chunk+i*4]<<24)|(bytes[chunk+i*4+1]<<16)|(bytes[chunk+i*4+2]<<8)|bytes[chunk+i*4+3];
+        for(i=16;i<64;i++){var s0=rr(w[i-15],7)^rr(w[i-15],18)^(w[i-15]>>>3);var s1=rr(w[i-2],17)^rr(w[i-2],19)^(w[i-2]>>>10);w[i]=(w[i-16]+s0+w[i-7]+s1)>>>0;}
+        var a=H[0],b=H[1],c=H[2],d=H[3],e=H[4],f=H[5],g=H[6],h=H[7];
+        for(i=0;i<64;i++){var S1=rr(e,6)^rr(e,11)^rr(e,25);var ch=(e&f)^(~e&g);var temp1=(h+S1+ch+K[i]+w[i])>>>0;var S0=rr(a,2)^rr(a,13)^rr(a,22);var maj=(a&b)^(a&c)^(b&c);var temp2=(S0+maj)>>>0;h=g;g=f;f=e;e=(d+temp1)>>>0;d=c;c=b;b=a;a=(temp1+temp2)>>>0;}
+        H[0]=(H[0]+a)>>>0;H[1]=(H[1]+b)>>>0;H[2]=(H[2]+c)>>>0;H[3]=(H[3]+d)>>>0;H[4]=(H[4]+e)>>>0;H[5]=(H[5]+f)>>>0;H[6]=(H[6]+g)>>>0;H[7]=(H[7]+h)>>>0;
+      }
+      return H.map(function(x){return ('00000000'+x.toString(16)).slice(-8);}).join('');
+    }
+
+    /* ── XOR decrypt using key derived from SHA-256 hash ── */
+    function decrypt(payload, hash) {
+      var b64 = atob(payload);
+      var key = [];
+      for (var i = 0; i < hash.length; i += 2) key.push(parseInt(hash.substr(i,2), 16));
+      var out = '';
+      for (var j = 0; j < b64.length; j++) out += String.fromCharCode(b64.charCodeAt(j) ^ key[j % key.length]);
+      return out;
+    }
+
+    /* ── Lockout tracking ── */
+    function isLockedOut() {
+      var lock = sessionStorage.getItem('nda_lockout');
+      if (!lock) return false;
+      if (Date.now() < parseInt(lock)) return true;
+      sessionStorage.removeItem('nda_lockout');
+      sessionStorage.removeItem('nda_attempts');
+      return false;
+    }
+    function recordAttempt() {
+      var n = parseInt(sessionStorage.getItem('nda_attempts') || '0') + 1;
+      sessionStorage.setItem('nda_attempts', n);
+      if (n >= MAX_ATTEMPTS) sessionStorage.setItem('nda_lockout', Date.now() + LOCKOUT_MS);
+      return n;
+    }
+
+    /* ── Render decrypted entries ── */
+    function renderNda(projects) {
+      var c = document.getElementById('nda-entries');
+      if (!c) return;
+      c.innerHTML = projects.map(function(p, i) {
+        return '<article class="nda-entry" style="animation-delay:' + (i*90) + 'ms">' +
+          '<div class="nda-entry-head">' +
+            '<div><span class="nda-entry-cat">' + p.category + '</span>' +
+            '<h3 class="nda-entry-title">' + p.title + '</h3>' +
+            '<p class="nda-entry-role">' + p.role + '</p></div>' +
+            '<span class="nda-badge">NDA</span>' +
+          '</div>' +
+          '<p class="nda-entry-desc">' + p.desc + '</p>' +
+          '<div class="nda-entry-tools">' +
+            p.tools.map(function(t){return '<span class="nda-tool">'+t+'</span>';}).join('') +
+          '</div></article>';
+      }).join('');
+    }
+
+    function unlock(hash) {
+      var gate = document.getElementById('nda-gate');
+      var content = document.getElementById('nda-content');
+      if (gate) { gate.classList.add('nda-gate-out'); setTimeout(function(){ gate.hidden=true; }, 500); }
+      if (content) { setTimeout(function(){ content.hidden=false; content.classList.add('nda-content-in'); }, 400); }
+      try {
+        var json = decrypt(NDA_PAYLOAD, hash);
+        var projects = JSON.parse(json);
+        setTimeout(function(){ renderNda(projects); }, 500);
+      } catch(e) { console.warn('NDA decrypt error', e); }
+    }
+
+    /* ── Auto-unlock if already verified this session ── */
+    var sessionHash = sessionStorage.getItem('nda_hash');
+    if (sessionHash && sessionHash === NDA_HASH) {
+      document.addEventListener('DOMContentLoaded', function() { unlock(NDA_HASH); });
+    }
+
+    /* ── Password form ── */
+    document.addEventListener('DOMContentLoaded', function() {
+      var btn   = document.getElementById('nda-submit');
+      var input = document.getElementById('nda-password');
+      var err   = document.getElementById('nda-error');
+      var lockTimer = null;
+
+      function updateLockUI() {
+        if (!isLockedOut()) return;
+        var remaining = Math.ceil((parseInt(sessionStorage.getItem('nda_lockout')) - Date.now()) / 1000);
+        if (err) err.textContent = '⊗ Too many attempts. Try again in ' + remaining + 's.';
+        if (btn) btn.disabled = true;
+        if (input) input.disabled = true;
+        clearTimeout(lockTimer);
+        lockTimer = setTimeout(function() {
+          if (!isLockedOut()) {
+            if (btn) btn.disabled = false;
+            if (input) { input.disabled = false; input.value = ''; }
+            if (err) err.textContent = '';
+          } else { updateLockUI(); }
+        }, 1000);
+      }
+
+      if (isLockedOut()) updateLockUI();
+
+      function attempt() {
+        if (isLockedOut()) { updateLockUI(); return; }
+        var val = (input ? input.value : '').trim();
+        if (!val) return;
+        var h = sha256(val);
+        if (h === NDA_HASH) {
+          sessionStorage.setItem('nda_hash', h);
+          sessionStorage.removeItem('nda_attempts');
+          sessionStorage.removeItem('nda_lockout');
+          if (err) err.textContent = '';
+          if (input) input.value = '';
+          unlock(h);
+        } else {
+          var n = recordAttempt();
+          var left = MAX_ATTEMPTS - n;
+          if (err) err.textContent = left > 0
+            ? '⊗ Incorrect key. ' + left + ' attempt' + (left===1?'':'s') + ' remaining.'
+            : '⊗ Too many attempts. Locked for 5 minutes.';
+          if (input) { input.classList.add('nda-shake'); setTimeout(function(){ input.classList.remove('nda-shake'); }, 600); }
+          if (isLockedOut()) updateLockUI();
+        }
+      }
+
+      if (btn) btn.addEventListener('click', attempt);
+      if (input) input.addEventListener('keydown', function(e){ if (e.key==='Enter') attempt(); });
+    });
+  })();
   </script>
 </body>
 </html>

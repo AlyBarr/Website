@@ -3,8 +3,13 @@
    This file is intentionally minimal.
 ═══════════════════════════════════════════ */
 
-/* Fallback canvas rule in case JS hasn't run yet */
 #webgl-canvas {
   position: fixed; inset: 0; z-index: 0;
-  pointer-events: none; opacity: 0;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 2.5s ease;
 }
+/* terminal warming phase */
+#webgl-canvas.p4-warming { opacity: 0.35 !important; }
+/* fully active — match the old screenshot brightness */
+#webgl-canvas.p4-active  { opacity: 1 !important; }

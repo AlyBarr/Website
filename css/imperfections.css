@@ -1,0 +1,115 @@
+/* ═══════════════════════════════════════════════════
+   imperfections.css — AlyArtBar
+   Human-touch layer: grain, stamps, field notes,
+   runic marks, paper edges, logbook headers.
+   All overrides are additive and low-specificity.
+═══════════════════════════════════════════════════ */
+
+/* ── Grain overlay — always on, very subtle ── */
+body::after {
+  content: "";
+  position: fixed; inset: 0; z-index: 9000;
+  pointer-events: none;
+  opacity: 1;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.80' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23n)' opacity='0.032'/%3E%3C/svg%3E");
+  mix-blend-mode: overlay;
+}
+
+/* ── Scanlines — toggled via body.scanlines ── */
+body.scanlines::before {
+  content: "";
+  position: fixed; inset: 0; z-index: 8999;
+  pointer-events: none;
+  background: repeating-linear-gradient(
+    to bottom,
+    transparent 0px, transparent 2px,
+    rgba(0,0,0,0.045) 2px, rgba(0,0,0,0.045) 3px
+  );
+  opacity: 0.6;
+}
+
+/* ── Status stamps ── */
+.stamp {
+  display: inline-flex; align-items: center; gap: 0.35rem;
+  font-family: var(--font-mono);
+  font-size: 0.60rem; font-weight: 700;
+  letter-spacing: 0.18em; text-transform: uppercase;
+  padding: 0.18rem 0.52rem;
+  border: 1.5px solid currentColor;
+  border-radius: 1px;
+  position: relative;
+  transform: rotate(-0.7deg);
+  user-select: none;
+  transition: transform 0.15s ease;
+}
+.stamp:nth-child(even) { transform: rotate(0.5deg); }
+.stamp:hover { transform: rotate(0deg) scale(1.04); }
+
+.stamp-live      { color: #3dffd0; background: rgba(61,255,208,0.05); }
+.stamp-wip       { color: #f0c060; background: rgba(240,192,96,0.05);  border-color: #f0c060; }
+.stamp-exploring { color: #9d78f5; background: rgba(157,120,245,0.05); border-color: #9d78f5; }
+.stamp-archived  { color: #4a6070; background: transparent; border-color: #4a6070; opacity: 0.7; }
+.stamp-tested    { color: #7ee8d8; background: rgba(126,232,216,0.04); font-style: italic; }
+
+.stamp-dot {
+  width: 5px; height: 5px; border-radius: 50%;
+  background: currentColor; flex-shrink: 0;
+  animation: stamp-pulse 2.8s ease-in-out infinite;
+}
+.stamp-archived .stamp-dot { animation: none; opacity: 0.3; }
+@keyframes stamp-pulse {
+  0%,100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.35; transform: scale(0.65); }
+}
+
+/* ── Field notes / callout blocks ── */
+.field-note {
+  position: relative;
+  padding: 0.75rem 1rem 0.75rem 1.1rem;
+  margin: 1rem 0;
+  border-left: 2px solid rgba(61,255,208,0.28);
+  background: rgba(2,8,16,0.38);
+  font-family: var(--font-mono); font-size: 0.76rem;
+  line-height: 1.65; color: var(--c-mist);
+  clip-path: polygon(0 0, 100% 0, 100% calc(100% - 5px), calc(100% - 7px) 100%, 0 100%);
+}
+.field-note::before {
+  content: attr(data-label);
+  display: block; font-size: 0.52rem;
+  letter-spacing: 0.26em; text-transform: uppercase;
+  color: var(--c-biolume); margin-bottom: 0.3rem; opacity: 0.75;
+}
+.field-note[data-label="WARNING"]    { border-left-color: rgba(240,192,96,0.50); }
+.field-note[data-label="WARNING"]::before { color: #f0c060; }
+.field-note[data-label="SPELL"],
+.field-note[data-label="RECIPE"]     { border-left-color: rgba(157,120,245,0.38); font-style: italic; }
+.field-note[data-label="SPELL"]::before,
+.field-note[data-label="RECIPE"]::before { color: #9d78f5; }
+
+/* ── Logbook section meta-headers ── */
+.logbook-entry {
+  display: flex; flex-wrap: wrap; align-items: baseline; gap: 0.8rem;
+  font-family: var(--font-mono); font-size: 0.56rem;
+  letter-spacing: 0.18em; color: rgba(61,255,208,0.30);
+  text-transform: uppercase; margin-bottom: 0.6rem;
+}
+.logbook-entry::before { content: "//"; color: rgba(61,255,208,0.18); }
+.logbook-depth { color: rgba(157,120,245,0.45); }
+
+/* ── Rune / sigil accents ── */
+.rune {
+  display: inline-block;
+  font-family: var(--font-mono); font-size: 0.72rem;
+  color: rgba(61,255,208,0.25); user-select: none; pointer-events: none;
+}
+
+/* ── Card drift — apply sparingly (1 in 3 cards) ── */
+.card-drift-1 { transform: rotate(0.25deg) translateY(1px); }
+.card-drift-2 { transform: rotate(-0.35deg) translateY(-1px); }
+.card-drift-3 { transform: rotate(0.18deg) translateX(1px); }
+
+/* ── Reduced motion ── */
+@media (prefers-reduced-motion: reduce) {
+  .stamp           { transform: none !important; }
+  .stamp-dot       { animation: none; }
+}

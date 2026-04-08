@@ -1,12 +1,22 @@
 /* ═══════════════════════════════════════════
    sections.css — About + Shared Section Styles
 ═══════════════════════════════════════════ */
+/* sections.css — make sections translucent so world shows through */
 .section {
   position: relative; z-index: 2;
   padding: var(--s16) var(--s6);
 }
-.section-alt { background: var(--c-abyss); }
-.section-rnd { background: var(--c-void); }
+
+/* KEY CHANGE: was rgba(5,14,28,0.62) + blur(10px) — too opaque */
+.section-alt {
+  background: rgba(4, 11, 22, 0.42);
+  backdrop-filter: blur(4px);
+}
+
+.section-rnd {
+  background: rgba(2, 6, 14, 0.38);
+  backdrop-filter: blur(3px);
+}
 
 /* About */
 .about-grid {

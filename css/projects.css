@@ -136,3 +136,7 @@
 @media (max-width: 500px) {
   .project-grid { grid-template-columns: 1fr; }
 }
+
+
+/* Role tags for filtering */
+.role-tag{ border-style: dashed; opacity: 0.92; }

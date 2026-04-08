@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="description" content="Alyssa Barrientos — Technical Artist, Pipeline TD, Graphics Programmer. Recruiter-friendly portfolio."/>
+  <meta name="robots" content="noindex"/>
+  <title>Alyssa Barrientos · Portfolio</title>
+  <link rel="icon" type="image/svg+xml" href="favicon.svg"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,600;1,300&family=DM+Sans:wght@300;400;500&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet"/>
+  <style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--ink:#0e1824;--ink-mid:#2c3f54;--ink-soft:#486070;--ink-ghost:#7a94a6;--teal:#0d6b5e;--teal-light:#138a7a;--teal-pale:#e6f5f3;--amber:#7a4f08;--amber-pale:#fef9ee;--rule:#dce6ec;--rule-soft:#edf2f5;--bg:#f7f9fb;--bg-card:#fff;--serif:'Cormorant Garamond',Georgia,serif;--sans:'DM Sans',system-ui,sans-serif;--mono:'Fira Code','Courier New',monospace;--max:820px;--g:clamp(1.2rem,5vw,2.5rem)}
+html{scroll-behavior:smooth;font-size:16px}
+body{font-family:var(--sans);line-height:1.72;color:var(--ink);background:var(--bg);-webkit-font-smoothing:antialiased}
+h1,h2,h3{font-family:var(--serif);line-height:1.2;font-weight:600}
+p,li{color:var(--ink-mid)}
+a{color:var(--teal);text-decoration:none}
+a:hover{color:var(--teal-light);text-decoration:underline}
+a:focus-visible{outline:2px solid var(--teal);outline-offset:3px;border-radius:2px}
+ul{list-style:none}
+.skip{position:absolute;top:-50px;left:1rem;background:var(--teal);color:#fff;padding:8px 16px;border-radius:3px;font-size:.82rem;z-index:999}
+.skip:focus{top:.75rem}
+.topbar{background:var(--teal);color:rgba(255,255,255,.92);font-family:var(--mono);font-size:.68rem;letter-spacing:.12em;text-align:center;padding:.55rem var(--g);display:flex;align-items:center;justify-content:center;gap:1.5rem}
+.topbar a{color:#9ff0e0;font-weight:500}
+.topbar a:hover{color:#fff;text-decoration:none}
+.page-nav{background:var(--bg-card);border-bottom:1px solid var(--rule);position:sticky;top:0;z-index:40;box-shadow:0 1px 8px rgba(0,0,0,.05)}
+.pni{max-width:var(--max);margin:0 auto;padding:0 var(--g);display:flex;align-items:center;justify-content:space-between;gap:1rem}
+.nav-brand{font-family:var(--serif);font-size:1.1rem;font-weight:600;color:var(--ink);padding:.75rem 0;white-space:nowrap}
+.nav-links{display:flex;overflow-x:auto}
+.nav-links a{font-family:var(--mono);font-size:.64rem;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-soft);padding:.9rem .9rem;white-space:nowrap;border-bottom:2px solid transparent;transition:color .15s,border-color .15s}
+.nav-links a:hover{color:var(--teal);border-color:var(--teal);text-decoration:none}
+.pw{max-width:var(--max);margin:0 auto;padding:0 var(--g) 5rem}
+.hero{padding:3.5rem 0 2.5rem;border-bottom:2px solid var(--teal);display:grid;grid-template-columns:1fr auto;gap:2rem;align-items:start}
+.hero-name{font-size:clamp(2.2rem,5.5vw,3.4rem);color:var(--ink);letter-spacing:-.01em;margin-bottom:.3rem}
+.hero-title{font-family:var(--mono);font-size:.78rem;letter-spacing:.20em;text-transform:uppercase;color:var(--teal);margin-bottom:1rem}
+.hero-tagline{font-family:var(--serif);font-size:1.15rem;font-style:italic;color:var(--ink-mid);max-width:480px;line-height:1.55}
+.hero-meta{display:flex;flex-wrap:wrap;gap:.5rem;margin-top:1.2rem}
+.hero-tag{font-family:var(--mono);font-size:.60rem;letter-spacing:.12em;text-transform:uppercase;padding:3px 10px;border:1px solid var(--teal);color:var(--teal);background:var(--teal-pale);border-radius:2px}
+.hero-links{display:flex;flex-direction:column;gap:.5rem;font-family:var(--mono);font-size:.70rem;letter-spacing:.06em;padding-top:.2rem}
+.hero-links a{color:var(--ink-mid);display:flex;align-items:center;gap:.45rem}
+.hero-links a:hover{color:var(--teal);text-decoration:none}
+.hi{width:1rem;text-align:center;color:var(--teal);flex-shrink:0}
+.sbadge{display:inline-flex;align-items:center;gap:.45rem;font-family:var(--mono);font-size:.70rem;letter-spacing:.08em;color:var(--teal);background:var(--teal-pale);border:1px solid rgba(13,107,94,.25);padding:.35rem .75rem;border-radius:2px;margin-top:1rem}
+.sdot{width:6px;height:6px;border-radius:50%;background:var(--teal);flex-shrink:0}
+.section{padding:3rem 0 1.5rem}
+.section+.section{border-top:1px solid var(--rule)}
+.ey{font-family:var(--mono);font-size:.60rem;letter-spacing:.28em;text-transform:uppercase;color:var(--teal);margin-bottom:.4rem}
+.st{font-size:clamp(1.55rem,3.5vw,2.1rem);color:var(--ink);margin-bottom:.4rem}
+.sr{width:40px;height:2px;background:var(--teal);margin-bottom:1.8rem}
+.sl{color:var(--ink-soft);font-size:.95rem;margin-bottom:1.8rem;max-width:560px}
+.about-body p{margin-bottom:.9rem}
+.about-body p:last-child{margin-bottom:0}
+.vgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:1px;background:var(--rule);border:1px solid var(--rule);border-radius:4px;overflow:hidden;margin-top:.5rem}
+.vc{background:var(--bg-card);padding:1.2rem 1.4rem}
+.vi{font-size:1.3rem;margin-bottom:.5rem}
+.vt{font-family:var(--serif);font-size:1rem;color:var(--ink);margin-bottom:.35rem}
+.vd{font-size:.84rem;color:var(--ink-soft);line-height:1.6}
+.plist{display:flex;flex-direction:column;gap:1.5rem}
+.pc{background:var(--bg-card);border:1px solid var(--rule);border-left:3px solid var(--teal);border-radius:0 4px 4px 0;padding:1.4rem 1.6rem;transition:box-shadow .15s}
+.pc:hover{box-shadow:0 2px 16px rgba(0,0,0,.06)}
+.ph{display:flex;align-items:flex-start;justify-content:space-between;gap:1rem;margin-bottom:.5rem}
+.pcat{font-family:var(--mono);font-size:.58rem;letter-spacing:.18em;text-transform:uppercase;color:var(--teal);margin-bottom:.35rem}
+.ptitle{font-size:1.15rem;color:var(--ink)}
+.pimp{font-family:var(--mono);font-size:.65rem;letter-spacing:.06em;color:var(--teal-light);background:var(--teal-pale);border:1px solid rgba(13,107,94,.18);padding:2px 8px;border-radius:2px;white-space:nowrap;flex-shrink:0;align-self:flex-start}
+.po{font-size:.92rem;color:var(--ink-mid);margin-bottom:.9rem;line-height:1.6}
+.pb{padding-left:1.2em;margin-bottom:1rem}
+.pb li{font-size:.88rem;margin-bottom:.3rem;color:var(--ink-soft);list-style:disc}
+.pf{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.75rem}
+.pt{display:flex;gap:5px;flex-wrap:wrap}
+.tt{font-family:var(--mono);font-size:.58rem;letter-spacing:.08em;text-transform:uppercase;padding:2px 7px;border-radius:2px;background:var(--rule-soft);color:var(--ink-soft);border:1px solid var(--rule)}
+.pl{display:flex;gap:.75rem}
+.plink{font-family:var(--mono);font-size:.62rem;letter-spacing:.10em;text-transform:uppercase}
+.nda-c{margin-top:2rem;padding:1.4rem 1.6rem;background:var(--amber-pale);border:1px solid rgba(122,79,8,.25);border-left:3px solid var(--amber);border-radius:0 4px 4px 0}
+.nda-h{font-family:var(--mono);font-size:.60rem;letter-spacing:.20em;text-transform:uppercase;color:var(--amber);margin-bottom:.5rem}
+.nda-c p{font-size:.90rem;color:var(--ink-mid);margin-bottom:.6rem}
+.nda-c p:last-child{margin-bottom:0}
+.nda-tags{display:flex;flex-wrap:wrap;gap:6px;margin:.6rem 0}
+.nda-tag{font-family:var(--mono);font-size:.57rem;letter-spacing:.10em;text-transform:uppercase;padding:2px 9px;border:1px solid rgba(122,79,8,.30);color:var(--amber);background:rgba(122,79,8,.04);border-radius:2px}
+.sks{display:grid;grid-template-columns:1fr 1fr;gap:2rem}
+.sgt{font-family:var(--mono);font-size:.58rem;letter-spacing:.22em;text-transform:uppercase;color:var(--ink-ghost);margin-bottom:.8rem;padding-bottom:.4rem;border-bottom:1px solid var(--rule)}
+.skr{display:flex;align-items:center;gap:.6rem;padding:.32rem 0;border-bottom:1px solid var(--rule-soft)}
+.skr:last-child{border-bottom:none}
+.skb{width:36px;height:3px;border-radius:2px;background:var(--rule);flex-shrink:0;position:relative;overflow:hidden}
+.skbf{height:100%;border-radius:2px;background:var(--teal)}
+.skb.core .skbf{width:100%;opacity:1}
+.skb.strong .skbf{width:72%;opacity:.75}
+.skb.solid .skbf{width:50%;opacity:.55}
+.skn{font-family:var(--mono);font-size:.72rem;letter-spacing:.04em;color:var(--ink-mid)}
+.rlist{display:flex;flex-direction:column}
+.ri{display:grid;grid-template-columns:80px 1fr;gap:1.5rem;padding:1.2rem 0;border-bottom:1px solid var(--rule-soft)}
+.ri:last-child{border-bottom:none}
+.rs{padding-top:.2rem}
+.sp{display:inline-block;font-family:var(--mono);font-size:.56rem;letter-spacing:.14em;text-transform:uppercase;padding:2px 7px;border-radius:2px;border:1px solid}
+.sp.live{color:var(--teal);border-color:rgba(13,107,94,.35);background:var(--teal-pale)}
+.sp.wip{color:var(--amber);border-color:rgba(122,79,8,.35);background:var(--amber-pale)}
+.sp.exploring{color:#5b3fa8;border-color:rgba(91,63,168,.30);background:#f4f0ff}
+.sp.archived{color:var(--ink-ghost);border-color:var(--rule);background:var(--rule-soft)}
+.rt{font-family:var(--serif);font-size:1.05rem;color:var(--ink);margin-bottom:.3rem}
+.rh{font-size:.85rem;color:var(--ink-soft);margin-bottom:.35rem;font-style:italic}
+.rf{font-family:var(--mono);font-size:.72rem;color:var(--ink-ghost);line-height:1.65}
+.rf::before{content:"→ ";color:var(--teal)}
+.agrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:1px;background:var(--rule);border:1px solid var(--rule);border-radius:4px;overflow:hidden}
+.ac{background:var(--bg-card);padding:1.1rem 1.3rem}
+.al{font-family:var(--mono);font-size:.58rem;letter-spacing:.16em;text-transform:uppercase;color:var(--teal);margin-bottom:.35rem}
+.at{font-size:.84rem;color:var(--ink-soft);line-height:1.6}
+.ci{display:flex;flex-direction:column;gap:.6rem;margin-top:.5rem}
+.cr{display:flex;align-items:baseline;gap:1rem}
+.cl{font-family:var(--mono);font-size:.58rem;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-ghost);min-width:74px}
+.cv{font-size:.90rem}
+footer{border-top:1px solid var(--rule);background:var(--bg-card);padding:1.8rem var(--g);text-align:center;font-family:var(--mono);font-size:.62rem;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-ghost)}
+footer a{color:var(--teal)}
+
+/* NDA vault section */
+.nda-vault{margin-top:2.5rem;padding:2rem;border:1px solid rgba(122,79,8,.30);border-radius:4px;background:var(--amber-pale)}
+.nda-vault-head{font-family:var(--mono);font-size:.60rem;letter-spacing:.22em;text-transform:uppercase;color:var(--amber);margin-bottom:.4rem}
+.nda-vault-title{font-family:var(--serif);font-size:1.4rem;color:var(--ink);margin-bottom:.5rem}
+.nda-vault-sub{font-size:.90rem;color:var(--ink-mid);margin-bottom:1.4rem;max-width:520px;line-height:1.65}
+.nda-vault-gate{display:flex;align-items:center;gap:1.5rem;flex-wrap:wrap}
+.nda-vault-input-row{display:flex;gap:8px;align-items:stretch;flex:1;min-width:260px;max-width:420px}
+.nda-vinput{flex:1;font-family:var(--mono);font-size:.80rem;letter-spacing:.06em;background:#fff;border:1px solid rgba(122,79,8,.35);color:var(--amber);padding:.6rem .9rem;outline:none;border-radius:3px;transition:border-color .2s}
+.nda-vinput::placeholder{color:rgba(122,79,8,.35)}
+.nda-vinput:focus{border-color:var(--amber)}
+.nda-vbtn{font-family:var(--mono);font-size:.72rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;padding:.6rem 1.1rem;background:var(--amber);border:none;color:#fff;cursor:pointer;border-radius:3px;white-space:nowrap;transition:background .2s}
+.nda-vbtn:hover{background:#92600a}
+.nda-verr{font-family:var(--mono);font-size:.62rem;color:#c0392b;letter-spacing:.06em;margin-top:.5rem;min-height:1.2em}
+.nda-shake{animation:nda-sk .5s ease}
+@keyframes nda-sk{0%,100%{transform:translateX(0)}20%{transform:translateX(-5px)}40%{transform:translateX(5px)}60%{transform:translateX(-3px)}80%{transform:translateX(3px)}}
+.nda-teaser-chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:1rem}
+.nda-tc{font-family:var(--mono);font-size:.56rem;letter-spacing:.10em;text-transform:uppercase;padding:2px 9px;border:1px solid rgba(122,79,8,.28);color:var(--amber);background:rgba(122,79,8,.04);border-radius:2px}
+.nda-vault-content{margin-top:2rem;display:none}
+.nda-vault-content.nda-open{display:block;animation:ndafade .5s ease}
+@keyframes ndafade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.nda-entry-r{padding:1.2rem 0;border-bottom:1px solid rgba(122,79,8,.15)}
+.nda-entry-r:last-child{border-bottom:none}
+.nda-entry-cat{font-family:var(--mono);font-size:.56rem;letter-spacing:.18em;text-transform:uppercase;color:var(--amber);margin-bottom:.25rem}
+.nda-entry-title{font-family:var(--serif);font-size:1.05rem;color:var(--ink);margin-bottom:.2rem}
+.nda-entry-role{font-family:var(--mono);font-size:.62rem;letter-spacing:.06em;color:var(--ink-ghost);margin-bottom:.5rem}
+.nda-entry-desc{font-size:.88rem;color:var(--ink-mid);line-height:1.65;margin-bottom:.6rem}
+.nda-entry-tools{display:flex;gap:5px;flex-wrap:wrap}
+.nda-et{font-family:var(--mono);font-size:.56rem;letter-spacing:.08em;text-transform:uppercase;padding:2px 6px;border:1px solid rgba(122,79,8,.25);color:var(--amber);background:rgba(122,79,8,.04);border-radius:2px}
+.nda-badge-r{display:inline-block;font-family:var(--mono);font-size:.54rem;font-weight:700;letter-spacing:.20em;text-transform:uppercase;padding:2px 7px;border:1.5px solid rgba(180,60,60,.45);color:rgba(180,60,60,.75);border-radius:2px;margin-left:.6rem;transform:rotate(1deg);vertical-align:middle}
+
+@media print{.topbar,.page-nav,.skip{display:none}.pw{padding-top:0}.pc{break-inside:avoid}body{background:white}}
+@media(max-width:640px){.hero{grid-template-columns:1fr}.sks{grid-template-columns:1fr}.ri{grid-template-columns:1fr;gap:.3rem}.ph{flex-direction:column}}
+  </style>
+</head>
+<body>
+<a href="#main" class="skip">Skip to content</a>
+<div class="topbar">
+  <span>Accessible / recruiter view — no animations or WebGL.</span>
+  <a href="index.html">&#8592; Full interactive portfolio</a>
+</div>
+<nav class="page-nav" aria-label="Page navigation">
+  <div class="pni">
+    <span class="nav-brand">Alyssa Barrientos</span>
+    <div class="nav-links">
+      <a href="#about">About</a>
+      <a href="#value">Value</a>
+      <a href="#projects">Projects</a>
+      <a href="#nda-vault">Vault</a><a href="#skills">Skills</a>
+      <a href="#rnd">R&amp;D</a>
+      <a href="#approach">Style</a>
+      <a href="#contact">Contact</a>
+    </div>
+  </div>
+</nav>
+<div class="pw"><main id="main">
+
+<header class="hero">
+  <div>
+    <h1 class="hero-name">Alyssa Barrientos</h1>
+    <p class="hero-title">Technical Artist &amp; Pipeline TD &middot; AlyArtBar</p>
+    <p class="hero-tagline">"I build the systems that let artists build worlds."</p>
+    <div class="hero-meta">
+      <span class="hero-tag">Python / Maya API</span>
+      <span class="hero-tag">C++ / OpenGL</span>
+      <span class="hero-tag">USD / Houdini</span>
+      <span class="hero-tag">ML / Scikit-learn</span>
+      <span class="hero-tag">Unity / AR</span>
+    </div>
+    <div class="sbadge" style="margin-top:1.2rem">
+      <span class="sdot" aria-hidden="true"></span>
+      Open to internships &amp; collaborative projects
+    </div>
+  </div>
+  <nav class="hero-links" aria-label="Contact links">
+    <a href="mailto:alyartbar@gmail.com"><span class="hi" aria-hidden="true">&#x2709;</span>alyartbar@gmail.com</a>
+    <a href="https://github.com/AlyBarr" target="_blank" rel="noopener"><span class="hi" aria-hidden="true">&#x2325;</span>github.com/AlyBarr</a>
+    <a href="https://linkedin.com/in/alyartbar" target="_blank" rel="noopener"><span class="hi" aria-hidden="true">in</span>linkedin.com/in/alyartbar</a>
+    <a href="assets/resume.pdf" target="_blank" rel="noopener"><span class="hi" aria-hidden="true">&#x2197;</span>Resume PDF</a>
+  </nav>
+</header>
+
+<section id="about" class="section" aria-labelledby="about-h">
+  <p class="ey">01 &mdash; About</p>
+  <h2 class="st" id="about-h">Building at the edge of art &amp; code.</h2>
+  <div class="sr" aria-hidden="true"></div>
+  <div class="about-body">
+    <p>I'm a computer science student who specialises at the intersection of engineering and visual craft. My work lives where a Python script meets a particle simulation &mdash; where a USD pipeline turns a forty-step process into one click.</p>
+    <p>I build tools that give artists more time to be artists. I write systems that make procedural worlds feel handmade. I'm drawn to the parts of production nobody else wants to touch &mdash; the validation pipeline, the edge-case geometry, the shader that shouldn't work but does &mdash; and I find them fascinating.</p>
+    <p>My real projects span Python pipeline tooling for Maya, a C++ OpenGL graphics engine built from scratch, ML motion classification for virtual production rigs, cross-platform AR with Unity, a render pass manager for Houdini and UE5, and an AI-driven browser visual system.</p>
+  </div>
+</section>
+
+<section id="value" class="section" aria-labelledby="value-h">
+  <p class="ey">01.5 &mdash; Value Proposition</p>
+  <h2 class="st" id="value-h">What I bring to a team.</h2>
+  <div class="sr" aria-hidden="true"></div>
+  <div class="vgrid" role="list">
+    <div class="vc" role="listitem"><div class="vi" aria-hidden="true">&#x2699;&#xFE0F;</div><h3 class="vt">Pipeline thinking</h3><p class="vd">I see the full chain from source asset to final render. I build tools with failure modes in mind &mdash; what breaks, who breaks it, and how to make it impossible to break again.</p></div>
+    <div class="vc" role="listitem"><div class="vi" aria-hidden="true">&#x1F3A8;</div><h3 class="vt">Artist empathy</h3><p class="vd">My tools are used by people whose job is to make things beautiful. I write UIs and APIs that stay out of the way and solve the actual problem.</p></div>
+    <div class="vc" role="listitem"><div class="vi" aria-hidden="true">&#x1F52C;</div><h3 class="vt">Research instinct</h3><p class="vd">When something doesn't exist yet, I prototype it. My R&amp;D section documents real experiments &mdash; including the ones that didn't work.</p></div>
+    <div class="vc" role="listitem"><div class="vi" aria-hidden="true">&#x1F4D0;</div><h3 class="vt">Cross-discipline range</h3><p class="vd">Python to C++, Maya to Unity, ML to shader code. I connect parts of a studio that usually don't talk to each other.</p></div>
+  </div>
+</section>
+
+<section id="projects" class="section" aria-labelledby="projects-h">
+  <p class="ey">02 &mdash; Projects</p>
+  <h2 class="st" id="projects-h">Selected Work</h2>
+  <div class="sr" aria-hidden="true"></div>
+  <p class="sl">All projects below are things I built and shipped. Impact metrics included where measurable.</p>
+  <ul class="plist" aria-label="Projects">
+
+    <li class="pc">
+      <div class="ph"><div><p class="pcat">Pipeline &amp; Tools</p><h3 class="ptitle">Maya Pipeline Tools</h3></div><span class="pimp">Studio TD conventions</span></div>
+      <p class="po">Production-grade Scene Validator and Asset Publisher for Maya &mdash; built to mirror studio TD conventions.</p>
+      <ul class="pb"><li>Scene Validator: checks geometry, naming, transforms, materials, and scene units with a threaded PySide2 UI that never freezes</li><li>Asset Publisher: copies files to a versioned directory, writes a JSON manifest, exports a USD stub, and commits a semantic Git version tag</li><li>Graceful degradation &mdash; runs in demo mode without Maya, falls back to plain-text USD stub if usd-core is missing</li></ul>
+      <div class="pf"><div class="pt"><span class="tt">Python</span><span class="tt">Maya API</span><span class="tt">PySide2</span><span class="tt">OpenUSD</span><span class="tt">Git</span></div><div class="pl"><a href="https://github.com/AlyBarr/AssetMayaTooling" class="plink" target="_blank" rel="noopener">GitHub &#x2197;</a><a href="pipeline-tools.html" class="plink">Docs &#x2197;</a></div></div>
+    </li>
+
+    <li class="pc">
+      <div class="ph"><div><p class="pcat">Machine Learning &middot; Virtual Production</p><h3 class="ptitle">Virtual Prod ML Rig Predictor</h3></div><span class="pimp">18 motion classes</span></div>
+      <p class="po">Two-model Random Forest system that classifies 18 human motion actions from 3D skeletal joint data &mdash; built for virtual production rigs.</p>
+      <ul class="pb"><li>Model 1: full 4,998-dimensional feature pipeline (StandardScaler &rarr; Random Forest, 300 trees) for maximum accuracy</li><li>Model 2: PCA-compressed pipeline (100 components) for faster inference in latency-sensitive live VP environments</li><li>Root-space normalisation, temporal resampling to 60 frames, and velocity features from the KARD dataset</li></ul>
+      <div class="pf"><div class="pt"><span class="tt">Python</span><span class="tt">Scikit-learn</span><span class="tt">Random Forest</span><span class="tt">PCA</span><span class="tt">NumPy</span><span class="tt">Pandas</span></div><div class="pl"><a href="https://github.com/AlyBarr/VirtualProdMLPredict" class="plink" target="_blank" rel="noopener">GitHub &#x2197;</a><a href="MLrigPredictor.html" class="plink">Docs &#x2197;</a></div></div>
+    </li>
+
+    <li class="pc">
+      <div class="ph"><div><p class="pcat">Creative Technology &middot; AI Systems</p><h3 class="ptitle">Shifting Interface &mdash; AI-Driven Visual State System</h3></div><span class="pimp">Live demo</span></div>
+      <p class="po">Interactive visual system where structured AI state data shapes atmosphere, motion, and composition in real time &mdash; treating the model as a behavioural engine, not a text generator.</p>
+      <ul class="pb"><li>State machine translates AI JSON into live CSS custom properties cascading through eight composited visual layers via color-mix() and blend modes</li><li>Parallax depth system with AI-governed energy scaling; GPU-composited translate3d keeps motion off the main thread</li><li>Echo transition layer spawns ghost clones of outgoing fragment geometry with animationend cleanup</li></ul>
+      <div class="pf"><div class="pt"><span class="tt">HTML5</span><span class="tt">CSS Custom Properties</span><span class="tt">Vanilla JS</span><span class="tt">State Machine</span><span class="tt">mix-blend-mode</span></div><div class="pl"><a href="https://alybarr.github.io/shifting_interface/" class="plink" target="_blank" rel="noopener">Live &#x2197;</a><a href="Shifting-interface-docs.html" class="plink">Docs &#x2197;</a></div></div>
+    </li>
+
+    <li class="pc">
+      <div class="ph"><div><p class="pcat">Render Tools &middot; TD Work</p><h3 class="ptitle">AOV Manager</h3></div><span class="pimp">3 renderers, 1 config</span></div>
+      <p class="po">Shared-config render pass manager for Houdini (Mantra &amp; Karma XPU) and Unreal Engine 5 &mdash; one file drives both a standalone PySide6 app and a native Houdini shelf tool.</p>
+      <ul class="pb"><li>Single aov_config.py drives both the desktop app and Houdini shelf tool &mdash; edit once, both update automatically</li><li>Generates production-correct AOV scripts for Mantra, Karma XPU, and Movie Render Queue configs for UE5</li><li>PySide6 standalone runs without Houdini; PySide2 shelf variant builds ROP network live into an active session</li></ul>
+      <div class="pf"><div class="pt"><span class="tt">Python</span><span class="tt">Houdini Mantra</span><span class="tt">Karma XPU</span><span class="tt">UE5</span><span class="tt">PySide6</span><span class="tt">Movie Render Queue</span></div><div class="pl"><a href="Aov-manager-docs.html" class="plink">Docs &#x2197;</a></div></div>
+    </li>
+
+    <li class="pc">
+      <div class="ph"><div><p class="pcat">Graphics Programming &middot; C++</p><h3 class="ptitle">Raytracer Dev &mdash; OpenGL Graphics Engine</h3></div><span class="pimp">Built from scratch</span></div>
+      <p class="po">C++ graphics pipeline built from scratch across six assignments &mdash; Phong shading, OBJ import, parametric curves, skeletal animation, and real-time cloth physics with four interchangeable ODE integrators.</p>
+      <ul class="pb"><li>Raw OpenGL 3.3 Core &mdash; manual VAO/VBO/EBO, GLSL shaders, MVP matrix stack, Phong lighting with normal-matrix correction</li><li>Bezier and B-Spline curves via Bernstein basis, Frenet-Serret frames, surface-of-revolution mesh generation</li><li>Generic ODE physics: pure-virtual evalF(state) drives cloth/chain/pendulum through ForwardEuler, Trapezoid, Midpoint, and RK4 &mdash; swappable at runtime from ImGui</li></ul>
+      <div class="pf"><div class="pt"><span class="tt">C++17</span><span class="tt">OpenGL 3.3</span><span class="tt">GLSL</span><span class="tt">GLM</span><span class="tt">GLFW</span><span class="tt">Dear ImGui</span></div><div class="pl"><a href="https://github.com/AlyBarr/RaytracerDev" class="plink" target="_blank" rel="noopener">GitHub &#x2197;</a><a href="raytracer.html" class="plink">Docs &#x2197;</a></div></div>
+    </li>
+
+    <li class="pc">
+      <div class="ph"><div><p class="pcat">Augmented Reality &middot; Unity &middot; AI</p><h3 class="ptitle">Augmented Object Intelligence XR</h3></div><span class="pimp">31 tests &middot; 100% CI</span></div>
+      <p class="po">Mobile AR capstone anchoring AI-generated context onto physical objects in 3D space &mdash; point your camera at anything and an LLM explains it back to you.</p>
+      <ul class="pb"><li>Four-stage pipeline: AR Foundation capture &rarr; MediaPipe detection &rarr; LLM REST query (PaLI/LLaMA) &rarr; world-space anchor</li><li>Cross-platform Unity 2022.3: ARKit (iOS 12+), ARCore (Android 8+), Meta Quest 3 via AR Foundation subsystem abstraction</li><li>Sprint 4 scavenger hunt: tap &rarr; detect &rarr; match &rarr; anchor &rarr; register flow, 31 passing tests, 100% CI pass rate</li></ul>
+      <div class="pf"><div class="pt"><span class="tt">Unity 2022.3</span><span class="tt">C# / URP</span><span class="tt">AR Foundation</span><span class="tt">MediaPipe</span><span class="tt">LLM API</span><span class="tt">GitHub Actions</span></div><div class="pl"><a href="https://github.com/bautista-aa/Augmented-Object-Intelligence-with-XR-Objects" class="plink" target="_blank" rel="noopener">GitHub &#x2197;</a><a href="aoi-xr.html" class="plink">Docs &#x2197;</a></div></div>
+    </li>
+
+  </ul>
+
+</section>
+
+<section id="nda-vault" class="section" aria-labelledby="nda-vault-h">
+  <p class="ey">Restricted &mdash; NDA</p>
+  <h2 class="st" id="nda-vault-h">Confidential Projects</h2>
+  <div class="sr" aria-hidden="true"></div>
+  <p class="sl">Industry projects under NDA &mdash; pipeline systems, tools, and research built with studios and companies. Enter the access key to view full details.</p>
+
+  <div class="nda-vault">
+    <p class="nda-vault-head">&#x1F512; access required</p>
+    <h3 class="nda-vault-title">Vault &middot; Classified Projects</h3>
+    <p class="nda-vault-sub">These projects are under non-disclosure. If you have an access key, enter it below. Otherwise, <a href="mailto:alyartbar@gmail.com">reach out directly</a> &mdash; I&rsquo;m happy to walk through any of this work on a call.</p>
+
+    <div class="nda-vault-gate" id="r-nda-gate">
+      <div>
+        <div class="nda-vault-input-row">
+          <input class="nda-vinput" id="r-nda-input" type="password"
+            placeholder="access key&hellip;" autocomplete="off" aria-label="NDA access key"/>
+          <button class="nda-vbtn" id="r-nda-btn" type="button">Unlock</button>
+        </div>
+        <p class="nda-verr" id="r-nda-err" role="alert"></p>
+      </div>
+    </div>
+
+    <div class="nda-teaser-chips" aria-label="Project categories (unlocked with key)">
+      <span class="nda-tc">Feature Film Pipeline &middot; VFX Studio</span>
+      <span class="nda-tc">AAA Environment Tools &middot; Game Studio</span>
+      <span class="nda-tc">ML Lookdev Preview &middot; VFX R&amp;D</span>
+      <span class="nda-tc">Broadcast Shot Assembly</span>
+      <span class="nda-tc">Spatial Audio XR &middot; Research Lab</span>
+    </div>
+
+    <div class="nda-vault-content" id="r-nda-content" aria-live="polite">
+      <div id="r-nda-entries"></div>
+    </div>
+  </div>
+</section>
+
+
+<section id="skills" class="section" aria-labelledby="skills-h">
+  <p class="ey">03 &mdash; Skills</p>
+  <h2 class="st" id="skills-h">Technical Skills</h2>
+  <div class="sr" aria-hidden="true"></div>
+  <p class="sl" style="margin-bottom:1rem">Derived from actual shipped projects only &mdash; no aspirational entries.</p>
+  <div class="sks">
+    <div>
+      <p class="sgt">Core &middot; heavily used across real projects</p>
+      <ul>
+        <li class="skr"><div class="skb core" aria-hidden="true"><div class="skbf"></div></div><span class="skn">Python (3.9+)</span></li>
+        <li class="skr"><div class="skb core" aria-hidden="true"><div class="skbf"></div></div><span class="skn">C++ (C++17)</span></li>
+        <li class="skr"><div class="skb core" aria-hidden="true"><div class="skbf"></div></div><span class="skn">OpenGL 3.3</span></li>
+        <li class="skr"><div class="skb strong" aria-hidden="true"><div class="skbf"></div></div><span class="skn">ML / Scikit-learn / Random Forest</span></li>
+        <li class="skr"><div class="skb strong" aria-hidden="true"><div class="skbf"></div></div><span class="skn">GLSL (shaders, manual)</span></li>
+        <li class="skr"><div class="skb strong" aria-hidden="true"><div class="skbf"></div></div><span class="skn">Maya API</span></li>
+        <li class="skr"><div class="skb strong" aria-hidden="true"><div class="skbf"></div></div><span class="skn">OpenUSD</span></li>
+        <li class="skr"><div class="skb strong" aria-hidden="true"><div class="skbf"></div></div><span class="skn">Houdini (Mantra, Karma XPU)</span></li>
+        <li class="skr"><div class="skb strong" aria-hidden="true"><div class="skbf"></div></div><span class="skn">Unity / C# / URP</span></li>
+      </ul>
+    </div>
+    <div>
+      <p class="sgt">Strong &amp; solid &middot; used in shipped projects</p>
+      <ul>
+        <li class="skr"><div class="skb strong" aria-hidden="true"><div class="skbf"></div></div><span class="skn">PySide2 / PySide6</span></li>
+        <li class="skr"><div class="skb strong" aria-hidden="true"><div class="skbf"></div></div><span class="skn">AR Foundation (ARKit / ARCore)</span></li>
+        <li class="skr"><div class="skb strong" aria-hidden="true"><div class="skbf"></div></div><span class="skn">Unreal Engine 5 / Movie Render Queue</span></li>
+        <li class="skr"><div class="skb solid" aria-hidden="true"><div class="skbf"></div></div><span class="skn">NumPy / Pandas / Matplotlib</span></li>
+        <li class="skr"><div class="skb solid" aria-hidden="true"><div class="skbf"></div></div><span class="skn">VEX</span></li>
+        <li class="skr"><div class="skb solid" aria-hidden="true"><div class="skbf"></div></div><span class="skn">CSS Systems / State Machines</span></li>
+        <li class="skr"><div class="skb solid" aria-hidden="true"><div class="skbf"></div></div><span class="skn">Git / GitHub Actions CI</span></li>
+        <li class="skr"><div class="skb solid" aria-hidden="true"><div class="skbf"></div></div><span class="skn">MediaPipe / LLM APIs (REST)</span></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section id="rnd" class="section" aria-labelledby="rnd-h">
+  <p class="ey">04 &mdash; R&amp;D Lab</p>
+  <h2 class="st" id="rnd-h">Research &amp; Experiments</h2>
+  <div class="sr" aria-hidden="true"></div>
+  <p class="sl">All entries are real shipped or active projects, documented honestly.</p>
+  <ul class="rlist">
+    <li class="ri"><div class="rs"><span class="sp wip">WIP</span></div><div><h3 class="rt">Maya Pipeline Tools &mdash; Scene Validator &amp; Asset Publisher</h3><p class="rh">Could production-grade validate &rarr; publish &rarr; version tooling be built in pure Python with no proprietary dependencies?</p><p class="rf">Both ship. Validator catches geo, naming, transform, and material issues. Publisher handles file copy, USD export, JSON manifest, and Git tagging in one click.</p></div></li>
+    <li class="ri"><div class="rs"><span class="sp live">Live</span></div><div><h3 class="rt">Virtual Prod ML Rig Predictor &mdash; Motion Action Classification</h3><p class="rh">Could a Random Forest pipeline with hand-crafted skeletal features classify 18 motion actions from 3D joint data without deep learning?</p><p class="rf">Both models ship. M1 maximises accuracy; M2 (PCA-reduced) trades a small margin for faster inference. Feature importances confirm the models learn meaningful motion-space structure.</p></div></li>
+    <li class="ri"><div class="rs"><span class="sp live">Live</span></div><div><h3 class="rt">Shifting Interface &mdash; AI-Driven Visual State System</h3><p class="rh">Could structured AI state data govern a layered visual system's atmosphere and motion in real time?</p><p class="rf">Two CSS variables cascading through eight composited layers via color-mix() and blend modes produces meaningfully distinct atmospheric states. AI influence is felt physically through parallax amplitude, not just colour.</p></div></li>
+    <li class="ri"><div class="rs"><span class="sp live">Live</span></div><div><h3 class="rt">AOI XR &mdash; Augmented Object Intelligence</h3><p class="rh">Could on-device MediaPipe + swappable LLM REST deliver real-time context-aware AR on consumer mobile without cloud vision?</p><p class="rf">Ships on physical iOS and Android. MediaPipe holds &ge;5 FPS detection. 31 passing tests, 100% CI pass rate. Key lesson: Unity URP introduces AR-specific rendering failure modes requiring targeted CI gates.</p></div></li>
+    <li class="ri"><div class="rs"><span class="sp wip">WIP</span></div><div><h3 class="rt">Raytracer Dev &mdash; C++ Graphics Pipeline</h3><p class="rh">Could a full rasterisation pipeline be implemented from scratch using only OpenGL 3.3 Core, GLM, and GLFW?</p><p class="rf">All six assignments ship. The ODE integrator design is the clearest result: pure-virtual evalF(state) lets ForwardEuler, Trapezoid, Midpoint, and RK4 operate on all physics systems interchangeably.</p></div></li>
+    <li class="ri"><div class="rs"><span class="sp live">Live</span></div><div><h3 class="rt">AOV Manager &mdash; Houdini &amp; UE5 Render Pass Tool</h3><p class="rh">Could a shared-config architecture drive both a standalone PySide6 app and a Houdini shelf tool from one source file?</p><p class="rf">Confirmed. One aov_config.py drives all three renderers across two app contexts. The Houdini shelf variant executes generated scripts directly into a live session.</p></div></li>
+  </ul>
+</section>
+
+<section id="approach" class="section" aria-labelledby="approach-h">
+  <p class="ey">04.5 &mdash; Working Style</p>
+  <h2 class="st" id="approach-h">How I work.</h2>
+  <div class="sr" aria-hidden="true"></div>
+  <div class="agrid" role="list">
+    <div class="ac" role="listitem"><p class="al">On ambiguity</p><p class="at">I ask one good question before writing any code. Most pipeline problems are specification problems in disguise.</p></div>
+    <div class="ac" role="listitem"><p class="al">On collaboration</p><p class="at">I pair well with artists &mdash; I learned early to prototype in their tools before abstracting to Python.</p></div>
+    <div class="ac" role="listitem"><p class="al">On shipping</p><p class="at">A tool that 80% works and can be iterated beats a perfect tool six months late.</p></div>
+    <div class="ac" role="listitem"><p class="al">On documentation</p><p class="at">I document why, not just what. The next person maintaining my pipeline shouldn't need to read the code to understand the intent.</p></div>
+    <div class="ac" role="listitem"><p class="al">On failure</p><p class="at">I keep notes on experiments that didn't work &mdash; you can see them in my R&amp;D section. Failing well is a skill worth showing.</p></div>
+    <div class="ac" role="listitem"><p class="al">On learning</p><p class="at">I'm a student who has shipped production tooling. That combination &mdash; academic depth with production instinct &mdash; is what I'm building toward.</p></div>
+  </div>
+</section>
+
+<section id="contact" class="section" aria-labelledby="contact-h">
+  <p class="ey">05 &mdash; Contact</p>
+  <h2 class="st" id="contact-h">Let's talk.</h2>
+  <div class="sr" aria-hidden="true"></div>
+  <p class="sl">Open to internships, short-term contracts, and research collaborations. Happy to walk through any work &mdash; including NDA projects &mdash; on a call.</p>
+  <div class="ci">
+    <div class="cr"><span class="cl">Email</span><span class="cv"><a href="mailto:alyartbar@gmail.com">alyartbar@gmail.com</a></span></div>
+    <div class="cr"><span class="cl">GitHub</span><span class="cv"><a href="https://github.com/AlyBarr" target="_blank" rel="noopener">github.com/AlyBarr</a></span></div>
+    <div class="cr"><span class="cl">LinkedIn</span><span class="cv"><a href="https://linkedin.com/in/alyartbar" target="_blank" rel="noopener">linkedin.com/in/alyartbar</a></span></div>
+    <div class="cr"><span class="cl">Resume</span><span class="cv"><a href="assets/resume.pdf" target="_blank" rel="noopener">Download PDF &#x2197;</a></span></div>
+  </div>
+</section>
+
+</main></div>
+<footer>
+  <p>Alyssa Barrientos &middot; AlyArtBar &middot; <a href="index.html">Full interactive portfolio &rarr;</a></p>
+</footer>
+
+<script>
+(function() {
+  var NDA_HASH    = 'f7a899dc0644bc87cab3452006cf0cfe152a1a655ca8fce654059e563769b15a';
+  var NDA_PAYLOAD = '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';
+  var MAX_ATTEMPTS = 5;
+  var LOCKOUT_MS   = 300000;
+
+  function sha256(str) {
+    var K=[0x428a2f98,0x71374491,0xb5c0fbcf,0xe9b5dba5,0x3956c25b,0x59f111f1,0x923f82a4,0xab1c5ed5,0xd807aa98,0x12835b01,0x243185be,0x550c7dc3,0x72be5d74,0x80deb1fe,0x9bdc06a7,0xc19bf174,0xe49b69c1,0xefbe4786,0x0fc19dc6,0x240ca1cc,0x2de92c6f,0x4a7484aa,0x5cb0a9dc,0x76f988da,0x983e5152,0xa831c66d,0xb00327c8,0xbf597fc7,0xc6e00bf3,0xd5a79147,0x06ca6351,0x14292967,0x27b70a85,0x2e1b2138,0x4d2c6dfc,0x53380d13,0x650a7354,0x766a0abb,0x81c2c92e,0x92722c85,0xa2bfe8a1,0xa81a664b,0xc24b8b70,0xc76c51a3,0xd192e819,0xd6990624,0xf40e3585,0x106aa070,0x19a4c116,0x1e376c08,0x2748774c,0x34b0bcb5,0x391c0cb3,0x4ed8aa4a,0x5b9cca4f,0x682e6ff3,0x748f82ee,0x78a5636f,0x84c87814,0x8cc70208,0x90befffa,0xa4506ceb,0xbef9a3f7,0xc67178f2];
+    function rr(x,n){return(x>>>n)|(x<<(32-n));}
+    var bytes=[],i,H=[0x6a09e667,0xbb67ae85,0x3c6ef372,0xa54ff53a,0x510e527f,0x9b05688c,0x1f83d9ab,0x5be0cd19];
+    for(i=0;i<str.length;i++){var c=str.charCodeAt(i);if(c<128)bytes.push(c);else if(c<2048){bytes.push(192|(c>>6));bytes.push(128|(c&63));}else{bytes.push(224|(c>>12));bytes.push(128|((c>>6)&63));bytes.push(128|(c&63));}}
+    var L=bytes.length;bytes.push(128);while(bytes.length%64!==56)bytes.push(0);
+    var bits=L*8;bytes.push(0,0,0,0,(bits>>>24)&255,(bits>>>16)&255,(bits>>>8)&255,bits&255);
+    for(var chunk=0;chunk<bytes.length;chunk+=64){var w=[];for(i=0;i<16;i++)w[i]=(bytes[chunk+i*4]<<24)|(bytes[chunk+i*4+1]<<16)|(bytes[chunk+i*4+2]<<8)|bytes[chunk+i*4+3];for(i=16;i<64;i++){var s0=rr(w[i-15],7)^rr(w[i-15],18)^(w[i-15]>>>3);var s1=rr(w[i-2],17)^rr(w[i-2],19)^(w[i-2]>>>10);w[i]=(w[i-16]+s0+w[i-7]+s1)>>>0;}var a=H[0],b=H[1],c=H[2],d=H[3],e=H[4],f=H[5],g=H[6],h=H[7];for(i=0;i<64;i++){var S1=rr(e,6)^rr(e,11)^rr(e,25);var ch=(e&f)^(~e&g);var t1=(h+S1+ch+K[i]+w[i])>>>0;var S0=rr(a,2)^rr(a,13)^rr(a,22);var maj=(a&b)^(a&c)^(b&c);var t2=(S0+maj)>>>0;h=g;g=f;f=e;e=(d+t1)>>>0;d=c;c=b;b=a;a=(t1+t2)>>>0;}H[0]=(H[0]+a)>>>0;H[1]=(H[1]+b)>>>0;H[2]=(H[2]+c)>>>0;H[3]=(H[3]+d)>>>0;H[4]=(H[4]+e)>>>0;H[5]=(H[5]+f)>>>0;H[6]=(H[6]+g)>>>0;H[7]=(H[7]+h)>>>0;}
+    return H.map(function(x){return('00000000'+x.toString(16)).slice(-8);}).join('');
+  }
+
+  function decrypt(payload, hash) {
+    var b64=atob(payload),key=[];
+    for(var i=0;i<hash.length;i+=2)key.push(parseInt(hash.substr(i,2),16));
+    var out='';
+    for(var j=0;j<b64.length;j++)out+=String.fromCharCode(b64.charCodeAt(j)^key[j%key.length]);
+    return out;
+  }
+
+  function isLockedOut() {
+    var lock=sessionStorage.getItem('nda_lockout_r');
+    if(!lock)return false;
+    if(Date.now()<parseInt(lock))return true;
+    sessionStorage.removeItem('nda_lockout_r');sessionStorage.removeItem('nda_attempts_r');return false;
+  }
+  function recordAttempt() {
+    var n=parseInt(sessionStorage.getItem('nda_attempts_r')||'0')+1;
+    sessionStorage.setItem('nda_attempts_r',n);
+    if(n>=MAX_ATTEMPTS)sessionStorage.setItem('nda_lockout_r',Date.now()+LOCKOUT_MS);
+    return n;
+  }
+
+  function renderEntries(projects) {
+    var c=document.getElementById('r-nda-entries');
+    if(!c)return;
+    c.innerHTML=projects.map(function(p){
+      return '<div class="nda-entry-r">'+
+        '<p class="nda-entry-cat">'+p.category+'</p>'+
+        '<h4 class="nda-entry-title">'+p.title+' <span class="nda-badge-r">NDA</span></h4>'+
+        '<p class="nda-entry-role">'+p.role+'</p>'+
+        '<p class="nda-entry-desc">'+p.desc+'</p>'+
+        '<div class="nda-entry-tools">'+p.tools.map(function(t){return'<span class="nda-et">'+t+'</span>';}).join('')+'</div>'+
+      '</div>';
+    }).join('');
+  }
+
+  function unlock(hash) {
+    var gate=document.getElementById('r-nda-gate');
+    var content=document.getElementById('r-nda-content');
+    var chips=document.querySelector('#nda-vault .nda-teaser-chips');
+    if(gate)gate.style.display='none';
+    if(chips)chips.style.display='none';
+    if(content)content.classList.add('nda-open');
+    try{renderEntries(JSON.parse(decrypt(NDA_PAYLOAD,hash)));}catch(e){console.warn('NDA decrypt err',e);}
+  }
+
+  var savedHash=sessionStorage.getItem('nda_hash');
+  if(savedHash===NDA_HASH){document.addEventListener('DOMContentLoaded',function(){unlock(NDA_HASH);});}
+
+  document.addEventListener('DOMContentLoaded',function(){
+    var btn=document.getElementById('r-nda-btn');
+    var inp=document.getElementById('r-nda-input');
+    var err=document.getElementById('r-nda-err');
+    var lockTimer=null;
+
+    function updateLockUI(){
+      if(!isLockedOut())return;
+      var rem=Math.ceil((parseInt(sessionStorage.getItem('nda_lockout_r'))-Date.now())/1000);
+      if(err)err.textContent='Too many attempts. Try again in '+rem+'s.';
+      if(btn)btn.disabled=true;if(inp)inp.disabled=true;
+      clearTimeout(lockTimer);
+      lockTimer=setTimeout(function(){if(!isLockedOut()){if(btn)btn.disabled=false;if(inp){inp.disabled=false;inp.value='';}if(err)err.textContent='';}else updateLockUI();},1000);
+    }
+    if(isLockedOut())updateLockUI();
+
+    function attempt(){
+      if(isLockedOut()){updateLockUI();return;}
+      var val=(inp?inp.value:'').trim();if(!val)return;
+      var h=sha256(val);
+      if(h===NDA_HASH){
+        sessionStorage.setItem('nda_hash',h);
+        sessionStorage.removeItem('nda_attempts_r');sessionStorage.removeItem('nda_lockout_r');
+        if(err)err.textContent='';if(inp)inp.value='';
+        unlock(h);
+      }else{
+        var n=recordAttempt();var left=MAX_ATTEMPTS-n;
+        if(err)err.textContent=left>0?'Incorrect key. '+left+' attempt'+(left===1?'':'s')+' remaining.':'Too many attempts. Locked for 5 minutes.';
+        if(inp){inp.classList.add('nda-shake');setTimeout(function(){inp.classList.remove('nda-shake');},600);}
+        if(isLockedOut())updateLockUI();
+      }
+    }
+    if(btn)btn.addEventListener('click',attempt);
+    if(inp)inp.addEventListener('keydown',function(e){if(e.key==='Enter')attempt();});
+  });
+})();
+</script>
+
+</body>
+</html>

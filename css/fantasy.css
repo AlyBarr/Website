@@ -1,0 +1,441 @@
+/* ═════════════════════════════════════════════════════════
+   fantasy.css — AlyArtBar
+   Deep fantasy layer. Every section is a page of the
+   "Cosmic Ocean Codex" — world-builder's field manual.
+   Theme: space-ocean / arcane-sci-fi manuscript.
+═════════════════════════════════════════════════════════ */
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   ZONE DIVIDERS — ocean depth markers
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+.zone-div {
+  position: relative;
+  height: 1px;
+  overflow: visible;
+  background: linear-gradient(
+    to right,
+    transparent 0%,
+    rgba(16,54,85,0.6) 20%,
+    rgba(29,136,112,0.30) 50%,
+    rgba(16,54,85,0.6) 80%,
+    transparent 100%
+  );
+}
+.zone-div::before {
+  content: attr(data-depth);
+  position: absolute;
+  left: 50%; top: 50%;
+  transform: translate(-50%, -50%);
+  font-family: var(--font-mono);
+  font-size: 0.48rem;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: rgba(61,255,208,0.32);
+  background: var(--c-void);
+  padding: 2px 1.4rem;
+  white-space: nowrap;
+  pointer-events: none;
+}
+/* Rotating sigil on right edge */
+.zone-div::after {
+  content: "◈";
+  position: absolute;
+  right: 4rem; top: 50%;
+  transform: translateY(-50%);
+  font-family: var(--font-mono);
+  font-size: 0.55rem;
+  color: rgba(61,255,208,0.20);
+  animation: zdiv-spin 20s linear infinite;
+  pointer-events: none;
+}
+@keyframes zdiv-spin { to { transform: translateY(-50%) rotate(360deg); } }
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   SECTION RULE — energy trace line
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+.section-rule {
+  position: relative;
+  width: 60px; height: 1px;
+  background: linear-gradient(to right, var(--c-biolume), transparent);
+  margin: 1.2rem 0 1.8rem;
+}
+.section-rule::before {
+  content: "";
+  position: absolute;
+  left: 0; top: -2px;
+  width: 5px; height: 5px;
+  border-radius: 50%;
+  background: var(--c-biolume);
+  opacity: 0.80;
+  animation: rule-trace 4.5s ease-in-out infinite;
+}
+@keyframes rule-trace {
+  0%   { left: 0;   opacity: 0.8; transform: scale(1); }
+  50%  { left: 55px; opacity: 0.2; transform: scale(0.5); }
+  100% { left: 0;   opacity: 0.8; transform: scale(1); }
+}
+.section-rule-nebula {
+  background: linear-gradient(to right, var(--c-nebula), transparent);
+}
+.section-rule-nebula::before { background: var(--c-nebula); }
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   LIVE DOT — beacon pulse
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+.live-dot {
+  position: relative;
+  display: inline-block;
+  width: 7px; height: 7px;
+  background: var(--c-biolume);
+  border-radius: 50%; flex-shrink: 0;
+  animation: live-core 2.5s ease-in-out infinite;
+}
+.live-dot::after {
+  content: "";
+  position: absolute;
+  inset: -5px; border-radius: 50%;
+  border: 1px solid var(--c-biolume);
+  opacity: 0;
+  animation: live-ring 2.5s ease-out infinite;
+}
+@keyframes live-core { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.4;transform:scale(0.7)} }
+@keyframes live-ring  { 0%{opacity:0.6;transform:scale(0.5)} 100%{opacity:0;transform:scale(2.5)} }
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   EYEBROW — blinking cursor
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+.eyebrow::after {
+  content: "▌";
+  margin-left: 0.25em;
+  font-size: 0.85em;
+  color: var(--c-biolume);
+  opacity: 0;
+  animation: eye-blink 2s step-end infinite 1.4s;
+}
+@keyframes eye-blink { 0%,100%{opacity:0} 50%{opacity:0.55} }
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   ABOUT — log-01 · surface · 0m
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+#about { position: relative; }
+
+/* Manuscript corner brackets */
+#about::before {
+  content: "";
+  position: absolute;
+  top: 1.8rem; left: 2rem;
+  width: 40px; height: 40px;
+  border-top: 1px solid rgba(61,255,208,0.25);
+  border-left: 1px solid rgba(61,255,208,0.25);
+  pointer-events: none; z-index: 0;
+}
+#about::after {
+  content: "// log-01 · surface · 0m";
+  position: absolute;
+  top: 2rem; right: 3rem;
+  font-family: var(--font-mono); font-size: 0.45rem;
+  letter-spacing: 0.24em; text-transform: uppercase;
+  color: rgba(61,255,208,0.20);
+  pointer-events: none; user-select: none;
+}
+
+/* Sigil coordinate label — vertical writing */
+.sigil-wrap {
+  position: relative;
+}
+.sigil-wrap::before {
+  content: "34°07'N 118°14'W · depth: 0m";
+  position: absolute;
+  right: -0.6rem; top: 50%;
+  transform: translateY(-50%) rotate(90deg);
+  transform-origin: right center;
+  font-family: var(--font-mono); font-size: 0.40rem;
+  letter-spacing: 0.14em; text-transform: uppercase;
+  color: rgba(61,255,208,0.18);
+  white-space: nowrap; pointer-events: none;
+}
+/* Rune watermark behind text */
+.about-copy { position: relative; }
+.about-copy::after {
+  content: "⊕";
+  position: absolute;
+  bottom: -1rem; right: 0;
+  font-size: 6rem; line-height: 1;
+  color: rgba(61,255,208,0.022);
+  pointer-events: none; user-select: none;
+  font-family: var(--font-mono);
+  animation: rune-breathe 14s ease-in-out infinite;
+}
+@keyframes rune-breathe {
+  0%,100% { transform: rotate(0deg) scale(1); opacity: 0.7; }
+  50%      { transform: rotate(4deg) scale(1.05); opacity: 1; }
+}
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   PROJECTS — log-02 · mid-water
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+#projects { position: relative; }
+#projects::before {
+  content: "";
+  position: absolute; top: 0; left: 0; right: 0; height: 1px;
+  background: linear-gradient(to right,
+    transparent 5%,
+    rgba(16,54,85,0.55) 30%,
+    rgba(29,136,112,0.25) 50%,
+    rgba(16,54,85,0.55) 70%,
+    transparent 95%
+  );
+}
+#projects::after {
+  content: "// log-02 · mid-water · 200m";
+  position: absolute;
+  top: 2rem; right: 3rem;
+  font-family: var(--font-mono); font-size: 0.45rem;
+  letter-spacing: 0.24em; text-transform: uppercase;
+  color: rgba(61,255,208,0.15);
+  pointer-events: none; user-select: none;
+}
+
+/* Active filter chip — compass mark */
+.filter-chip.is-active::after {
+  content: " ◉";
+  font-size: 0.50rem;
+  color: var(--c-biolume);
+  opacity: 0.60;
+}
+
+/* Project card corner brackets */
+.project-card {
+  position: relative;
+}
+.project-card::before {
+  content: "";
+  position: absolute; top: 0; left: 0;
+  width: 14px; height: 14px;
+  border-top: 1px solid rgba(61,255,208,0.22);
+  border-left: 1px solid rgba(61,255,208,0.22);
+  pointer-events: none; z-index: 2;
+  transition: width 0.2s, height 0.2s, border-color 0.2s;
+}
+.project-card::after {
+  content: "";
+  position: absolute; bottom: 0; right: 0;
+  width: 10px; height: 10px;
+  border-bottom: 1px solid rgba(61,255,208,0.14);
+  border-right: 1px solid rgba(61,255,208,0.14);
+  pointer-events: none; z-index: 2;
+  transition: border-color 0.2s;
+}
+.project-card:hover::before { width: 22px; height: 22px; border-color: rgba(61,255,208,0.55); }
+.project-card:hover::after  { border-color: rgba(61,255,208,0.38); }
+
+/* Featured row top line */
+.featured-row { position: relative; }
+.featured-row::before {
+  content: "";
+  position: absolute; top: 0; left: 0; right: 0; height: 1px;
+  background: linear-gradient(to right, rgba(61,255,208,0.22) 0%, transparent 55%);
+  pointer-events: none;
+}
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   SKILLS / CONSTELLATION — log-03 · thermocline
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+.constellation-section { position: relative; }
+
+/* Corner tick top-right */
+.constellation-section::before {
+  content: "";
+  position: absolute; top: 1.8rem; right: 2rem;
+  width: 30px; height: 30px;
+  border-top: 1px solid rgba(61,255,208,0.20);
+  border-right: 1px solid rgba(61,255,208,0.20);
+  pointer-events: none;
+}
+.constellation-section::after {
+  content: "// log-03 · thermocline · 500m\A astral chart · hover to trace";
+  position: absolute;
+  top: 2rem; left: 3rem;
+  font-family: var(--font-mono); font-size: 0.44rem;
+  letter-spacing: 0.20em; text-transform: uppercase;
+  color: rgba(61,255,208,0.16);
+  white-space: pre; line-height: 1.9;
+  pointer-events: none; user-select: none;
+}
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   R&D — log-04 · abyss · nebula sector
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+.section-rnd { position: relative; }
+
+/* Left margin notebook rule */
+.section-rnd::before {
+  content: "";
+  position: absolute; top: 0; bottom: 0; left: 2.5rem;
+  width: 1px;
+  background: repeating-linear-gradient(
+    to bottom,
+    rgba(157,120,245,0.14) 0px,
+    rgba(157,120,245,0.14) 1px,
+    transparent 1px,
+    transparent 22px
+  );
+  pointer-events: none; z-index: 0;
+}
+.section-rnd::after {
+  content: "// log-04 · abyss · 4000m\A nebula sector · lab";
+  position: absolute;
+  top: 2rem; right: 3rem;
+  font-family: var(--font-mono); font-size: 0.44rem;
+  letter-spacing: 0.20em; text-transform: uppercase;
+  color: rgba(157,120,245,0.22);
+  white-space: pre; line-height: 1.9;
+  pointer-events: none; user-select: none;
+}
+/* Entry index tick */
+.rnd-entry { position: relative; }
+.rnd-entry::after {
+  content: "◈";
+  position: absolute; right: 0; top: var(--s4);
+  font-family: var(--font-mono); font-size: 0.46rem;
+  color: rgba(157,120,245,0.20);
+  pointer-events: none; user-select: none;
+}
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   CONTACT — log-05 · comms array
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+#contact { position: relative; }
+#contact::before {
+  content: "";
+  position: absolute; bottom: 2rem; left: 2rem;
+  width: 30px; height: 30px;
+  border-bottom: 1px solid rgba(61,255,208,0.20);
+  border-left: 1px solid rgba(61,255,208,0.20);
+  pointer-events: none;
+}
+#contact::after {
+  content: "// log-05 · comms array · open channel";
+  position: absolute;
+  top: 2rem; right: 3rem;
+  font-family: var(--font-mono); font-size: 0.45rem;
+  letter-spacing: 0.24em; text-transform: uppercase;
+  color: rgba(61,255,208,0.16);
+  pointer-events: none; user-select: none;
+}
+/* Contact link sweep glow already in contact.css — just add a small rune prefix */
+.contact-link::after {
+  content: " ◈";
+  font-size: 0.5rem;
+  color: rgba(61,255,208,0.18);
+  transition: color 0.2s;
+}
+.contact-link:hover::after {
+  color: rgba(61,255,208,0.55);
+}
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   ARTBAR — version label
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+.artbar { position: relative; }
+.artbar::before {
+  content: "// art·bar v2.0 · world-engine nominal";
+  position: absolute;
+  top: -1px; right: 3rem;
+  transform: translateY(-100%) translateY(-3px);
+  font-family: var(--font-mono); font-size: 0.42rem;
+  letter-spacing: 0.20em; color: rgba(61,255,208,0.12);
+  pointer-events: none; user-select: none; white-space: nowrap;
+}
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   FIELD NOTES
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+.field-note {
+  position: relative;
+  padding: 0.7rem 1rem 0.7rem 1.1rem;
+  margin: 1rem 0;
+  border-left: 2px solid rgba(61,255,208,0.30);
+  background: rgba(2,8,16,0.38);
+  font-family: var(--font-mono); font-size: 0.74rem;
+  line-height: 1.65; color: var(--c-mist);
+  clip-path: polygon(0 0, 100% 0, 100% calc(100% - 5px), calc(100% - 7px) 100%, 0 100%);
+}
+.field-note::before {
+  content: attr(data-label);
+  display: block; font-size: 0.50rem;
+  letter-spacing: 0.28em; text-transform: uppercase;
+  color: var(--c-biolume); margin-bottom: 0.28rem; opacity: 0.72;
+}
+.field-note[data-label="WARNING"] { border-left-color: rgba(240,192,96,0.45); }
+.field-note[data-label="WARNING"]::before { color: #f0c060; }
+.field-note[data-label="SPELL"]::before,
+.field-note[data-label="RECIPE"]::before  { color: #9d78f5; }
+.field-note[data-label="SPELL"],
+.field-note[data-label="RECIPE"] { border-left-color: rgba(157,120,245,0.35); font-style: italic; }
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   LOGBOOK HEADERS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+.logbook-entry {
+  display: flex; flex-wrap: wrap;
+  align-items: baseline; gap: 0.75rem;
+  font-family: var(--font-mono); font-size: 0.54rem;
+  letter-spacing: 0.18em; color: rgba(61,255,208,0.30);
+  text-transform: uppercase; margin-bottom: 0.5rem;
+}
+.logbook-entry::before { content: "//"; color: rgba(61,255,208,0.16); flex-shrink: 0; }
+.logbook-depth { color: rgba(157,120,245,0.44); }
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   STAMPS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+.stamp {
+  display: inline-flex; align-items: center; gap: 0.35rem;
+  font-family: var(--font-mono); font-size: 0.60rem;
+  font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase;
+  padding: 0.18rem 0.52rem;
+  border: 1.5px solid currentColor; border-radius: 1px;
+  transform: rotate(-0.7deg); user-select: none;
+  transition: transform 0.15s;
+}
+.stamp:hover { transform: rotate(0deg) scale(1.04); }
+.stamp-live      { color: #3dffd0; background: rgba(61,255,208,0.05); }
+.stamp-wip       { color: #f0c060; background: rgba(240,192,96,0.05);  border-color: #f0c060; }
+.stamp-exploring { color: #9d78f5; background: rgba(157,120,245,0.05); border-color: #9d78f5; }
+.stamp-archived  { color: #4a6070; background: transparent; border-color: #4a6070; opacity: 0.65; }
+.stamp-tested    { color: #7ee8d8; background: rgba(126,232,216,0.04); font-style: italic; }
+.stamp-dot {
+  width: 5px; height: 5px; border-radius: 50%;
+  background: currentColor; flex-shrink: 0;
+  animation: stamp-pulse 2.8s ease-in-out infinite;
+}
+.stamp-archived .stamp-dot { animation: none; opacity: 0.28; }
+@keyframes stamp-pulse {
+  0%,100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.30; transform: scale(0.60); }
+}
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   MARQUEE
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+.marquee-content {
+  font-family: var(--font-mono); font-size: 0.60rem;
+  letter-spacing: 0.18em; color: rgba(61,255,208,0.22);
+  text-transform: uppercase;
+}
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   REDUCED MOTION
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+@media (prefers-reduced-motion: reduce) {
+  .zone-div::after,
+  .section-rule::before,
+  .live-dot, .live-dot::after,
+  .about-copy::after,
+  .stamp-dot        { animation: none !important; }
+  .portal-sigil     { animation: none !important; }
+  .portal-gem-core  { animation: none !important; opacity: 0.25; }
+  .portal-gem-ring  { animation: none !important; }
+  .portal-spark     { animation: none !important; display: none; }
+}

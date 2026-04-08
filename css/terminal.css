@@ -4,6 +4,8 @@
 #terminal {
   position: fixed; inset: 0; z-index: 500;
   background: var(--c-void);
+  /* Solid backdrop — WebGL canvas (z:0) can never bleed through */
+  isolation: isolate;
   display: flex; flex-direction: column;
   align-items: center; justify-content: center; gap: 2rem;
   transition: opacity 0.8s var(--ease), visibility 0.8s;
@@ -38,17 +40,25 @@
   background: #010a14;
   padding: 1.8rem 2rem;
   min-height: 230px;
-  font-family: var(--font-mono); font-size: 0.88rem;
-  line-height: 2; color: var(--c-biolume);
+  font-family: var(--font-mono); font-size: 0.90rem;
+  line-height: 2.1; color: var(--c-biolume);
+  /* Subtle scanline texture for the "lo-fi spacecraft manual" vibe */
+  background-image: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(0, 0, 0, 0.04) 2px,
+    rgba(0, 0, 0, 0.04) 4px
+  );
 }
 
 /* Line types */
 .tl         { display: block; }
-.tl-dim     { color: var(--c-ghost); }
-.tl-name    { color: var(--c-biolume); font-size: 1.05rem; }
+.tl-dim     { color: #4a7a8a; }
+.tl-name    { color: var(--c-biolume); font-size: 1.05rem; letter-spacing: 0.02em; }
 .tl-role    { color: var(--c-biolume-soft); }
-.tl-ok      { color: var(--c-thermal); }
-.tl-sys     { color: var(--c-nebula); }
+.tl-ok      { color: #2dd4b0; font-weight: 500; }
+.tl-sys     { color: #2fb89e; }
 
 /* Blinking caret */
 .term-caret {
@@ -66,3 +76,114 @@
   transition: color var(--fast);
 }
 .term-skip:hover { color: var(--c-mist); }
+
+/* ═══════════════════════════════════════════
+   CHOICE DIALOG — appears after boot lines
+═══════════════════════════════════════════ */
+.term-choice {
+  width: min(660px, 92vw);
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 0.4s var(--ease), transform 0.4s var(--ease);
+  pointer-events: none;
+}
+.term-choice.term-choice-visible {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: all;
+}
+.term-choice-label {
+  font-family: var(--font-mono);
+  font-size: var(--t-xs);
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--c-ghost);
+  margin-bottom: 0.75rem;
+  padding-left: 0.1rem;
+}
+.term-choice-options {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-bottom: 0.8rem;
+}
+.term-choice-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 5px;
+  padding: 1rem 1.1rem;
+  background: var(--c-trench);
+  border: 1px solid var(--c-deep);
+  border-radius: var(--radius);
+  cursor: pointer;
+  text-align: left;
+  transition:
+    border-color 160ms,
+    background 160ms,
+    transform 160ms;
+  font-family: var(--font-mono);
+}
+.term-choice-btn:hover,
+.term-choice-btn:focus-visible {
+  outline: none;
+  transform: translateY(-2px);
+}
+.term-choice-full:hover,
+.term-choice-full:focus-visible {
+  border-color: var(--c-biolume);
+  background: rgba(61,255,208,0.05);
+}
+.term-choice-lite:hover,
+.term-choice-lite:focus-visible {
+  border-color: var(--c-nebula);
+  background: rgba(157,120,245,0.05);
+}
+.tc-key {
+  font-size: var(--t-xs);
+  letter-spacing: 0.14em;
+  color: var(--c-ghost);
+}
+.term-choice-full:hover .tc-key,
+.term-choice-full:focus-visible .tc-key { color: var(--c-biolume); }
+.term-choice-lite:hover .tc-key,
+.term-choice-lite:focus-visible .tc-key { color: var(--c-nebula); }
+
+.tc-title {
+  font-size: 0.82rem;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  color: var(--c-star);
+}
+.tc-sub {
+  font-size: var(--t-xs);
+  letter-spacing: 0.10em;
+  color: var(--c-ghost);
+}
+.term-choice-full .tc-sub  { color: rgba(61,255,208,0.45); }
+.term-choice-lite .tc-sub  { color: rgba(157,120,245,0.45); }
+
+.term-choice-hint {
+  font-family: var(--font-mono);
+  font-size: var(--t-xs);
+  letter-spacing: 0.14em;
+  color: var(--c-ghost);
+  text-align: center;
+}
+.term-choice-hint kbd {
+  font-family: var(--font-mono);
+  font-size: var(--t-xs);
+  padding: 1px 5px;
+  border: 1px solid var(--c-deep);
+  border-radius: 3px;
+  color: var(--c-mist);
+  background: rgba(255,255,255,0.04);
+}
+#tc-countdown {
+  color: var(--c-biolume);
+  font-weight: 500;
+}
+
+@media (max-width: 500px) {
+  .term-choice-options { grid-template-columns: 1fr; }
+}

@@ -12,7 +12,6 @@
       const delay = parseInt(el.dataset.delay || 0, 10);
 
       setTimeout(() => el.classList.add("in"), delay);
-
       obs.unobserve(el);
     });
   }, { threshold: 0.1 });
@@ -23,10 +22,11 @@
       if (observed.has(el)) return;
       observed.add(el);
 
-      // Auto-stagger siblings in same parent
       const parent = el.parentElement;
       if (parent) {
-        const siblings = Array.from(parent.querySelectorAll(".reveal"));
+        const siblings = Array.from(parent.children).filter(
+          (child) => child.classList && child.classList.contains("reveal")
+        );
         const idx = siblings.indexOf(el);
         if (!el.dataset.delay) el.dataset.delay = String(idx * 80);
       }
@@ -35,16 +35,13 @@
     });
   }
 
-  // 1) Observe anything already in DOM
   applyStaggerAndObserve(document);
 
-  // 2) Observe anything injected later (projects.js etc.)
   const mo = new MutationObserver((mutations) => {
     for (const m of mutations) {
       for (const node of m.addedNodes) {
         if (!(node instanceof Element)) continue;
 
-        // If the added node itself is reveal, or contains reveal children
         if (node.classList && node.classList.contains("reveal")) {
           applyStaggerAndObserve(node.parentElement || document);
         } else {
@@ -58,6 +55,7 @@
     const target = document.body || document.documentElement;
     mo.observe(target, { childList: true, subtree: true });
   };
+
   if (document.readyState === "loading") {
     document.addEventListener("DOMContentLoaded", startMO, { once: true });
   } else {

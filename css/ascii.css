@@ -1,0 +1,50 @@
+/* ═══════════════════════════════════════════════════
+   ascii.css — ASCII Mode (body.ascii-mode)
+   Visual overrides only. Layout unchanged.
+═══════════════════════════════════════════════════ */
+
+body.ascii-mode::after {
+  content: "[ASCII]";
+  position: fixed; bottom: 4.8rem; left: 1.2rem;
+  z-index: 9001; pointer-events: none;
+  font-family: var(--font-mono); font-size: 0.50rem;
+  letter-spacing: 0.22em; color: rgba(61,255,208,0.45);
+  animation: ascii-blink 1.2s step-end infinite;
+}
+@keyframes ascii-blink { 50% { opacity: 0; } }
+
+/* Cards get sharp, monospace borders */
+body.ascii-mode .project-card,
+body.ascii-mode .rnd-entry,
+body.ascii-mode .portal {
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  background: rgba(2,6,14,0.96) !important;
+  border-color: rgba(61,255,208,0.22) !important;
+}
+
+/* Section titles get ## prefix */
+body.ascii-mode .section-title::before {
+  content: "## "; font-family: var(--font-mono);
+  font-size: 0.7em; color: rgba(61,255,208,0.35);
+}
+body.ascii-mode .eyebrow::before {
+  content: "> "; color: rgba(61,255,208,0.30);
+}
+
+/* Chips become [tag] */
+body.ascii-mode .chip {
+  border-radius: 0; background: transparent;
+  border-color: rgba(61,255,208,0.18);
+}
+body.ascii-mode .chip::before { content: "["; }
+body.ascii-mode .chip::after  { content: "]"; }
+
+/* Dim the WebGL in ASCII mode */
+body.ascii-mode #webgl-canvas { opacity: 0.20 !important; }
+
+/* Buttons go terminal-style */
+body.ascii-mode .btn-primary {
+  border-radius: 0; background: transparent;
+  border-color: var(--c-biolume); box-shadow: none;
+}

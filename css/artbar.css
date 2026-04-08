@@ -1,0 +1,184 @@
+
+/* ═══════════════════════════════════════════
+   css/artbar.css — AlyArtBar Dock + CmdK
+═══════════════════════════════════════════ */
+
+.artbar{
+  position: fixed;
+  left: 50%;
+  bottom: 16px;
+  transform: translateX(-50%);
+  z-index: 120;
+  width: min(980px, calc(100% - 24px));
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  border-radius: 999px;
+  border: 1px solid rgba(61,255,208,0.22);
+  background: rgba(2,8,16,0.58);
+  backdrop-filter: blur(14px);
+  box-shadow: 0 22px 70px rgba(0,0,0,0.55);
+}
+
+.artbar-btn{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  text-decoration:none;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.10em;
+  text-transform: uppercase;
+  color: var(--c-mist);
+  border: 1px solid rgba(15,48,80,0.6);
+  background: rgba(11,31,54,0.30);
+  padding: 10px 12px;
+  border-radius: 999px;
+  transition: transform var(--dur-micro), border-color var(--dur-micro), color var(--dur-micro), background var(--dur-micro);
+  white-space: nowrap;
+}
+
+.artbar-btn:hover{
+  transform: translateY(-1px);
+  border-color: rgba(61,255,208,0.38);
+  background: rgba(11,31,54,0.42);
+  color: var(--c-seafoam);
+}
+
+.artbar-icon{
+  font-size: 0.9rem;
+  opacity: 0.9;
+}
+
+.artbar-label{ opacity: 0.92; }
+
+.artbar-spacer{ flex: 1; }
+
+.artbar-toggle{
+  font-family: var(--font-mono);
+  font-size: 0.70rem;
+  letter-spacing: 0.10em;
+  text-transform: uppercase;
+  color: var(--c-mist);
+  border: 1px solid rgba(15,48,80,0.6);
+  background: rgba(11,31,54,0.22);
+  padding: 10px 12px;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: border-color var(--dur-micro), color var(--dur-micro), background var(--dur-micro), transform var(--dur-micro);
+  white-space: nowrap;
+}
+
+.artbar-toggle:hover{
+  transform: translateY(-1px);
+  border-color: rgba(61,255,208,0.38);
+  color: var(--c-seafoam);
+  background: rgba(11,31,54,0.34);
+}
+
+.artbar-toggle[aria-pressed="true"]{
+  color: var(--c-void);
+  border-color: rgba(61,255,208,0.45);
+  background: rgba(61,255,208,0.78);
+}
+
+/* CmdK */
+.cmdk[hidden]{ display:none; }
+.cmdk{ position: fixed; inset: 0; z-index: 200; }
+.cmdk-backdrop{ position:absolute; inset:0; background: rgba(0,0,0,0.58); }
+
+.cmdk-panel{
+  position: relative;
+  width: min(760px, calc(100% - 24px));
+  margin: 12vh auto 0;
+  border-radius: 18px;
+  border: 1px solid rgba(61,255,208,0.22);
+  background: rgba(2,8,16,0.86);
+  backdrop-filter: blur(16px);
+  box-shadow: 0 30px 90px rgba(0,0,0,0.70);
+  overflow: hidden;
+}
+
+.cmdk-top{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding: 12px 14px;
+  border-bottom: 1px solid rgba(15,48,80,0.60);
+  font-family: var(--font-mono);
+  color: var(--c-mist);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  font-size: 0.72rem;
+}
+
+.cmdk-input{
+  width:100%;
+  border: none;
+  outline: none;
+  background: rgba(11,31,54,0.38);
+  color: var(--c-star);
+  padding: 14px 14px;
+  font-family: var(--font-mono);
+  font-size: 0.92rem;
+}
+
+.cmdk-list{
+  padding: 10px;
+  display:flex;
+  flex-direction:column;
+  gap: 8px;
+}
+
+.cmdk-item{
+  border: 1px solid rgba(15,48,80,0.60);
+  background: rgba(11,31,54,0.25);
+  color: var(--c-mist);
+  padding: 12px 12px;
+  border-radius: 14px;
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  letter-spacing: 0.10em;
+  text-transform: uppercase;
+  text-align:left;
+  cursor:pointer;
+}
+
+.cmdk-item:hover{
+  border-color: rgba(61,255,208,0.34);
+  color: var(--c-seafoam);
+}
+
+/* Filters row */
+.role-filters{
+  display:flex;
+  flex-wrap:wrap;
+  gap: 10px;
+  margin: 18px 0 12px;
+}
+
+.filter-chip{
+  border: 1px solid rgba(15,48,80,0.60);
+  background: rgba(11,31,54,0.25);
+  color: var(--c-mist);
+  padding: 10px 12px;
+  border-radius: 999px;
+  font-family: var(--font-mono);
+  font-size: 0.70rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  cursor:pointer;
+}
+
+.filter-chip.is-active{
+  background: rgba(61,255,208,0.78);
+  color: var(--c-void);
+  border-color: rgba(61,255,208,0.45);
+}
+
+/* Pro View = calmer for recruiters */
+body.pro-view #hero-particles{ opacity: 0.25; }
+body.pro-view .orb{ opacity: 0.45; filter: blur(120px); }
+body.pro-view #stars{ opacity: 0.0; }
+body.pro-view .grain{ opacity: 0.03; }

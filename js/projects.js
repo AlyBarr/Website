@@ -1,89 +1,110 @@
 /* ═══════════════════════════════════════════
-   js/projects.js — Render Projects from Data
+   js/projects.js — Render Projects (safe)
 ═══════════════════════════════════════════ */
 (function renderProjects() {
-  if (typeof PROJECTS === 'undefined') return;
+  var featuredWrap = document.getElementById("featured-projects");
+  var gridWrap = document.getElementById("project-grid");
 
-  const featuredWrap = document.getElementById('featured-projects');
-  const gridWrap     = document.getElementById('project-grid');
-  if (!featuredWrap || !gridWrap) return;
+  if (!featuredWrap || !gridWrap) {
+    console.error("[AlyArtBar] Project containers not found");
+    return;
+  }
 
-  const featuredProjects = PROJECTS.filter(p => p.featured);
-  const gridProjects     = PROJECTS.filter(p => !p.featured);
+  if (!Array.isArray(window.PROJECTS)) {
+    console.error("[AlyArtBar] PROJECTS is not defined or not an array");
+    return;
+  }
 
-  // ── Featured rows ──
-  const featContainer = document.createElement('div');
-  featContainer.className = 'featured-wrap';
+  featuredWrap.innerHTML = "";
+  gridWrap.innerHTML = "";
 
-  featuredProjects.forEach((p, i) => {
-    const isReversed = i % 2 !== 0;
-    const hasImage   = p.image && p.image.trim() !== '';
+  window.PROJECTS.forEach(function(project, index) {
+    var id = project.id || ("project-" + index);
+    var title = project.title || "Untitled Project";
+    var category = project.category || "";
+    var oneliner = project.oneliner || "";
+    var bullets = Array.isArray(project.bullets) ? project.bullets : [];
+    var tools = Array.isArray(project.tools) ? project.tools : [];
+    var links = Array.isArray(project.links) ? project.links : [];
+    var image = project.image || "";
+    var imageAlt = project.imageAlt || title;
+    var featured = !!project.featured;
+    var roles = Array.isArray(project.roles) ? project.roles : [];
 
-    const row = document.createElement('div');
-    row.className = `featured-row${isReversed ? ' reversed' : ''} reveal`;
+    var card = document.createElement("article");
+    card.className = featured ? "featured-card reveal" : "project-card reveal";
+    card.setAttribute("data-project-idx", String(index));
+    card.setAttribute("data-project-id", id);
+    card.setAttribute("data-roles", roles.join(" "));
 
-    row.innerHTML = `
-      <div class="featured-image">
-        ${hasImage
-          ? `<img src="${p.image}" alt="${p.title}" loading="lazy" />
-             <div class="featured-image-overlay"></div>`
-          : `<div class="featured-placeholder">
-               <span class="placeholder-icon">⬡</span>
-               <span class="placeholder-text">image placeholder</span>
-             </div>`
-        }
-      </div>
-      <div class="featured-copy">
-        <p class="project-category">${p.category}</p>
-        <h3 class="project-title">${p.title}</h3>
-        <p class="project-oneliner">${p.oneliner}</p>
-        <ul class="project-bullets">
-          ${p.bullets.map(b => `<li>${b}</li>`).join('')}
-        </ul>
-        <div class="project-tools">
-          ${p.tools.map(t => `<span class="tool-tag">${t}</span>`).join('')}
-        </div>
-        <div class="project-links">
-          ${p.links.map(l => `<a href="${l.url}" class="project-link" target="_blank" rel="noopener">↗ ${l.label}</a>`).join('')}
-        </div>
-      </div>
-    `;
-    featContainer.appendChild(row);
+    var mediaHTML = image
+      ? '<div class="project-media"><img src="' + image + '" alt="' + escapeHtml(imageAlt) + '"></div>'
+      : '<div class="project-media project-media-placeholder" aria-hidden="true"></div>';
+
+    var bulletsHTML = bullets.length
+      ? '<ul class="project-bullets">' +
+          bullets.map(function(b) {
+            return "<li>" + escapeHtml(b) + "</li>";
+          }).join("") +
+        "</ul>"
+      : "";
+
+    var toolsHTML = tools.length
+      ? '<div class="project-tools">' +
+          tools.map(function(t) {
+            return '<span class="chip">' + escapeHtml(t) + "</span>";
+          }).join("") +
+        "</div>"
+      : "";
+
+    var linksHTML = links.length
+      ? '<div class="project-links">' +
+          links.map(function(link) {
+            var label = link && link.label ? link.label : "Link";
+            var url = link && link.url ? link.url : "#";
+            return '<a class="project-link" href="' + escapeAttr(url) + '" target="_blank" rel="noopener">↗ ' + escapeHtml(label) + "</a>";
+          }).join("") +
+        "</div>"
+      : "";
+
+    if (featured) {
+      card.innerHTML =
+        mediaHTML +
+        '<div class="project-copy">' +
+          '<p class="project-category">// ' + escapeHtml(category) + "</p>" +
+          '<h3 class="project-title">' + escapeHtml(title) + "</h3>" +
+          '<p class="project-oneliner">' + escapeHtml(oneliner) + "</p>" +
+          bulletsHTML +
+          toolsHTML +
+          linksHTML +
+        "</div>";
+      featuredWrap.appendChild(card);
+    } else {
+      card.innerHTML =
+        mediaHTML +
+        '<div class="project-copy">' +
+          '<p class="project-category">// ' + escapeHtml(category) + "</p>" +
+          '<h3 class="project-title">' + escapeHtml(title) + "</h3>" +
+          '<p class="project-oneliner">' + escapeHtml(oneliner) + "</p>" +
+          toolsHTML +
+          linksHTML +
+        "</div>";
+      gridWrap.appendChild(card);
+    }
   });
 
-  featuredWrap.appendChild(featContainer);
+  console.log("[AlyArtBar] Projects rendered:", window.PROJECTS.length);
 
-  // ── Card surface lighting ──
-  document.addEventListener('mousemove', e => {
-    document.querySelectorAll('.project-card').forEach(card => {
-      const rect = card.getBoundingClientRect();
-      const x = ((e.clientX - rect.left) / rect.width  * 100).toFixed(1);
-      const y = ((e.clientY - rect.top)  / rect.height * 100).toFixed(1);
-      card.style.setProperty('--card-x', x + '%');
-      card.style.setProperty('--card-y', y + '%');
-    });
-  });
+  function escapeHtml(value) {
+    return String(value)
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#39;");
+  }
 
-  // ── Grid cards ──
-  gridProjects.forEach((p, i) => {
-    const card = document.createElement('div');
-    card.className = 'project-card reveal';
-
-    card.innerHTML = `
-      <span class="card-number">${String(featuredProjects.length + i + 1).padStart(2, '0')}</span>
-      <p class="project-category">${p.category}</p>
-      <h3 class="project-title" style="font-size:var(--t-lg)">${p.title}</h3>
-      <p class="project-oneliner" style="margin-bottom:1rem">${p.oneliner}</p>
-      <ul class="project-bullets">
-        ${p.bullets.map(b => `<li>${b}</li>`).join('')}
-      </ul>
-      <div class="project-tools">
-        ${p.tools.map(t => `<span class="tool-tag">${t}</span>`).join('')}
-      </div>
-      <div class="project-links" style="margin-top:1rem">
-        ${p.links.map(l => `<a href="${l.url}" class="project-link" target="_blank" rel="noopener">↗ ${l.label}</a>`).join('')}
-      </div>
-    `;
-    gridWrap.appendChild(card);
-  });
+  function escapeAttr(value) {
+    return String(value).replace(/"/g, "&quot;");
+  }
 })();
