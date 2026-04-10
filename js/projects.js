@@ -15,6 +15,16 @@
     return;
   }
 
+function inferLabel(url) {
+  var u = String(url || '').toLowerCase();
+  if (u.indexOf('github.com') !== -1) return 'GitHub';
+  if (u.indexOf('docs.google.com') !== -1 || u.indexOf('notion.') !== -1 || u.slice(-4) === '.pdf') return 'Docs';
+  if (u.indexOf('youtube.com') !== -1 || u.indexOf('youtu.be') !== -1 || u.indexOf('vimeo.com') !== -1) return 'Video';
+  if (u.indexOf('itch.io') !== -1) return 'Play';
+  if (u.indexOf('vercel.app') !== -1 || u.indexOf('netlify.app') !== -1 || u.indexOf('github.io') !== -1) return 'Live';
+  return 'Link';
+}
+
   featuredWrap.innerHTML = "";
   gridWrap.innerHTML = "";
 
@@ -60,8 +70,8 @@
     var linksHTML = links.length
       ? '<div class="project-links">' +
           links.map(function(link) {
-            var label = link && link.label ? link.label : "Link";
-            var url = link && link.url ? link.url : "#";
+            var url = (link && link.url) ? link.url : (typeof link === 'string' ? link : '#');
+            var label = (link && link.label) ? link.label : inferLabel(url);
             return '<a class="project-link" href="' + escapeAttr(url) + '" target="_blank" rel="noopener">↗ ' + escapeHtml(label) + "</a>";
           }).join("") +
         "</div>"

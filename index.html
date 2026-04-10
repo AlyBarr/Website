@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Alyssa Barrientos — Technical Director. Procedural systems, simulations, tools & rendering. I build systems for worlds." />
+  <meta name="description" content="Alyssa Barrientos — Technical Artist, Creative Technologist, and Graphics/Pipeline Developer. Procedural systems, tools, simulation, rendering, USD workflows, and interactive WebGL experiments." />
   <title>Alyssa Barrientos · AlyArtBar</title>
   <!-- AB logomark favicon — matches nav brand -->
   <link rel="icon" type="image/svg+xml" href="favicon.svg">
@@ -94,7 +94,7 @@
         <li><a href="#rnd">R&amp;D</a></li>
         <li><a href="#nda" class="nav-nda">Vault ◈</a></li>
         <li><a href="#contact">Contact</a></li>
-        <li><a href="assets/resume.pdf" target="_blank" rel="noopener" class="nav-resume">Resume ↗</a></li>
+        <li><a href="assets/CreativeTechResume.pdf" target="_blank" rel="noopener" class="nav-resume">Resume ↗</a></li>
       </ul>
       <button class="nav-burger" id="nav-burger" aria-label="Toggle menu" aria-expanded="false">
         <span></span><span></span><span></span>
@@ -160,28 +160,9 @@
           <span class="name-first">Alyssa</span>
           <span class="name-last">Barrientos</span>
         </h1>
-        <p class="hero-alias">AlyArtBar</p>
-        <div class="hero-rule" aria-hidden="true"></div>
-        <div class="hero-chips" aria-label="Specializations">
-          <span class="chip">Procedural Systems</span>
-          <span class="chip">USD Pipelines</span>
-          <span class="chip">Tool Dev</span>
-          <span class="chip">Technical Art</span>
-          <span class="chip">Simulation</span>
-          <span class="chip">Rendering</span>
-        </div>
-        <p class="hero-mission">
-          I design procedural systems and creative tools<br>
-          that bridge art and engineering.
-        </p>
-        <p class="hero-tagline">I build systems for worlds.</p>
-        <div class="hero-actions">
-          <a href="#projects" class="btn btn-primary">View Projects</a>
-          <a href="assets/resume.pdf" class="btn btn-ghost" target="_blank" rel="noopener">Resume ↗</a>
-          <a href="#contact" class="hero-text-link">Get in touch →</a>
-        </div>
-
-        <div class="hero-portals" aria-label="Choose a route">
+<div class="hero-rule" aria-hidden="true"></div>
+<p class="hero-mission">I design procedural systems and creative tools that bridge art and engineering. I build systems for worlds.</p>
+<div class="hero-portals" aria-label="Choose a route">
 
           <!-- ── Techart portal: astrolabe / compass-rose ── -->
           <a class="portal" href="#projects" data-portal="techart">
@@ -635,7 +616,7 @@
 
   <!-- Scripts — order matters -->
   <!-- 1️⃣ Intro + Cursor FIRST (CSS hides native cursor) -->
-  <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script src="js/terminal.js"></script>
+  <script src="js/terminal.js"></script>
   <script src="js/cursor.js"></script>
   
   <!-- 2️⃣ Core UI + Background Effects -->
@@ -643,232 +624,13 @@
   <script src="js/parallax.js"></script>
   <script src="js/particles.js"></script>
   <script src="js/stars.js"></script>
+  <!-- Data (must load before renderers) -->
+  <script src="data/projects.js"></script>
+  <script src="data/skills.js"></script>
   
   <!-- 3⃣ Data — inlined, var so globals reliably cross script-tag accessible -->
   <!-- Real projects only — no placeholder/example data -->
-  <script>
-  var PROJECTS = [
-    {
-      featured: true,
-      roles: ['pipeline'],
-      category: 'Pipeline & Tools',
-      title: 'Maya Pipeline Tools',
-      oneliner: 'Production-grade Scene Validator and Asset Publisher for Maya — built to mirror studio TD conventions.',
-      bullets: [
-        'Scene Validator: checks geometry, naming, transforms, materials, and scene units with a threaded PySide2 UI that never freezes',
-        'Asset Publisher: copies files to a versioned directory, writes a JSON manifest, exports a USD stub, and commits a semantic Git version tag',
-        'Graceful degradation — runs in demo mode without Maya, and falls back to a plain-text USD stub if usd-core is missing'
-      ],
-      tools: ['Python','Maya API','PySide2','OpenUSD','Git'],
-      image: '',
-      links: [
-        { label: 'GitHub', url: 'https://github.com/AlyBarr/AssetMayaTooling' },
-        { label: 'Docs',   url: 'pipeline-tools.html' }
-      ]
-    },
-    {
-      featured: true,
-      roles: ['ml'],
-      category: 'Machine Learning · Virtual Production',
-      title: 'Virtual Prod ML Rig Predictor',
-      oneliner: 'Two-model Random Forest system that classifies 18 human motion actions from 3D skeletal joint data — built for virtual production rigs.',
-      bullets: [
-        'Model 1: full 4,998-dimensional feature pipeline (StandardScaler → Random Forest, 300 trees) for maximum accuracy',
-        'Model 2: PCA-compressed pipeline (100 components) for faster inference in latency-sensitive live VP environments',
-        'Root-space normalisation, temporal resampling to 60 frames, and velocity features extracted from the KARD dataset'
-      ],
-      tools: ['Python','Scikit-learn','Random Forest','PCA','NumPy','Pandas','Matplotlib'],
-      image: '',
-      links: [
-        { label: 'GitHub', url: 'https://github.com/AlyBarr/VirtualProdMLPredict' },
-        { label: 'Docs',   url: 'MLrigPredictor.html' }
-      ]
-    },
-    {
-      featured: true,
-      roles: ['creative'],
-      category: 'Creative Technology · AI Systems',
-      title: 'Shifting Interface — AI-Driven Visual State System',
-      oneliner: 'An interactive visual system where structured AI state data shapes atmosphere, motion, composition, and interaction in real time — treating the model as a behavioural engine, not a text generator.',
-      bullets: [
-        'State machine translates AI JSON output into live CSS custom properties — two variables cascade through eight composited visual layers via color-mix(), screen blend mode, and radial gradients',
-        'Parallax depth system with per-fragment data-depth coefficients and AI-governed energy scaling; GPU-composited translate3d transforms keep motion off the main thread entirely',
-        'Echo transition layer spawns ghost clones of outgoing fragment geometry on each state shift, with animationend cleanup and CSS keyframe after-image fade'
-      ],
-      tools: ['HTML5','CSS Custom Properties','Vanilla JS','State Machine','mix-blend-mode','IntersectionObserver'],
-      image: '',
-      links: [
-        { label: 'Live', url: 'https://alybarr.github.io/shifting_interface/' },
-        { label: 'Docs', url: 'Shifting-interface-docs.html' }
-      ]
-    },
-    {
-      featured: false,
-      roles: ['pipeline'],
-      category: 'Render Tools · TD Work',
-      title: 'AOV Manager',
-      oneliner: 'Shared-config render pass manager for Houdini (Mantra & Karma XPU) and Unreal Engine 5 — one file drives both a standalone PySide6 app and a native Houdini shelf tool.',
-      bullets: [
-        'Single aov_config.py drives both the desktop app and Houdini shelf tool — edit once, both update automatically',
-        'Generates production-correct AOV scripts for Mantra, Karma XPU, and Movie Render Queue configs for UE5',
-        'PySide6 standalone app runs without Houdini installed; PySide2 Houdini shelf variant builds ROP network live into an active session'
-      ],
-      tools: ['Python 3.9+','Houdini Mantra','Karma XPU','Unreal Engine 5','PySide6','PySide2','Movie Render Queue'],
-      image: '',
-      links: [
-        { label: 'Docs', url: 'Aov-manager-docs.html' }
-      ]
-    },
-    {
-      featured: false,
-      roles: ['graphics'],
-      category: 'Graphics Programming · C++',
-      title: 'Raytracer Dev — OpenGL Graphics Engine',
-      oneliner: 'A C++ graphics pipeline built from scratch across six assignments — Phong shading, OBJ import, parametric curves, skeletal animation, and real-time cloth physics with four interchangeable ODE integrators.',
-      bullets: [
-        'Raw OpenGL 3.3 Core throughout — manual VAO/VBO/EBO setup, GLSL shaders, MVP matrix stack, Phong lighting with normal-matrix correction',
-        'Bezier and B-Spline curves via Bernstein basis evaluation, Frenet-Serret frame computation, and surface-of-revolution mesh generation',
-        'Generic ODE physics framework: pure-virtual evalF(state) drives pendulum, chain, and cloth simulations through ForwardEuler, Trapezoid, Midpoint, and RK4 — swappable at runtime from ImGui'
-      ],
-      tools: ['C++17','OpenGL 3.3','GLSL','GLM','GLFW','GLAD','Dear ImGui'],
-      image: '',
-      links: [
-        { label: 'GitHub', url: 'https://github.com/AlyBarr/RaytracerDev' },
-        { label: 'Docs',   url: 'raytracer.html' }
-      ]
-    },
-    {
-      featured: false,
-      roles: ['creative','ml'],
-      category: 'Augmented Reality · Unity · AI',
-      title: 'Augmented Object Intelligence XR',
-      oneliner: 'Mobile AR capstone that anchors AI-generated context directly onto physical objects in 3D space — point your camera at anything and an LLM explains it back to you.',
-      bullets: [
-        'Four-stage pipeline: AR Foundation camera capture → MediaPipe on-device object detection → LLM REST query (PaLI/LLaMA) → world-space anchor rendered by AR Foundation',
-        'Cross-platform Unity 2022.3 build targeting ARKit (iOS 12+), ARCore (Android 8+), and Meta Quest 3 via a single C# codebase',
-        'Sprint 4 pivot: LLM-generated AR scavenger hunt with tap-to-detect, surface-placed AR markers, and 100% CI pass rate across 31 test cases'
-      ],
-      tools: ['Unity 2022.3','C# / URP','AR Foundation','ARKit','ARCore','MediaPipe','LLM API','GitHub Actions'],
-      image: '',
-      links: [
-        { label: 'GitHub', url: 'https://github.com/bautista-aa/Augmented-Object-Intelligence-with-XR-Objects' },
-        { label: 'Docs',   url: 'aoi-xr.html' }
-      ]
-    }
-  ];
-
-  /* =====================================================
-     SKILLS - derived from actual projects only.
-     Radius (r) reflects depth of use across real work:
-       core   r:22-28  = used heavily across multiple projects
-       strong r:14-18  = used seriously in at least one project
-       solid  r:10-12  = used, know it well, less central
-     Positions spread to avoid overlap on the canvas.
-  ===================================================== */
-  var SKILLS = [
-    // ── Core ──────────────────────────────────────────────
-    // Python: Maya Tools, ML Predictor, AOV Manager (PySide2/6), pipeline work
-    { id:'python',   label:'Python',        x:0.28, y:0.32, r:26, glow:true, links:['maya','usd','ml','tools','pyside'] },
-    // C++: Raytracer Dev — full 6-assignment pipeline from scratch
-    { id:'cpp',      label:'C++',           x:0.72, y:0.30, r:22, glow:true, links:['opengl','glsl'] },
-    // OpenGL: Raytracer Dev core
-    { id:'opengl',   label:'OpenGL 3.3',    x:0.84, y:0.18, r:18,           links:['glsl','cpp'] },
-
-    // ── Strong ──────────────────────────────────────────────
-    // ML: ML Rig Predictor — full Random Forest + PCA pipeline
-    { id:'ml',       label:'ML / Scikit-learn', x:0.14, y:0.48, r:18,       links:['python','numpy'] },
-    // GLSL: Raytracer Dev (all shaders manual), AOV Manager rendering context
-    { id:'glsl',     label:'GLSL',          x:0.82, y:0.42, r:16,           links:['opengl','cpp'] },
-    // Maya API: Maya Pipeline Tools — deep Maya API + PySide2 integration
-    { id:'maya',     label:'Maya API',      x:0.14, y:0.68, r:16,           links:['python','usd','pyside'] },
-    // USD/OpenUSD: Maya Tools (Asset Publisher), AOV Manager
-    { id:'usd',      label:'OpenUSD',       x:0.36, y:0.68, r:16,           links:['python','maya','houdini'] },
-    // Houdini: AOV Manager (Mantra, Karma XPU shelf tool), prior work
-    { id:'houdini',  label:'Houdini',       x:0.52, y:0.68, r:16,           links:['usd','vex','pyside'] },
-    // Unity/C#: AOI XR — full cross-platform AR build
-    { id:'unity',    label:'Unity / C#',    x:0.58, y:0.18, r:16,           links:['ar','xr'] },
-    // PySide: Maya Tools (PySide2), AOV Manager (PySide6)
-    { id:'pyside',   label:'PySide2/6',     x:0.14, y:0.18, r:14,           links:['python','maya','houdini'] },
-
-    // ── Solid ──────────────────────────────────────────────
-    // NumPy/Pandas: ML Predictor
-    { id:'numpy',    label:'NumPy / Pandas',x:0.28, y:0.52, r:12,           links:['ml','python'] },
-    // AR Foundation: AOI XR — ARKit+ARCore+Quest3 subsystem abstraction
-    { id:'ar',       label:'AR Foundation', x:0.70, y:0.52, r:12,           links:['unity','xr'] },
-    // XR/WebXR: AOI XR (Unity XR), Shifting Interface browser interactivity
-    { id:'xr',       label:'XR / AR / VR',  x:0.84, y:0.62, r:12,           links:['ar','unity'] },
-    // VEX: Houdini work, referenced in prior AOV/render context
-    { id:'vex',      label:'VEX',           x:0.52, y:0.84, r:10,           links:['houdini'] },
-    // CSS State Machine: Shifting Interface — core architecture
-    { id:'css',      label:'CSS / JS Systems', x:0.28, y:0.84, r:10,        links:['python'] },
-    // Git/CI: Maya Tools (Git tagging), AOI XR (GitHub Actions, 31-test CI)
-    { id:'git',      label:'Git / CI',      x:0.14, y:0.84, r:10,           links:['python'] },
-    // UE5: AOV Manager (Movie Render Queue configs)
-    { id:'ue5',      label:'Unreal Engine 5', x:0.68, y:0.84, r:10,         links:['houdini'] },
-  ];
-
-  var RND_ENTRIES = [
-    {
-      status: 'wip',
-      title: 'Maya Pipeline Tools — Scene Validator & Asset Publisher',
-      hypothesis: 'Two production-grade tools covering the full validate → publish → version pipeline could be built in pure Python with no proprietary dependencies.',
-      finding: 'Both ship. Validator catches geo, naming, transform, and material issues. Publisher handles file copy, USD export, JSON manifest, and Git tagging in one click. Graceful degradation keeps both tools useful outside a full Maya install.',
-      artifacts: [
-        { label: 'GitHub', url: 'https://github.com/AlyBarr/AssetMayaTooling' },
-        { label: 'Docs',   url: 'pipeline-tools.html' }
-      ]
-    },
-    {
-      status: 'live',
-      title: 'Virtual Prod ML Rig Predictor — Motion Action Classification',
-      hypothesis: 'A Random Forest pipeline with hand-crafted skeletal features could reliably classify 18 motion actions from 3D joint data without deep learning, keeping the system interpretable and deployable in any DCC tool.',
-      finding: 'Both models ship. M1 (full feature) maximises accuracy; M2 (PCA-reduced) trades a small margin for faster inference. Feature importances and PCA scatter plots confirm the models learn meaningful motion-space structure.',
-      artifacts: [
-        { label: 'GitHub', url: 'https://github.com/AlyBarr/VirtualProdMLPredict' },
-        { label: 'Docs',   url: 'MLrigPredictor.html' }
-      ]
-    },
-    {
-      status: 'live',
-      title: 'Shifting Interface — AI-Driven Visual State System',
-      hypothesis: 'Structured AI state data — rather than generated images or text — could govern a layered visual system’s atmosphere, motion, and composition in real time, making the model a behavioural author rather than an output generator.',
-      finding: 'Two CSS variables cascading through eight composited layers via color-mix() and blend modes produces meaningfully distinct atmospheric states. The energy scalar makes AI influence physically felt through parallax amplitude, not just colour.',
-      artifacts: [
-        { label: 'Live', url: 'https://alybarr.github.io/shifting_interface/' },
-        { label: 'Docs', url: 'Shifting-interface-docs.html' }
-      ]
-    },
-    {
-      status: 'live',
-      title: 'AOI XR — Augmented Object Intelligence with XR Objects',
-      hypothesis: 'An on-device MediaPipe detection pass paired with a swappable LLM REST backend could deliver real-time, context-aware AR overlays on consumer mobile hardware without cloud vision or on-device LLM inference.',
-      finding: 'Four-sprint prototype ships and runs on physical iOS and Android hardware. MediaPipe holds ≥5 FPS detection; 31 passing test cases and 100% CI pass rate. Key lesson: Unity’s URP pipeline introduces AR-specific rendering failure modes that require targeted CI gates — not just standard unit tests.',
-      artifacts: [
-        { label: 'GitHub', url: 'https://github.com/bautista-aa/Augmented-Object-Intelligence-with-XR-Objects' },
-        { label: 'Docs',   url: 'aoi-xr.html' }
-      ]
-    },
-    {
-      status: 'wip',
-      title: 'Raytracer Dev — C++ Graphics Pipeline',
-      hypothesis: 'A full rasterisation pipeline — shaders, parametric geometry, skeletal rigs, and ODE-driven physics — could be implemented from scratch in C++ using only OpenGL 3.3 Core, GLM, and GLFW.',
-      finding: 'All six assignments ship. The ODE integrator design is the clearest result: a pure-virtual evalF(state) interface lets ForwardEuler, Trapezoid, Midpoint, and RK4 operate on pendulum, chain, and cloth systems interchangeably — swapped at runtime from ImGui with no changes to physics systems.',
-      artifacts: [
-        { label: 'GitHub', url: 'https://github.com/AlyBarr/RaytracerDev' },
-        { label: 'Docs',   url: 'raytracer.html' }
-      ]
-    },
-    {
-      status: 'live',
-      title: 'AOV Manager — Houdini & UE5 Render Pass Tool',
-      hypothesis: 'A shared-config architecture could drive both a standalone PySide6 desktop app and a native Houdini shelf tool from a single source file, generating correct AOV setups for Mantra, Karma XPU, and Movie Render Queue.',
-      finding: 'Confirmed. One aov_config.py drives all three renderers across two app contexts. The Houdini shelf variant executes generated scripts directly into a live session — no round-trip through files.',
-      artifacts: [
-        { label: 'Docs', url: 'Aov-manager-docs.html' }
-      ]
-    }
-  ];
-  </script>
+  
   
   <!-- 4️⃣ Renderers (depend on data) -->
   <script src="js/projects.js"></script>  <!-- artifact catalog renderer -->

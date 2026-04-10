@@ -8,8 +8,30 @@
 
   const ctx = canvas.getContext('2d');
   let W, H;
+  
+  function drawPoly(x, y, r, sides, rot){
+    ctx.beginPath();
+    for(let i=0;i<sides;i++){
+      const a = rot + (i * Math.PI * 2 / sides);
+      const px = x + Math.cos(a) * r;
+      const py = y + Math.sin(a) * r;
+      if(i===0) ctx.moveTo(px, py);
+      else ctx.lineTo(px, py);
+    }
+    ctx.closePath();
+  }
+  function shapeFor(id){
+    if (!id) return 'circle';
+    if (/(usd|pipeline|tools|git|perforce|ci|build)/.test(id)) return 'hex';
+    if (/(glsl|webgl|render|gpu|shader|three)/.test(id)) return 'diamond';
+    if (/(houdini|vex|sim|fx|maya|unreal|unity)/.test(id)) return 'star';
+    return 'circle';
+  }
+
   let hoveredId = null;
   let selectedId = null;
+  let running = false;
+  let rafId = null;
 
   function resize() {
     const rect = canvas.parentElement.getBoundingClientRect();
@@ -173,14 +195,53 @@
       bg.addColorStop(0.6, `rgba(26,96,112,${0.55 * pulse})`);
       bg.addColorStop(1,   `rgba(9,24,40,${0.86 * pulse})`);
 
-      ctx.beginPath();
-      ctx.arc(x, y, r, 0, Math.PI * 2);
-      ctx.fillStyle = bg;
-      ctx.fill();
+      const shape = shapeFor(n.id);
 
-      // Border ring
-      ctx.beginPath();
-      ctx.arc(x, y, r, 0, Math.PI * 2);
+// Node body (shape)
+ctx.fillStyle = bg;
+if (shape === 'circle') {
+  ctx.beginPath();
+  ctx.arc(x, y, r, 0, Math.PI * 2);
+  ctx.fill();
+} else if (shape === 'hex') {
+  drawPoly(x, y, r, 6, t*0.10);
+  ctx.fill();
+} else if (shape === 'diamond') {
+  drawPoly(x, y, r, 4, Math.PI/4 + t*0.10);
+  ctx.fill();
+} else if (shape === 'star') {
+  // 5-point star
+  const outer = r;
+  const inner = r * 0.52;
+  ctx.beginPath();
+  for (let i=0;i<10;i++){
+    const rr = (i % 2 === 0) ? outer : inner;
+    const a = -Math.PI/2 + i * (Math.PI/5) + t*0.08;
+    const px = x + Math.cos(a)*rr;
+    const py = y + Math.sin(a)*rr;
+    if(i===0) ctx.moveTo(px,py); else ctx.lineTo(px,py);
+  }
+  ctx.closePath();
+  ctx.fill();
+}
+
+// Border ring
+ctx.beginPath();
+if (shape === 'circle') ctx.arc(x, y, r, 0, Math.PI * 2);
+else if (shape === 'hex') drawPoly(x, y, r, 6, t*0.10);
+else if (shape === 'diamond') drawPoly(x, y, r, 4, Math.PI/4 + t*0.10);
+else if (shape === 'star') {
+  const outer = r;
+  const inner = r * 0.52;
+  for (let i=0;i<10;i++){
+    const rr = (i % 2 === 0) ? outer : inner;
+    const a = -Math.PI/2 + i * (Math.PI/5) + t*0.08;
+    const px = x + Math.cos(a)*rr;
+    const py = y + Math.sin(a)*rr;
+    if(i===0) ctx.moveTo(px,py); else ctx.lineTo(px,py);
+  }
+  ctx.closePath();
+}
       ctx.strokeStyle = isSelected
         ? 'rgba(61,255,208,0.98)'
         : isHovered
@@ -213,24 +274,39 @@
         ? 'rgba(230,243,248,0.98)'
         : isHovered
           ? 'rgba(230,243,248,0.92)'
-          : 'rgba(135,176,196,0.72)';
+          : 'rgba(230,243,248,0.80)';
       ctx.textAlign = 'center';
       ctx.textBaseline = 'middle';
       ctx.fillText(n.label, x, y + r + (isActive ? 16 : 12));
     });
 
-    requestAnimationFrame(draw);
+    rafId = requestAnimationFrame(draw);
   }
 
-  // Only start when visible
+  // Run only while visible (pause offscreen)
+  function start() {
+    if (running) return;
+    running = true;
+    resize();
+    draw();
+  }
+  function stop() {
+    running = false;
+    if (rafId) cancelAnimationFrame(rafId);
+    rafId = null;
+  }
+
   const obs = new IntersectionObserver(([entry]) => {
-    if (entry.isIntersecting) {
-      resize();
-      draw();
-      obs.disconnect();
-    }
+    if (entry.isIntersecting) start();
+    else stop();
   }, { threshold: 0.12 });
   obs.observe(canvas);
+
+  // Also pause when tab is hidden (performance + battery)
+  document.addEventListener('visibilitychange', () => {
+    if (document.hidden) stop();
+    else start();
+  });
 
   window.addEventListener('resize', resize);
 })();

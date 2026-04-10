@@ -42,21 +42,21 @@
 .project-category {
   font-family: var(--font-mono); font-size: var(--t-sm);
   letter-spacing: 0.2em; text-transform: uppercase;
-  color: var(--c-biolume); margin-bottom: 0.5rem;
+  color: var(--c-text); opacity: 0.86; margin-bottom: 0.5rem;
 }
 .project-title {
   font-family: var(--font-serif); font-size: var(--t-lg);
   font-weight: 600; color: var(--c-star);
   margin-bottom: 0.5rem; line-height: 1.2;
 }
-.project-oneliner { color: var(--c-mist); margin-bottom: var(--s2); }
+.project-oneliner { color: var(--c-text); opacity: 0.92; margin-bottom: var(--s2); }
 
 .project-bullets {
   list-style: none; display: flex; flex-direction: column;
   gap: 0.3rem; margin-bottom: var(--s3);
 }
 .project-bullets li {
-  font-size: var(--t-md); color: var(--c-mist);
+  font-size: var(--t-md); color: var(--c-text); opacity: 0.92;
   padding-left: 1.1rem; position: relative;
 }
 .project-bullets li::before {
@@ -66,7 +66,7 @@
 .project-tools { display: flex; flex-wrap: wrap; gap: 0.35rem; margin-bottom: var(--s3); }
 .tool-tag {
   font-family: var(--font-mono); font-size: var(--t-xs);
-  letter-spacing: 0.08em; color: var(--c-mist);
+  letter-spacing: 0.08em; color: var(--c-text); opacity: 0.92;
   border: 1px solid var(--c-deep); border-radius: 2px;
   padding: 0.15rem 0.5rem; background: rgba(12,34,54,0.3);
   transition: border-color var(--fast), color var(--fast);
@@ -76,10 +76,10 @@
 .project-link {
   font-family: var(--font-mono); font-size: var(--t-sm);
   letter-spacing: 0.12em; text-transform: uppercase;
-  color: var(--c-biolume-soft); text-decoration: none;
+  color: var(--c-text); opacity: 0.88; text-decoration: none;
   transition: color var(--fast);
 }
-.project-link:hover { color: var(--c-biolume); }
+.project-link:hover { color: var(--c-text); opacity: 1; text-decoration: underline; }
 
 /* ── Grid label ── */
 .grid-label {
@@ -91,7 +91,7 @@
 /* ── Grid cards ── */
 .project-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
   gap: 1.4rem;
 }
 .project-card {
@@ -140,3 +140,9 @@
 
 /* Role tags for filtering */
 .role-tag{ border-style: dashed; opacity: 0.92; }
+
+
+@media (max-width: 600px) {
+  .project-grid { grid-template-columns: 1fr; }
+  .project-card { padding: var(--s3); }
+}

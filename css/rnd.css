@@ -25,7 +25,7 @@
 
 .section-rnd .container { position: relative; z-index: 2; }
 .rnd-intro-text {
-  color: var(--c-mist); max-width: 520px;
+  color: var(--c-text); opacity: 0.92; max-width: 520px;
   margin-top: var(--s2); font-size: 0.95rem;
 }
 
@@ -65,7 +65,7 @@
 .status-live     { color: var(--c-biolume); }
 .status-wip      { color: var(--c-amber); }
 .status-exploring{ color: var(--c-nebula); }
-.status-archived { color: var(--c-ghost); }
+.status-archived { color: var(--c-text); opacity: 0.78; }
 .dot-live      { background: var(--c-biolume); animation: live-pulse 2.5s ease-in-out infinite; }
 .dot-wip       { background: var(--c-amber); }
 .dot-exploring { background: var(--c-nebula); }
@@ -75,10 +75,10 @@
   font-family: var(--font-serif); font-weight: 600;
   font-size: 1.15rem; color: var(--c-star); margin-bottom: 0.4rem;
 }
-.rnd-hypothesis { color: var(--c-mist); margin-bottom: 0.5rem; font-size: 0.9rem; }
+.rnd-hypothesis { color: var(--c-text); opacity: 0.92; margin-bottom: 0.5rem; font-size: 0.9rem; }
 .rnd-finding {
   font-family: var(--font-mono); font-size: var(--t-xs);
-  letter-spacing: 0.05em; color: var(--c-ghost);
+  letter-spacing: 0.05em; color: var(--c-text); opacity: 0.78;
   line-height: 1.7; margin-bottom: 0.75rem;
 }
 .rnd-finding::before { content: '→ '; color: var(--c-teal); }

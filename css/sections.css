@@ -24,6 +24,27 @@
   grid-template-columns: 280px 1fr;
   gap: var(--s12); align-items: center;
 }
+
+
+.about-copy{
+  position: relative;
+  padding: var(--s6);
+  border: 1px solid rgba(12,34,54,0.75);
+  border-radius: var(--radius-lg);
+  background: rgba(2,8,16,0.78);
+  backdrop-filter: blur(12px);
+}
+
+.about-text{
+  max-width: 70ch;
+}
+
+.about-text p{
+  color: rgba(230,243,248,0.86);
+  font-size: 1rem;
+  line-height: 1.9;
+}
+
 .about-visual { position: relative; }
 .sigil-wrap {
   position: relative; width: 220px; height: 220px; margin: 0 auto;
@@ -42,8 +63,6 @@
   50%     { opacity: 1;   transform: scale(1.08); }
 }
 
-.about-text p { color: var(--c-mist); margin-bottom: var(--s2); }
-.about-text p:last-child { margin-bottom: 0; }
 .about-status {
   display: flex; align-items: center; gap: 0.6rem;
   font-family: var(--font-mono); font-size: var(--t-sm);

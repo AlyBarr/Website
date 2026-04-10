@@ -19,6 +19,7 @@
   --c-amber:        #f0a050;   /* WIP badges */
 
   /* ── Color: Text ── */
+  --c-text:         var(--c-star);   /* unified readable text */
   --c-star:         #e6f3f8;   /* primary text */
   --c-mist:         #87afc4;   /* body / secondary */
   --c-ghost:        #3e5f72;   /* disabled / subtle */
