@@ -26,3 +26,22 @@
   height:520px; /* match JS */
   cursor:none;
 }
+
+/* Readability upgrades for constellation text */
+.constellation-sub {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.14em;
+  color: rgba(61,255,208,0.65);   /* was 0.40 */
+  text-align: center;
+  margin-top: 0.5rem;
+  margin-bottom: 1.5rem;
+}
+.constellation-sub::after {
+  content: ' // hover nodes · click to select · links light up';
+  display: block;
+  font-size: 0.54rem;
+  letter-spacing: 0.16em;
+  color: rgba(61,255,208,0.40);   /* was 0.22 */
+  margin-top: 0.25rem;
+}

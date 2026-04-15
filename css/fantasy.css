@@ -101,18 +101,7 @@
 @keyframes live-core { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.4;transform:scale(0.7)} }
 @keyframes live-ring  { 0%{opacity:0.6;transform:scale(0.5)} 100%{opacity:0;transform:scale(2.5)} }
 
-/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-   EYEBROW — blinking cursor
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
-.eyebrow::after {
-  content: "▌";
-  margin-left: 0.25em;
-  font-size: 0.85em;
-  color: var(--c-biolume);
-  opacity: 0;
-  animation: eye-blink 2s step-end infinite 1.4s;
-}
-@keyframes eye-blink { 0%,100%{opacity:0} 50%{opacity:0.55} }
+/* eyebrow blinking cursor removed — distracting for certain eye conditions */
 
 /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
    ABOUT — log-01 · surface · 0m
@@ -129,47 +118,15 @@
   border-left: 1px solid rgba(61,255,208,0.25);
   pointer-events: none; z-index: 0;
 }
-#about::after {
-  content: "// log-01 · surface · 0m";
-  position: absolute;
-  top: 2rem; right: 3rem;
-  font-family: var(--font-mono); font-size: 0.45rem;
-  letter-spacing: 0.24em; text-transform: uppercase;
-  color: rgba(61,255,208,0.20);
-  pointer-events: none; user-select: none;
-}
+/* log annotation removed — reduces visual noise */
 
 /* Sigil coordinate label — vertical writing */
 .sigil-wrap {
   position: relative;
 }
-.sigil-wrap::before {
-  content: "34°07'N 118°14'W · depth: 0m";
-  position: absolute;
-  right: -0.6rem; top: 50%;
-  transform: translateY(-50%) rotate(90deg);
-  transform-origin: right center;
-  font-family: var(--font-mono); font-size: 0.40rem;
-  letter-spacing: 0.14em; text-transform: uppercase;
-  color: rgba(61,255,208,0.18);
-  white-space: nowrap; pointer-events: none;
-}
-/* Rune watermark behind text */
+/* coordinate annotation removed */
+/* rune watermark removed */
 .about-copy { position: relative; }
-.about-copy::after {
-  content: "⊕";
-  position: absolute;
-  bottom: -1rem; right: 0;
-  font-size: 6rem; line-height: 1;
-  color: rgba(61,255,208,0.022);
-  pointer-events: none; user-select: none;
-  font-family: var(--font-mono);
-  animation: rune-breathe 14s ease-in-out infinite;
-}
-@keyframes rune-breathe {
-  0%,100% { transform: rotate(0deg) scale(1); opacity: 0.7; }
-  50%      { transform: rotate(4deg) scale(1.05); opacity: 1; }
-}
 
 /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
    PROJECTS — log-02 · mid-water
@@ -186,15 +143,7 @@
     transparent 95%
   );
 }
-#projects::after {
-  content: "// log-02 · mid-water · 200m";
-  position: absolute;
-  top: 2rem; right: 3rem;
-  font-family: var(--font-mono); font-size: 0.45rem;
-  letter-spacing: 0.24em; text-transform: uppercase;
-  color: rgba(61,255,208,0.15);
-  pointer-events: none; user-select: none;
-}
+/* log annotation removed */
 
 /* Active filter chip — compass mark */
 .filter-chip.is-active::after {
@@ -252,16 +201,7 @@
   border-right: 1px solid rgba(61,255,208,0.20);
   pointer-events: none;
 }
-.constellation-section::after {
-  content: "// log-03 · thermocline · 500m\A astral chart · hover to trace";
-  position: absolute;
-  top: 2rem; left: 3rem;
-  font-family: var(--font-mono); font-size: 0.44rem;
-  letter-spacing: 0.20em; text-transform: uppercase;
-  color: rgba(61,255,208,0.16);
-  white-space: pre; line-height: 1.9;
-  pointer-events: none; user-select: none;
-}
+/* log annotation removed */
 
 /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
    R&D — log-04 · abyss · nebula sector
@@ -282,16 +222,7 @@
   );
   pointer-events: none; z-index: 0;
 }
-.section-rnd::after {
-  content: "// log-04 · abyss · 4000m\A nebula sector · lab";
-  position: absolute;
-  top: 2rem; right: 3rem;
-  font-family: var(--font-mono); font-size: 0.44rem;
-  letter-spacing: 0.20em; text-transform: uppercase;
-  color: rgba(157,120,245,0.22);
-  white-space: pre; line-height: 1.9;
-  pointer-events: none; user-select: none;
-}
+/* log annotation removed */
 /* Entry index tick */
 .rnd-entry { position: relative; }
 .rnd-entry::after {
@@ -314,15 +245,7 @@
   border-left: 1px solid rgba(61,255,208,0.20);
   pointer-events: none;
 }
-#contact::after {
-  content: "// log-05 · comms array · open channel";
-  position: absolute;
-  top: 2rem; right: 3rem;
-  font-family: var(--font-mono); font-size: 0.45rem;
-  letter-spacing: 0.24em; text-transform: uppercase;
-  color: rgba(61,255,208,0.16);
-  pointer-events: none; user-select: none;
-}
+/* log annotation removed */
 /* Contact link sweep glow already in contact.css — just add a small rune prefix */
 .contact-link::after {
   content: " ◈";
@@ -338,15 +261,7 @@
    ARTBAR — version label
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
 .artbar { position: relative; }
-.artbar::before {
-  content: "// art·bar v2.0 · world-engine nominal";
-  position: absolute;
-  top: -1px; right: 3rem;
-  transform: translateY(-100%) translateY(-3px);
-  font-family: var(--font-mono); font-size: 0.42rem;
-  letter-spacing: 0.20em; color: rgba(61,255,208,0.12);
-  pointer-events: none; user-select: none; white-space: nowrap;
-}
+/* artbar annotation removed */
 
 /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
    FIELD NOTES

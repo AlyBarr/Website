@@ -82,7 +82,7 @@
 .eyebrow-classified { color: rgba(240,192,96,0.55) !important; }
 
 .nda-intro {
-  color: var(--c-mist); max-width: 540px;
+  color: var(--c-star); max-width: 540px;
   margin-top: var(--s2); font-size: 0.95rem; line-height: 1.7;
 }
 
@@ -151,8 +151,8 @@
   letter-spacing: 0.04em;
 }
 .nda-prompt-sub {
-  font-size: 0.80rem; color: var(--c-mist);
-  margin-bottom: var(--s3); line-height: 1.6;
+  font-size: 0.88rem; color: var(--c-star);
+  margin-bottom: var(--s3); line-height: 1.65;
 }
 .nda-contact-link { color: rgba(240,192,96,0.75); }
 .nda-contact-link:hover { color: #f0c060; }
@@ -283,7 +283,7 @@
 }
 .nda-entry-role {
   font-family: var(--font-mono); font-size: 0.65rem;
-  letter-spacing: 0.10em; color: var(--c-ghost);
+  letter-spacing: 0.10em; color: var(--c-mist);  /* was c-ghost */
   margin: 0.25rem 0 0;
 }
 
@@ -301,8 +301,8 @@
 }
 
 .nda-entry-desc {
-  color: var(--c-mist); font-size: 0.90rem;
-  line-height: 1.7; margin-bottom: 0.8rem; max-width: 640px;
+  color: var(--c-star); font-size: 0.92rem;
+  line-height: 1.75; margin-bottom: 0.8rem; max-width: 640px;
 }
 .nda-entry-tools { display: flex; gap: 8px; flex-wrap: wrap; }
 .nda-tool {
@@ -333,7 +333,7 @@
   display: flex; align-items: center; justify-content: center;
   gap: 1rem; padding: 0.65rem 2rem;
   font-family: var(--font-mono); font-size: 0.68rem;
-  letter-spacing: 0.08em; color: var(--c-mist);
+  letter-spacing: 0.08em; color: var(--c-star);   /* was c-mist */
   transition: opacity 0.3s ease;
 }
 .recruiter-banner-link {
@@ -343,11 +343,11 @@
 .recruiter-banner-link:hover { color: var(--c-biolume-soft); }
 .recruiter-banner-close {
   position: absolute; right: 1.5rem;
-  background: none; border: none; color: var(--c-ghost);
+  background: none; border: none; color: var(--c-mist);  /* was c-ghost */
   font-size: 0.75rem; cursor: pointer; padding: 4px 8px;
   line-height: 1; transition: color 0.15s;
 }
-.recruiter-banner-close:hover { color: var(--c-mist); }
+.recruiter-banner-close:hover { color: var(--c-star); }  /* was c-mist */
 
 /* Push #site-nav down when banner visible */
 body:has(.recruiter-banner:not([style*="display: none"])) #site-nav {

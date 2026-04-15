@@ -1,15 +1,21 @@
 /* ═══════════════════════════════════════════
-   phase4.css — Phase 4 (styles injected by phase4.js)
-   This file is intentionally minimal.
+   phase4.css — WebGL canvas visibility
+   No CSS transition here — JS controls opacity
+   directly after Three.js confirms first frame.
 ═══════════════════════════════════════════ */
-
 #webgl-canvas {
   position: fixed; inset: 0; z-index: 0;
   pointer-events: none;
   opacity: 0;
-  transition: opacity 2.5s ease;
+  /* transition intentionally omitted — set by JS after load */
 }
-/* terminal warming phase */
-#webgl-canvas.p4-warming { opacity: 0.35 !important; }
-/* fully active — match the old screenshot brightness */
-#webgl-canvas.p4-active  { opacity: 1 !important; }
+
+/* Applied by JS during Three.js CDN load */
+#webgl-canvas.p4-warming {
+  opacity: 0.40;
+}
+
+/* Applied by JS after first render frame confirmed */
+#webgl-canvas.p4-active {
+  opacity: 1.0;
+}

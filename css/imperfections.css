@@ -69,8 +69,8 @@ body.scanlines::before {
   margin: 1rem 0;
   border-left: 2px solid rgba(61,255,208,0.28);
   background: rgba(2,8,16,0.38);
-  font-family: var(--font-mono); font-size: 0.76rem;
-  line-height: 1.65; color: var(--c-mist);
+  font-family: var(--font-mono); font-size: 0.78rem;
+  line-height: 1.7; color: var(--c-star);   /* upgraded from c-mist */
   clip-path: polygon(0 0, 100% 0, 100% calc(100% - 5px), calc(100% - 7px) 100%, 0 100%);
 }
 .field-note::before {

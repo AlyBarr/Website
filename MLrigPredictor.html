@@ -346,7 +346,7 @@ main {
   font-family: var(--font-body);
   font-weight: 300;
   font-size: clamp(1rem, 1.5vw, 1.2rem);
-  color: var(--c-mist);
+  color: var(--c-star);
   max-width: 600px;
   line-height: 1.7;
   margin-bottom: var(--space-md);
@@ -459,9 +459,9 @@ main {
   font-family: var(--font-mono); font-size: var(--text-micro);
   letter-spacing: 0.1em; color: var(--c-ghost); margin-bottom: 1rem;
 }
-.model-card p {
-  color: var(--c-mist); font-size: 0.9rem; margin-bottom: 1.2rem;
-  line-height: 1.65;
+
+  color: var(--c-star); font-size: 0.92rem; margin-bottom: 1.2rem;
+  line-height: 1.7;
 }
 .feature-list {
   list-style: none;
@@ -469,7 +469,7 @@ main {
 }
 .feature-list li {
   font-family: var(--font-mono); font-size: var(--text-micro);
-  letter-spacing: 0.05em; color: var(--c-mist);
+  letter-spacing: 0.05em; color: var(--c-star);
   display: flex; gap: 0.6rem; align-items: flex-start;
 }
 .feature-list li::before {
@@ -603,7 +603,7 @@ main {
   color: var(--c-star); margin-bottom: 0.7rem;
 }
 .data-card p {
-  color: var(--c-mist); font-size: 0.88rem; line-height: 1.65;
+  color: var(--c-star); font-size: 0.90rem; line-height: 1.72;
 }
 
 /* Action chips */
@@ -614,7 +614,7 @@ main {
 .action-chip {
   font-family: var(--font-mono); font-size: var(--text-micro);
   letter-spacing: 0.08em; text-transform: uppercase;
-  color: var(--c-mist); padding: 0.18rem 0.55rem;
+  color: var(--c-star); padding: 0.18rem 0.55rem;
   border: 1px solid var(--c-trench);
   border-radius: 2px;
   transition: border-color var(--dur-micro), color var(--dur-micro);
@@ -650,7 +650,7 @@ main {
   letter-spacing: 0.1em; color: var(--c-current); text-transform: uppercase;
 }
 .skill-desc {
-  font-size: 0.88rem; color: var(--c-mist); line-height: 1.65;
+  font-size: 0.88rem; color: var(--c-star); line-height: 1.65;
   align-self: center;
 }
 .skill-desc code {
@@ -744,7 +744,7 @@ main {
 .metric-row:last-child { border-bottom: none; }
 .metric-name {
   font-family: var(--font-mono); font-size: var(--text-micro);
-  letter-spacing: 0.1em; color: var(--c-mist); text-transform: uppercase;
+  letter-spacing: 0.1em; color: var(--c-star); text-transform: uppercase;
 }
 .metric-val {
   font-family: var(--font-display); font-size: 1.4rem; font-weight: 700;
@@ -929,7 +929,7 @@ main {
         <p class="eyebrow">// 01 — Overview</p>
         <h2 class="section-title">What it does<br>&amp; why it matters</h2>
         <div class="section-rule" aria-hidden="true"></div>
-        <p style="color:var(--c-mist); max-width:640px; margin-bottom:var(--space-md);">
+        <p style="color:var(--c-star); max-width:640px; margin-bottom:var(--space-md);">
           In virtual production, performers wear marker suits and move through a tracked volume — but raw 3D joint positions are only useful if the system knows <em style="color:var(--c-star);">what the performer is doing</em>. This project builds that classification layer, training two Random Forest pipelines to map skeletal sequences to discrete action labels with no manual keyframing.
         </p>
       </div>
@@ -1042,7 +1042,7 @@ main {
         <p class="eyebrow">// 03 — Models</p>
         <h2 class="section-title">Two pipelines,<br>one competition</h2>
         <div class="section-rule" aria-hidden="true"></div>
-        <p style="color:var(--c-mist); max-width:600px;">
+        <p style="color:var(--c-star); max-width:600px;">
           Both models are <code style="font-family:var(--font-mono);color:var(--c-biolume);font-size:0.8rem;">sklearn.pipeline.Pipeline</code> objects serialized with <code style="font-family:var(--font-mono);color:var(--c-biolume);font-size:0.8rem;">pickle</code>. Model 1 works in the full feature space; Model 2 first compresses that space with PCA before handing it to the same forest architecture — trading a small accuracy margin for significantly faster inference.
         </p>
       </div>
@@ -1117,7 +1117,7 @@ pred_label   = le.<span class="fn">inverse_transform</span>(pred_encoded)
         <p class="eyebrow">// 04 — Performance</p>
         <h2 class="section-title">Model metrics<br>&amp; comparisons</h2>
         <div class="section-rule" aria-hidden="true"></div>
-        <p style="color:var(--c-mist); max-width:600px; margin-bottom:var(--space-md);">
+        <p style="color:var(--c-star); max-width:600px; margin-bottom:var(--space-md);">
           Both models were evaluated on a held-out 20% test set using stratified sampling to ensure all 18 action classes were represented. Confusion matrices and PCA scatter plots were generated to inspect where inter-class confusion occurs.
         </p>
       </div>
@@ -1193,7 +1193,7 @@ pred_label   = le.<span class="fn">inverse_transform</span>(pred_encoded)
         <p class="eyebrow">// 05 — Why This Approach</p>
         <h2 class="section-title">Random Forest over<br>deep learning — intentionally</h2>
         <div class="section-rule" aria-hidden="true"></div>
-        <p style="color:var(--c-mist); max-width:660px; margin-bottom:var(--space-md);">
+        <p style="color:var(--c-star); max-width:660px; margin-bottom:var(--space-md);">
           A transformer or LSTM could theoretically model temporal sequences better — so why Random Forest? In a constrained research and virtual production context, the decision is defensible on multiple grounds.
         </p>
       </div>
@@ -1287,7 +1287,7 @@ pred_label   = le.<span class="fn">inverse_transform</span>(pred_encoded)
         <p class="eyebrow">// 06 — Future Development</p>
         <h2 class="section-title">Where this system<br>could go next</h2>
         <div class="section-rule" aria-hidden="true"></div>
-        <p style="color:var(--c-mist); max-width:640px; margin-bottom:var(--space-md);">
+        <p style="color:var(--c-star); max-width:640px; margin-bottom:var(--space-md);">
           The current build is a strong, documented baseline. These are the concrete next steps that would move it from a research proof-of-concept into a production-grade virtual production tool.
         </p>
       </div>
@@ -1381,7 +1381,7 @@ pred_label   = le.<span class="fn">inverse_transform</span>(pred_encoded)
         <p class="eyebrow">// 07 — Skills</p>
         <h2 class="section-title">Built to signal<br>ML + VP readiness</h2>
         <div class="section-rule" aria-hidden="true"></div>
-        <p style="color:var(--c-mist); max-width:580px; margin-bottom:var(--space-md);">
+        <p style="color:var(--c-star); max-width:580px; margin-bottom:var(--space-md);">
           Every design decision mirrors patterns used in production-grade motion capture and ML pipelines — from the preprocessing choices to the serialization format.
         </p>
       </div>

@@ -24,19 +24,12 @@
   /* ── Injected CSS ── */
   const style = document.createElement('style');
   style.textContent = `
-    #webgl-canvas{
-    position: fixed;
-    inset: 0;
-    z-index: 1;         /* <- was 0; keep it above stars */
-    pointer-events: none;
-    opacity: 0;         /* still starts hidden */
-  }
-
-  /* when active (phase4.js should add this class) */
-  body.world-on #webgl-canvas{ opacity: 0.9; }
-  body.world-on #stars{ opacity: 0.85; }
-    #webgl-canvas.p4-warming { opacity:0.08 !important; }
-    #webgl-canvas.p4-active  { opacity:0.92 !important; transition:opacity 2.8s ease !important; }
+    #webgl-canvas {
+      position:fixed;inset:0;z-index:0;
+      pointer-events:none;opacity:0;
+    }
+    #webgl-canvas.p4-warming { opacity:0.40; }
+    #webgl-canvas.p4-active  { opacity:1.0; }
 
     .depth-indicator{
       position:fixed;right:1.8rem;top:50%;transform:translateY(-50%);
@@ -159,38 +152,43 @@
     nebLight.position.set(0, 50, -40);
     scene.add(nebLight);
 
-    /* ── Bioluminescent plankton ── */
-    /* ── Square bioluminescent plankton ── */
-    // Create a tiny square sprite texture (no external file needed)
-    function makeSquareSprite(color) {
-      const c = document.createElement('canvas');
-      c.width = 8; c.height = 8;
-      const cx = c.getContext('2d');
-      cx.fillStyle = color || '#3dffd0';
-      cx.fillRect(0, 0, 8, 8);
-      return new THREE.CanvasTexture(c);
-    }
+    /* ── Bioluminescent plankton — square pixel style ── */
+    // Square sprite texture via 2D canvas (no external file needed)
+    (function() {
+      const sc = document.createElement('canvas');
+      sc.width = 8; sc.height = 8;
+      const scx = sc.getContext('2d');
+      scx.fillStyle = '#3dffd0';
+      scx.fillRect(0, 0, 8, 8);
+      const squareTex = new THREE.CanvasTexture(sc);
 
-    const plankN   = 1400;
-    const plankPos = new Float32Array(plankN * 3);
-    for (let i = 0; i < plankN; i++) {
-      plankPos[i*3]   = (Math.random()-0.5)*160;
-      plankPos[i*3+1] = (Math.random()-0.5)*10 - 1;
-      plankPos[i*3+2] = (Math.random()-0.5)*110;
-    }
-    const plankGeo = new THREE.BufferGeometry();
-    plankGeo.setAttribute('position', new THREE.BufferAttribute(plankPos, 3));
-    const plankMat = new THREE.PointsMaterial({
-      color: 0x3dffd0,
-      size: 2.8,                      // larger = more visible squares
-      map: makeSquareSprite('#3dffd0'),
-      transparent: true,
-      opacity: 0.85,
-      alphaTest: 0.1,
-      sizeAttenuation: true,
-    });
-    const plankton = new THREE.Points(plankGeo, plankMat);
-    scene.add(plankton);
+      const plankN   = 1400;
+      const plankPos = new Float32Array(plankN * 3);
+      for (let i = 0; i < plankN; i++) {
+        plankPos[i*3]   = (Math.random()-0.5)*160;
+        plankPos[i*3+1] = (Math.random()-0.5)*10 - 1;
+        plankPos[i*3+2] = (Math.random()-0.5)*110;
+      }
+      const plankGeo = new THREE.BufferGeometry();
+      plankGeo.setAttribute('position', new THREE.BufferAttribute(plankPos, 3));
+      const plankMat = new THREE.PointsMaterial({
+        color: 0x3dffd0,
+        size: 2.2,
+        map: squareTex,
+        transparent: true,
+        opacity: 0.85,
+        alphaTest: 0.1,
+        sizeAttenuation: true,
+      });
+      const plankton = new THREE.Points(plankGeo, plankMat);
+      scene.add(plankton);
+
+      // Store refs on scene.userData so animation loop can access them
+      scene.userData.plankton = plankton;
+      scene.userData.plankGeo = plankGeo;
+      scene.userData.plankMat = plankMat;
+      scene.userData.plankN   = plankN;
+    })();
 
     /* ── Deep surface glow strips (fantasy biolume lines on water) ── */
     const glowLineCount = 12;
@@ -248,15 +246,16 @@
       const col = new THREE.Color(pp.color);
 
       /* 1 — Heavy outer structural frame */
-      // REPLACE these two lines inside makePortal():
       const outerMesh = new THREE.Mesh(
-        new THREE.TorusGeometry(R, 0.32, 20, 96),   // slightly thicker tube
-        new THREE.MeshBasicMaterial({ color: col, transparent: true, opacity: 0.95 })
+        new THREE.TorusGeometry(R, 0.28, 20, 96),
+        new THREE.MeshBasicMaterial({ color: col, transparent: true, opacity: 0.90 })
       );
+      grp.add(outerMesh);
 
+      /* 2 — Outer soft glow halo (larger tube, low opacity) */
       const haloMesh = new THREE.Mesh(
-        new THREE.TorusGeometry(R, 0.85, 8, 96),     // wider soft halo
-        new THREE.MeshBasicMaterial({ color: col, transparent: true, opacity: 0.35 })
+        new THREE.TorusGeometry(R, 0.70, 8, 96),
+        new THREE.MeshBasicMaterial({ color: col, transparent: true, opacity: 0.22 })
       );
       grp.add(haloMesh);
 
@@ -398,10 +397,19 @@
 
     /* ── Activate ── */
     canvas.classList.add('p4-warming');
-    onTerminalDone(() => {
+    let _canvasActivated = false;
+    function _activateCanvas() {
+      if (_canvasActivated) return;
+      _canvasActivated = true;
+      // Apply fade transition only now, after Three.js is running
+      canvas.style.transition = 'opacity 2.5s ease';
       canvas.classList.remove('p4-warming');
       canvas.classList.add('p4-active');
-    });
+    }
+    // Primary: activate after terminal done + small delay for first frame
+    onTerminalDone(() => setTimeout(_activateCanvas, 300));
+    // Fallback: if terminal callback never fires (e.g. user skips fast), activate after 4s
+    setTimeout(_activateCanvas, 4000);
 
     /* ══════════════════════════════════════
        ANIMATION LOOP
@@ -430,7 +438,8 @@
 
       /* ── Ocean → cosmos transition ── */
       oceanMat.opacity   = Math.max(0, 1 - s * 0.92);
-      plankMat.opacity   = 0.70 * Math.max(0, 1 - s * 1.2);
+      if (scene.userData.plankMat)
+        scene.userData.plankMat.opacity = 0.85 * Math.max(0, 1 - s * 1.2);
       pMat.opacity       = Math.min(0.92, s * 1.1);
       nebLight.intensity = s * 3.0;
 
@@ -458,10 +467,13 @@
       bl2.position.z = Math.sin(t*0.45)*20;
 
       /* ── Plankton drift ── */
-      const pa = plankGeo.attributes.position.array;
-      for (let i = 0; i < plankN; i++)
-        pa[i*3+1] += Math.sin(t*0.9 + i*0.7) * 0.004;
-      plankGeo.attributes.position.needsUpdate = true;
+      if (scene.userData.plankGeo) {
+        const pa = scene.userData.plankGeo.attributes.position.array;
+        const pN = scene.userData.plankN;
+        for (let i = 0; i < pN; i++)
+          pa[i*3+1] += Math.sin(t*0.9 + i*0.7) * 0.004;
+        scene.userData.plankGeo.attributes.position.needsUpdate = true;
+      }
 
       /* ══════════════════════════════════════
          WORMHOLE PORTAL ANIMATION
@@ -500,14 +512,13 @@
         setC(ud.innerMat); setC(ud.rimMat);  setC(ud.accMat);
 
         // ── Opacities ──
-        // In the portals.forEach animation block, REPLACE the opacity lines:
-        ud.outerMat.opacity = Math.min(0.98, 0.95 + f*0.03  + click*0.02  + pulse*0.03);
-        ud.haloMat.opacity  = Math.min(0.75, 0.35 + f*0.38  + click*0.28  + pulse*0.14);
-        ud.sparkMat.opacity = Math.min(0.90, 0.55 + f*0.32  + click*0.38  + pulse*0.20);
+        ud.outerMat.opacity = Math.min(0.98, 0.90 + f*0.08  + click*0.02  + pulse*0.04);
+        ud.haloMat.opacity  = Math.min(0.75, 0.22 + f*0.50  + click*0.28  + pulse*0.12);
         ud.midMat.opacity   = Math.min(0.90, 0.65 + f*0.22  + click*0.15  + pulse*0.08);
         ud.innerMat.opacity = Math.min(0.85, 0.50 + f*0.28  + click*0.20  + pulse*0.12);
         ud.rimMat.opacity   = Math.min(0.60, 0.14 + f*0.42  + click*0.35  + pulse*0.10);
         ud.accMat.opacity   = Math.min(0.92, 0.65 + f*0.27  + click*0.20  + pulse*0.06);
+        ud.sparkMat.opacity = Math.min(0.80, 0.35 + f*0.40  + click*0.42  + pulse*0.18);
         // Void darkens further when focused (deeper wormhole)
         ud.voidMat.opacity  = Math.max(0.40, 0.88 - f*0.28  - click*0.20);
 

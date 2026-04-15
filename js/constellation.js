@@ -8,30 +8,8 @@
 
   const ctx = canvas.getContext('2d');
   let W, H;
-  
-  function drawPoly(x, y, r, sides, rot){
-    ctx.beginPath();
-    for(let i=0;i<sides;i++){
-      const a = rot + (i * Math.PI * 2 / sides);
-      const px = x + Math.cos(a) * r;
-      const py = y + Math.sin(a) * r;
-      if(i===0) ctx.moveTo(px, py);
-      else ctx.lineTo(px, py);
-    }
-    ctx.closePath();
-  }
-  function shapeFor(id){
-    if (!id) return 'circle';
-    if (/(usd|pipeline|tools|git|perforce|ci|build)/.test(id)) return 'hex';
-    if (/(glsl|webgl|render|gpu|shader|three)/.test(id)) return 'diamond';
-    if (/(houdini|vex|sim|fx|maya|unreal|unity)/.test(id)) return 'star';
-    return 'circle';
-  }
-
   let hoveredId = null;
   let selectedId = null;
-  let running = false;
-  let rafId = null;
 
   function resize() {
     const rect = canvas.parentElement.getBoundingClientRect();
@@ -133,13 +111,12 @@
       const ax = a.cx * W, ay = a.cy * H;
       const bx = b.cx * W, by = b.cy * H;
 
-      // REPLACE edge alpha/width in draw():
       const isActiveEdge =
         activeId && (activeId === a.id || activeId === b.id ||
         isConnected(activeId, a.id) || isConnected(activeId, b.id));
 
-      const alpha = isActiveEdge ? 0.75 : 0.08;   // was 0.42 / 0.08
-      const width = isActiveEdge ? 2.5  : 0.75;   // was 1.8 / 0.75
+      const alpha = isActiveEdge ? 0.75 : 0.07;
+      const width = isActiveEdge ? 2.8  : 0.65;
 
       const grad = ctx.createLinearGradient(ax, ay, bx, by);
       grad.addColorStop(0, `rgba(61,255,208,${alpha})`);
@@ -164,28 +141,29 @@
       const pulse = isSelected ? 1.15 : (0.88 + 0.12 * Math.sin(t * 1.6 + n.phase));
       const r = n.r + (isActive ? 9 : 0);
 
-      // Strong bloom halo 
-      const bloomStrength = isSelected ? 0.55 : (isHovered ? 0.38 : (n.glow ? 0.14 : 0.06));
-      const bloomRadius   = isSelected ? r * 7.0 : (isHovered ? r * 5.5 : r * 3.5);
+      // Strong bloom halo — much brighter on select/hover
+      const bloomStrength = isSelected ? 0.55 : (isHovered ? 0.38 : (n.glow ? 0.14 : 0.05));
+      const bloomRadius   = isSelected ? r * 7.5 : (isHovered ? r * 5.5 : r * 3.5);
 
       const halo = ctx.createRadialGradient(x, y, 0, x, y, bloomRadius);
       halo.addColorStop(0,    `rgba(61,255,208,${bloomStrength})`);
-      halo.addColorStop(0.25, `rgba(61,255,208,${bloomStrength * 0.65})`);
-      halo.addColorStop(0.6,  `rgba(61,255,208,${bloomStrength * 0.18})`);
+      halo.addColorStop(0.25, `rgba(61,255,208,${bloomStrength * 0.60})`);
+      halo.addColorStop(0.65, `rgba(61,255,208,${bloomStrength * 0.15})`);
       halo.addColorStop(1,    'rgba(61,255,208,0)');
       ctx.beginPath();
       ctx.arc(x, y, bloomRadius, 0, Math.PI * 2);
       ctx.fillStyle = halo;
       ctx.fill();
 
-      // Second inner core glow for the "star" feel
-      if (isSelected || isHovered) {
-        const coreG = ctx.createRadialGradient(x, y, 0, x, y, r * 1.4);
-        coreG.addColorStop(0, `rgba(200,255,245,${isSelected ? 0.9 : 0.6})`);
-        coreG.addColorStop(1, 'rgba(61,255,208,0)');
+      // White-hot inner core on active nodes
+      if (isActive) {
+        const core = ctx.createRadialGradient(x, y, 0, x, y, r * 1.6);
+        core.addColorStop(0,   `rgba(220,255,248,${isSelected ? 0.95 : 0.65})`);
+        core.addColorStop(0.5, `rgba(61,255,208,${isSelected ? 0.40 : 0.20})`);
+        core.addColorStop(1,   'rgba(61,255,208,0)');
         ctx.beginPath();
-        ctx.arc(x, y, r * 1.4, 0, Math.PI * 2);
-        ctx.fillStyle = coreG;
+        ctx.arc(x, y, r * 1.6, 0, Math.PI * 2);
+        ctx.fillStyle = core;
         ctx.fill();
       }
 
@@ -195,53 +173,14 @@
       bg.addColorStop(0.6, `rgba(26,96,112,${0.55 * pulse})`);
       bg.addColorStop(1,   `rgba(9,24,40,${0.86 * pulse})`);
 
-      const shape = shapeFor(n.id);
+      ctx.beginPath();
+      ctx.arc(x, y, r, 0, Math.PI * 2);
+      ctx.fillStyle = bg;
+      ctx.fill();
 
-// Node body (shape)
-ctx.fillStyle = bg;
-if (shape === 'circle') {
-  ctx.beginPath();
-  ctx.arc(x, y, r, 0, Math.PI * 2);
-  ctx.fill();
-} else if (shape === 'hex') {
-  drawPoly(x, y, r, 6, t*0.10);
-  ctx.fill();
-} else if (shape === 'diamond') {
-  drawPoly(x, y, r, 4, Math.PI/4 + t*0.10);
-  ctx.fill();
-} else if (shape === 'star') {
-  // 5-point star
-  const outer = r;
-  const inner = r * 0.52;
-  ctx.beginPath();
-  for (let i=0;i<10;i++){
-    const rr = (i % 2 === 0) ? outer : inner;
-    const a = -Math.PI/2 + i * (Math.PI/5) + t*0.08;
-    const px = x + Math.cos(a)*rr;
-    const py = y + Math.sin(a)*rr;
-    if(i===0) ctx.moveTo(px,py); else ctx.lineTo(px,py);
-  }
-  ctx.closePath();
-  ctx.fill();
-}
-
-// Border ring
-ctx.beginPath();
-if (shape === 'circle') ctx.arc(x, y, r, 0, Math.PI * 2);
-else if (shape === 'hex') drawPoly(x, y, r, 6, t*0.10);
-else if (shape === 'diamond') drawPoly(x, y, r, 4, Math.PI/4 + t*0.10);
-else if (shape === 'star') {
-  const outer = r;
-  const inner = r * 0.52;
-  for (let i=0;i<10;i++){
-    const rr = (i % 2 === 0) ? outer : inner;
-    const a = -Math.PI/2 + i * (Math.PI/5) + t*0.08;
-    const px = x + Math.cos(a)*rr;
-    const py = y + Math.sin(a)*rr;
-    if(i===0) ctx.moveTo(px,py); else ctx.lineTo(px,py);
-  }
-  ctx.closePath();
-}
+      // Border ring
+      ctx.beginPath();
+      ctx.arc(x, y, r, 0, Math.PI * 2);
       ctx.strokeStyle = isSelected
         ? 'rgba(61,255,208,0.98)'
         : isHovered
@@ -274,39 +213,24 @@ else if (shape === 'star') {
         ? 'rgba(230,243,248,0.98)'
         : isHovered
           ? 'rgba(230,243,248,0.92)'
-          : 'rgba(230,243,248,0.80)';
+          : 'rgba(135,176,196,0.72)';
       ctx.textAlign = 'center';
       ctx.textBaseline = 'middle';
       ctx.fillText(n.label, x, y + r + (isActive ? 16 : 12));
     });
 
-    rafId = requestAnimationFrame(draw);
+    requestAnimationFrame(draw);
   }
 
-  // Run only while visible (pause offscreen)
-  function start() {
-    if (running) return;
-    running = true;
-    resize();
-    draw();
-  }
-  function stop() {
-    running = false;
-    if (rafId) cancelAnimationFrame(rafId);
-    rafId = null;
-  }
-
+  // Only start when visible
   const obs = new IntersectionObserver(([entry]) => {
-    if (entry.isIntersecting) start();
-    else stop();
+    if (entry.isIntersecting) {
+      resize();
+      draw();
+      obs.disconnect();
+    }
   }, { threshold: 0.12 });
   obs.observe(canvas);
-
-  // Also pause when tab is hidden (performance + battery)
-  document.addEventListener('visibilitychange', () => {
-    if (document.hidden) stop();
-    else start();
-  });
 
   window.addEventListener('resize', resize);
 })();

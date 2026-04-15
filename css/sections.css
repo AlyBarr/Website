@@ -1,59 +1,41 @@
 /* ═══════════════════════════════════════════
    sections.css — About + Shared Section Styles
+   Reduced backdrop opacity so WebGL world shows
+   through as you scroll. Better readability.
 ═══════════════════════════════════════════ */
-/* sections.css — make sections translucent so world shows through */
 .section {
   position: relative; z-index: 2;
   padding: var(--s16) var(--s6);
 }
 
-/* KEY CHANGE: was rgba(5,14,28,0.62) + blur(10px) — too opaque */
+/* Semi-transparent panels — world bleeds through subtly */
 .section-alt {
-  background: rgba(4, 11, 22, 0.42);
-  backdrop-filter: blur(4px);
+  background: rgba(4, 10, 20, 0.72);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
 }
 
 .section-rnd {
-  background: rgba(2, 6, 14, 0.38);
-  backdrop-filter: blur(3px);
+  background: rgba(2, 6, 14, 0.68);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
 }
 
 /* About */
 .about-grid {
   display: grid;
-  grid-template-columns: 280px 1fr;
+  grid-template-columns: 240px 1fr;
   gap: var(--s12); align-items: center;
 }
-
-
-.about-copy{
-  position: relative;
-  padding: var(--s6);
-  border: 1px solid rgba(12,34,54,0.75);
-  border-radius: var(--radius-lg);
-  background: rgba(2,8,16,0.78);
-  backdrop-filter: blur(12px);
-}
-
-.about-text{
-  max-width: 70ch;
-}
-
-.about-text p{
-  color: rgba(230,243,248,0.86);
-  font-size: 1rem;
-  line-height: 1.9;
-}
-
 .about-visual { position: relative; }
 .sigil-wrap {
-  position: relative; width: 220px; height: 220px; margin: 0 auto;
+  position: relative; width: 200px; height: 200px; margin: 0 auto;
 }
 .sigil { width: 100%; height: 100%; animation: sigil-spin 80s linear infinite; }
 .sigil-inner { animation: sigil-spin 40s linear infinite reverse; }
 .sigil-glow {
   position: absolute; inset: -60px; border-radius: 50%;
-  background: radial-gradient(circle, rgba(61,255,208,0.07) 0%, transparent 65%);
+  background: radial-gradient(circle, rgba(61,255,208,0.06) 0%, transparent 65%);
   pointer-events: none;
   animation: sigil-glow 4s ease-in-out infinite;
 }
@@ -63,11 +45,29 @@
   50%     { opacity: 1;   transform: scale(1.08); }
 }
 
+/* About text — improved readability */
+.about-text p {
+  color: var(--c-star);           /* upgraded from c-mist for readability */
+  margin-bottom: var(--s2);
+  font-size: clamp(0.92rem, 1.1vw, 1.05rem);
+  line-height: 1.8;
+}
+.about-text p:last-child { margin-bottom: 0; }
+.about-text em {
+  color: var(--c-biolume-soft);
+  font-style: normal;
+}
+
 .about-status {
   display: flex; align-items: center; gap: 0.6rem;
   font-family: var(--font-mono); font-size: var(--t-sm);
   letter-spacing: 0.08em; color: var(--c-biolume) !important;
   margin-top: var(--s3) !important;
+}
+
+/* Section titles — ensure consistent color */
+.section-title {
+  color: var(--c-star) !important;
 }
 
 @media (max-width: 960px) {

@@ -71,11 +71,12 @@
 .term-skip {
   font-family: var(--font-mono); font-size: var(--t-xs);
   letter-spacing: 0.2em; text-transform: uppercase;
-  color: var(--c-ghost); background: none; border: none;
+  color: var(--c-mist);      /* was c-ghost */
+  background: none; border: none;
   cursor: none; padding: 0.5rem;
   transition: color var(--fast);
 }
-.term-skip:hover { color: var(--c-mist); }
+.term-skip:hover { color: var(--c-star); }
 
 /* ═══════════════════════════════════════════
    CHOICE DIALOG — appears after boot lines
@@ -97,7 +98,7 @@
   font-size: var(--t-xs);
   letter-spacing: 0.22em;
   text-transform: uppercase;
-  color: var(--c-ghost);
+  color: var(--c-mist);      /* was c-ghost */
   margin-bottom: 0.75rem;
   padding-left: 0.1rem;
 }
@@ -142,7 +143,7 @@
 .tc-key {
   font-size: var(--t-xs);
   letter-spacing: 0.14em;
-  color: var(--c-ghost);
+  color: var(--c-mist);      /* was c-ghost */
 }
 .term-choice-full:hover .tc-key,
 .term-choice-full:focus-visible .tc-key { color: var(--c-biolume); }
@@ -158,16 +159,16 @@
 .tc-sub {
   font-size: var(--t-xs);
   letter-spacing: 0.10em;
-  color: var(--c-ghost);
+  color: var(--c-mist);      /* was c-ghost */
 }
-.term-choice-full .tc-sub  { color: rgba(61,255,208,0.45); }
-.term-choice-lite .tc-sub  { color: rgba(157,120,245,0.45); }
+.term-choice-full .tc-sub  { color: rgba(61,255,208,0.65); }   /* brighter teal */
+.term-choice-lite .tc-sub  { color: rgba(157,120,245,0.65); }  /* brighter violet */
 
 .term-choice-hint {
   font-family: var(--font-mono);
   font-size: var(--t-xs);
   letter-spacing: 0.14em;
-  color: var(--c-ghost);
+  color: var(--c-mist);      /* was c-ghost */
   text-align: center;
 }
 .term-choice-hint kbd {
@@ -176,7 +177,7 @@
   padding: 1px 5px;
   border: 1px solid var(--c-deep);
   border-radius: 3px;
-  color: var(--c-mist);
+  color: var(--c-star);      /* was c-mist */
   background: rgba(255,255,255,0.04);
 }
 #tc-countdown {
