@@ -838,6 +838,18 @@
   <script src="js/ux-overlays.js"></script>
   <script src="js/artifact-inspect.js"></script>
   <script src="js/world-interactions.js"></script>
+
+  <script>
+    window.addEventListener("terminalDone", () => {
+      const banner = document.querySelector(".perf-banner");
+      if (banner) banner.classList.add("show");
+    });
+  
+    if (window.terminalDone) {
+      const banner = document.querySelector(".perf-banner");
+      if (banner) banner.classList.add("show");
+    }
+  </script>
   
   <!-- 6️⃣ Reveal LAST (must observe injected content) -->
   <script src="js/reveal.js"></script>
