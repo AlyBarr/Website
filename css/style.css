@@ -816,3 +816,17 @@ body.intro-active { overflow: hidden; }
   }
   .reveal { opacity: 1; clip-path: none; }
 }
+
+
+.perf-banner {
+  opacity: 0;
+  transform: translateY(-100%);
+  pointer-events: none;
+  transition: opacity 0.35s ease, transform 0.35s ease;
+}
+
+.perf-banner.show {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
