@@ -817,11 +817,23 @@ body.intro-active { overflow: hidden; }
   .reveal { opacity: 1; clip-path: none; }
 }
 
-.recruiter-banner,
-.perf-banner {
+/* Performance / accessible-view banner */
+.recruiter-banner.perf-banner {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   z-index: 99999;
+
+  opacity: 0;
+  transform: translateY(-100%);
+  pointer-events: none;
+
+  transition: opacity 0.35s ease, transform 0.35s ease;
+}
+
+.recruiter-banner.perf-banner.show {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
 }
